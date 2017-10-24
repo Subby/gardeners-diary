@@ -24,6 +24,13 @@ public class OpenFarmPlantInformationServiceTest {
         fixture.thenCorrectDataIsReturned(plantInformationJson);
     }
 
+    @Test
+    public void getPlantInformationNotFound() {
+        fixture.givenServiceIsSetup();
+        String plantInformationJson = fixture.whenGetPlantInformationIsCalledWithNonExistentPlant();
+        fixture.thenNotFoundStatusIsReturned(plantInformationJson);
+    }
+
     private class Fixture {
         private OpenFarmPlantInformationService openFarmPlantInformationService;
 
@@ -33,6 +40,10 @@ public class OpenFarmPlantInformationServiceTest {
 
         private String whenGetPlantInformationIsCalled() {
             return openFarmPlantInformationService.getPlantInformation("tomato");
+        }
+
+        public String whenGetPlantInformationIsCalledWithNonExistentPlant() {
+            return openFarmPlantInformationService.getPlantInformation("skuddaskr");
         }
 
         private void thenCorrectDataIsReturned(String plantInformationJson) {
@@ -46,6 +57,11 @@ public class OpenFarmPlantInformationServiceTest {
                     "\"row_spacing\":75," +
                     "\"height\":90," +
                     "\"status\":\"Ok\"}";
+            assertEquals(expectedJson, plantInformationJson);
+        }
+
+        private void thenNotFoundStatusIsReturned(String plantInformationJson) {
+            String expectedJson = "{\"status\":\"Not Found\"}";
             assertEquals(expectedJson, plantInformationJson);
         }
     }
