@@ -8,7 +8,7 @@ import static spark.Spark.*;
  * Created by Denver on 15/10/2017.
  */
 public class Main {
-    private static String IMPORT_GARDEN_PATH = "/importgarden/";
+    private static String IMPORT_GARDEN_PATH = "/importgarden";
     private static String PLANT_INFO_PATH = "/plantinfo/:plantname";
 
     public static void main(String[] args) {
