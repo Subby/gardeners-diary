@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head lang="pl" th:replace="fragments/head :: head">
 <body>
-<button id="canvasOutputBtn">Output</button>
-<textarea id="outputTextArea"></textarea>
-<div id="container"></div>
-
-<script type="text/javascript" src="js/konva.min.js"></script>
-<script
-        src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-<script type="text/javascript" src="/js/script.js"></script>
+    <header th:replace="fragments/header :: header">Header tag is loaded here</header>
+    <button id="canvasOutputBtn">Output</button>
+    <textarea id="outputTextArea"></textarea>
+    <div id="canvas"></div>
+    <script type="text/javascript" src="js/konva.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
 
 </body>
 </html>

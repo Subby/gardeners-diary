@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head lang="pl" th:replace="fragments/head :: head">
+<body>
+    <div class="container">
+        <header th:replace="fragments/header :: header">Header tag is loaded here</header>
+        <div class="row">
+            <p>Garden image here</p>
+            <p><a href="/managegarden">Edit your garden?</a></p>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <h4><i class="fa fa-leaf" aria-hidden="true"> </i>Recently Planted<small>Your recently planted plants</small></h4>
+                <ul>
+                    <li>Plant 1</li>
+                    <li>Plant 2</li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h4><i class="fa fa-tasks" aria-hidden="true"> </i>Tasks<small>Your upcoming tasks</small></h4>
+                <ul>
+                    <li>Task 1</li>
+                    <li>Task 2</li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h4><i class="fa fa-search" aria-hidden="true"> </i>Search for plant information<small>Conduct a search for gardening related plant information</small></h4>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

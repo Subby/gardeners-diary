@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public abstract class Controller {
 
-    protected String renderView(Request request, Map<String, Object> attributes, String templatPath) {
-        ModelAndView modelAndView = new ModelAndView(attributes, "importgarden");
+    protected String renderView(Request request, Map<String, Object> attributes, String templateName) {
+        ModelAndView modelAndView = new ModelAndView(attributes, templateName);
         return new ThymeleafTemplateEngine().render(modelAndView);
     }
 }

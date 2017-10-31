@@ -5,7 +5,7 @@ var rectBottomRight;
 var currentRect;
 var drag = false;
 var stage = new Konva.Stage({
-  container: 'container',
+  container: 'canvas',
   width: width,
   height: height
 });
