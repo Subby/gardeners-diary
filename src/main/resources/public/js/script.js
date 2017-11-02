@@ -1,7 +1,6 @@
 var width = window.innerWidth;
 var height = window.innerHeight;
 var c1Position;
-var rectBottomRight;
 var currentRect;
 var drag = false;
 var stage = new Konva.Stage({
@@ -12,6 +11,10 @@ var stage = new Konva.Stage({
 var layer = new Konva.Layer();
 
 var imageObj = new Image();
+
+function showModal() {
+    $("#modal-toggle").prop('checked', true);
+}
 
 imageObj.onload = function() {
   var yoda = new Konva.Image({
@@ -32,6 +35,7 @@ imageObj.onload = function() {
 
   layer.on('mouseup', function() {
     drag = false;
+    showModal();
   });
 
   layer.on('mousemove', function() {
@@ -69,3 +73,8 @@ $("#canvasOutputBtn").click(function() {
   $('#outputTextArea').val('');
   $('#outputTextArea').val(stage.toJSON());
 });
+
+$("#modal-toggle").change(function() {
+  console.log("close?");
+});
+

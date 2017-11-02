@@ -6,6 +6,43 @@
     <button id="canvasOutputBtn">Output</button>
     <textarea id="outputTextArea"></textarea>
     <div id="canvas"></div>
+    <label for="modal-toggle">Show modal</label>
+
+    <input id="modal-toggle" type="checkbox"/>
+    <div class="modal">
+        <div class="card">
+            <label for="modal-toggle" class="close"></label>
+            <h3 class="section">Add new plant</h3>
+            <form class="section">
+                <fieldset>
+                    <legend>New plant</legend>
+                    <div class="input-group fluid">
+                        <label for="plantName">Plant name</label>
+                        <input type="text" value="" id="plantName" placeholder="Plant name">
+                    </div>
+                    <div class="input-group fluid">
+                        <label for="plantType">Plant type</label>
+                        <input type="text" value="" id="plantType" placeholder="Plant type">
+                    </div>
+                    <p class="secondary" id="plantFormStatus"></p>
+                    <i class="fa fa-search" aria-hidden="true"></i><input type="submit" class="" value="Search for plant information">
+                    <i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" class="" value="Add plant">
+                </fieldset>
+                <fieldset>
+                    <legend>Plant information</legend>
+                    <p id="plantInformation">
+                        <ul>
+                            <li><strong>Description</strong>:</li>
+                            <li><strong>Sun requirements</strong>:</li>
+                            <li><strong>Sowing method</strong>:</li>
+                            <li><strong>Row spacing</strong>:</li>
+                            <li><strong>Height</strong>:</li>
+                        </ul>
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
     <script type="text/javascript" src="js/konva.min.js"></script>
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
