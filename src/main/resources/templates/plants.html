@@ -25,25 +25,65 @@
                     <tr>
                         <td data-label="Name">Tomato Left Corner</td>
                         <td data-label="PlantName">Tomato</td>
-                        <td data-label="Edit"><i class="fa fa-pencil" aria-hidden="true"></i><input type="button" value="Edit"></td>
-                        <td data-label="Delete"><i class="fa fa-trash" aria-hidden="true"></i><input type="button" value="Delete"></td></td>
+                        <td data-label="Edit"><button id="editPlantBtn"> <i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></td>
+                        <td data-label="Delete"></i><button><i class="fa fa-trash" aria-hidden="true"> Delete</i></button></td></td>
                     </tr>
                     <tr>
                         <td data-label="Name">Cucumber 2</td>
                         <td data-label="PlantName">Cucumber</td>
-                        <td data-label="Edit"><i class="fa fa-pencil" aria-hidden="true"></i><input type="button" value="Edit"></td>
-                        <td data-label="Delete"><i class="fa fa-trash" aria-hidden="true"></i><input type="button" value="Delete"></td></td>
+                        <td data-label="Edit"><button id="editPlantBtn"> <i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></td>
+                        <td data-label="Delete"></i><button><i class="fa fa-trash" aria-hidden="true"> Delete</i></button></td></td>
                     </tr>
                     <tr>
                         <td data-label="Name">Lettuce</td>
                         <td data-label="PlantName">Lettuce</td>
-                        <td data-label="Edit"><i class="fa fa-pencil" aria-hidden="true"></i><input type="button" value="Edit"></td>
-                        <td data-label="Delete"><i class="fa fa-trash" aria-hidden="true"></i><input type="button" value="Delete"></td></td>
+                        <td data-label="Edit"><button id="editPlantBtn"> <i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></td>
+                        <td data-label="Delete"></i><button><i class="fa fa-trash" aria-hidden="true"> Delete</i></button></td></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+        <label for="modal-toggle"></label>
+
+        <input id="modal-toggle" type="checkbox"/>
+        <div class="modal">
+            <div class="card">
+                <label for="modal-toggle" class="close"></label>
+                <h3 class="section">Edit Plant</h3>
+                <fieldset>
+                    <legend>Tomato Left Corner</legend>
+                    <div class="input-group fluid">
+                        <label for="plantName">Plant name</label>
+                        <input type="text" value="Tomato Left Corner" id="plantName" placeholder="Plant name">
+                    </div>
+                    <div class="input-group fluid">
+                        <label for="plantType">Plant type</label>
+                        <input type="text" value="Tomato" id="plantType" placeholder="Plant type">
+                    </div>
+                    <p class="secondary" id="plantFormStatus"></p>
+                    <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
+                    <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addPlantBtn" value="Add plant"></p>
+                </fieldset>
+                <fieldset>
+                    <legend>Plant information</legend>
+                    <p id="plantInformation">
+                    <ul>
+                        <li><strong>Description</strong>:</li>
+                        <li><strong>Sun requirements</strong>:</li>
+                        <li><strong>Sowing method</strong>:</li>
+                        <li><strong>Row spacing</strong>:</li>
+                        <li><strong>Height</strong>:</li>
+                    </ul>
+                    </p>
+                </fieldset>
+            </div>
+        </div>
     </div>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/plants.js"></script>
 </body>
 </html>
