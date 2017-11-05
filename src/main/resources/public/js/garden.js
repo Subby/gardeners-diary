@@ -3,7 +3,6 @@ var height = window.innerHeight;
 var c1Position;
 var currentRect;
 var drag = false;
-var modalForceClose = true;
 var stage = new Konva.Stage({
   container: 'canvas',
   width: width,
@@ -81,14 +80,11 @@ $("#canvasOutputBtn").click(function() {
 
 $("#addPlantBtn").click(function() {
 	showModal(false);
-    modalForceClose = false;
 });
 
 $("#modal-toggle").change(function() {
-  //If modal has been closed using the close button, remove the rectangle.
-  if(modalForceClose){
-      removeCurrentRect();
-  }
+	//If modal has been closed using the close button, remove the rectangle.
+	removeCurrentRect();
 });
 
 

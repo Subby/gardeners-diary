@@ -3,42 +3,80 @@
     <head lang="pl" th:replace="fragments/head :: head">
 <body>
     <header th:replace="fragments/header :: header">Header tag is loaded here</header>
-    <button id="canvasOutputBtn">Output</button>
-    <textarea id="outputTextArea"></textarea>
-    <div id="canvas"></div>
-    <label for="modal-toggle">Show modal</label>
+    <div class="row">
+        <div id="canvas"></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <button id="canvasOutputBtn">Output</button>
+            <textarea id="outputTextArea"></textarea>
 
-    <input id="modal-toggle" type="checkbox"/>
-    <div class="modal">
-        <div class="card">
-            <label for="modal-toggle" class="close"></label>
-            <h3 class="section">Add new plant</h3>
-            <fieldset>
-                <legend>New plant</legend>
-                <div class="input-group fluid">
-                    <label for="plantName">Plant name</label>
-                    <input type="text" value="" id="plantName" placeholder="Plant name">
+            <label for="modal-toggle"></label>
+
+            <input id="modal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="modal-toggle" class="close"></label>
+                    <h3 class="section">Add new plant</h3>
+                    <fieldset>
+                        <legend>New plant</legend>
+                        <div class="input-group fluid">
+                            <label for="plantName">Plant name</label>
+                            <input type="text" value="" id="plantName" placeholder="Plant name">
+                        </div>
+                        <div class="input-group fluid">
+                            <label for="plantType">Plant type</label>
+                            <input type="text" value="" id="plantType" placeholder="Plant type">
+                        </div>
+                        <p class="secondary" id="plantFormStatus"></p>
+                        <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
+                        <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addPlantBtn" value="Add plant"></p>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Plant information</legend>
+                        <p id="plantInformation">
+                        <ul>
+                            <li><strong>Description</strong>:</li>
+                            <li><strong>Sun requirements</strong>:</li>
+                            <li><strong>Sowing method</strong>:</li>
+                            <li><strong>Row spacing</strong>:</li>
+                            <li><strong>Height</strong>:</li>
+                        </ul>
+                        </p>
+                    </fieldset>
                 </div>
-                <div class="input-group fluid">
-                    <label for="plantType">Plant type</label>
-                    <input type="text" value="" id="plantType" placeholder="Plant type">
-                </div>
-                <p class="secondary" id="plantFormStatus"></p>
-                <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
-                <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addPlantBtn" value="Add plant"></p>
-            </fieldset>
-            <fieldset>
-                <legend>Plant information</legend>
-                <p id="plantInformation">
-                    <ul>
-                        <li><strong>Description</strong>:</li>
-                        <li><strong>Sun requirements</strong>:</li>
-                        <li><strong>Sowing method</strong>:</li>
-                        <li><strong>Row spacing</strong>:</li>
-                        <li><strong>Height</strong>:</li>
-                    </ul>
-                </p>
-            </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+
+        </div>
+        <div class="row">
+            <table class="scrollable">
+                <caption>Plants</caption>
+                <thead>
+                <tr>
+                    <th>Plant</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td data-label="Name">Tomato Left Corner</td>
+                    <td data-label="PlantName">Tomato</td>
+
+                </tr>
+                <tr>
+                    <td data-label="Name">Cucumber 2</td>
+                    <td data-label="PlantName">Cucumber</td>
+                </tr>
+                <tr>
+                    <td data-label="Name">Lettuce</td>
+                    <td data-label="PlantName">Lettuce</td>
+                </tr>
+                </tbody>
+            </table>
+            <p><a href="/plants">Manage Plants</a></p>
         </div>
     </div>
     <script type="text/javascript" src="js/konva.min.js"></script>
