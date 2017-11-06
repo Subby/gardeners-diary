@@ -5,8 +5,79 @@
     <div class="container">
         <header th:replace="fragments/header :: header">Header tag is loaded here</header>
         <div class="row">
-            <h2>Manage Tasks</h2>
+            <h2>Manage Tasks <small>Total tasks: 1</small></h2>
         </div>
+        <div class="row">
+            <h3 id="currentDate" data-toggle="datepicker"></h3>
+            <button id="dateSelectBtn" data-method="show"><i class="fa fa-calendar" aria-hidden="true"></i> Pick Date</button>
+        </div>
+        <div class="row">
+            <table class="scrollable sortable">
+                <caption>Tasks <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button></caption>
+                <thead>
+                <tr>
+                    <th>Plant</th>
+                    <th>Plant type</th>
+                    <th>Task type</th>
+                    <th>Send email reminders</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td data-label="Plant">Tomato Left Corner</td>
+                    <td data-label="PlantType">Tomato</td>
+                    <td data-label="TaskType">Harvesting</td>
+                    <td data-label="EmailReminders">Yes</td>
+                    <td data-label="Complete"><button><i class="fa fa-check" aria-hidden="true"></i> Complete</button></td>
+                    <td data-label="Edit"><button><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button></td>
+                    <td data-label="Delete"><button><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="modal">
+            <label for="modal-toggle"></label>
+
+            <input id="modal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="modal-toggle" class="close"></label>
+                    <h3 class="section">Add new task</h3>
+                    <fieldset>
+                        <legend>New Task</legend>
+                        <div class="input-group fluid">
+                            <label for="taskName">Task name</label>
+                            <input type="text" value="" id="taskName" placeholder="Task name">
+                        </div>
+                        <div class="input-group fluid">
+                            <label for="taskType">Task type</label>
+                            <input type="text" value="" id="taskType" placeholder="Task type">
+                        </div>
+                        <div class="input-group fluid">
+                            <label for="taskDate">Date</label>
+                            <input type="date" value="" id="taskDate" placeholder="Pick date">
+                        </div>
+                        <div class="input-group fluid">
+                            <input type="checkbox" id="taskEmailReminders" tab="0">
+                            <label for="taskEmailReminders">Email reminders</label>
+                        </div>
+                        <p class="secondary" id="taskFormStatus"></p>
+                        <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="suggestTaskFieldsBtn" value="Suggest task fields"></p>
+                        <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addTaskBtn" value="Add task"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/js/datepicker.min.js"></script>
+        <script type="text/javascript" src="/js/tasks.js"></script>
+        <script type="text/javascript" src="js/sorttable.js"></script>
     </div>
 </body>
 </html>
