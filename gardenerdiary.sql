@@ -34,6 +34,64 @@ CREATE TABLE `garden` (
   `updated_at` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plant`
+--
+
+CREATE TABLE `plant` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `updated_at` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE `setting` (
+  `id` int(11) NOT NULL,
+  `name` int(11) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `updated_at` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task`
+--
+
+CREATE TABLE `task` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `task_type_id` int(11) NOT NULL,
+  `plant_id` int(11) NOT NULL,
+  `email_reminder` tinyint(1) NOT NULL DEFAULT '0',
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` date NOT NULL,
+  `updated_at` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_type`
+--
+
+CREATE TABLE `task_type` (
+  `task_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `updated_at` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
@@ -45,6 +103,30 @@ ALTER TABLE `garden`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `plant`
+--
+ALTER TABLE `plant`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `setting`
+--
+ALTER TABLE `setting`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `task`
+--
+ALTER TABLE `task`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `task_type`
+--
+ALTER TABLE `task_type`
+  ADD PRIMARY KEY (`task_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -53,6 +135,26 @@ ALTER TABLE `garden`
 --
 ALTER TABLE `garden`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `plant`
+--
+ALTER TABLE `plant`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `setting`
+--
+ALTER TABLE `setting`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `task`
+--
+ALTER TABLE `task`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `task_type`
+--
+ALTER TABLE `task_type`
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
