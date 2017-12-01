@@ -1,5 +1,6 @@
 package uk.ac.aston.gardnersdiary;
 
+import org.javalite.activejdbc.Base;
 import uk.ac.aston.gardnersdiary.controllers.*;
 
 import static spark.Spark.*;
@@ -17,6 +18,11 @@ public class Main {
     public static void main(String[] args) {
         setupSpark();
         setupRoutes();
+        setupAJDBCConnection();
+    }
+
+    private static void setupAJDBCConnection() {
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "");
     }
 
     private static void setupRoutes() {
