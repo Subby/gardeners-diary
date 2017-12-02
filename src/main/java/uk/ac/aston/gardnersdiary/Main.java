@@ -2,6 +2,8 @@ package uk.ac.aston.gardnersdiary;
 
 import org.javalite.activejdbc.Base;
 import uk.ac.aston.gardnersdiary.controllers.*;
+import uk.ac.aston.gardnersdiary.models.garden.Garden;
+import uk.ac.aston.gardnersdiary.services.database.GardenRetrievalJDBC;
 
 import static spark.Spark.*;
 /**
@@ -22,7 +24,7 @@ public class Main {
     }
 
     private static void setupAJDBCConnection() {
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "");
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiary", "root", "");
     }
 
     private static void setupRoutes() {

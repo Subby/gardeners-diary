@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `garden` (
   `id` int(11) NOT NULL,
   `name` varchar(400) NOT NULL,
+  `region_json` text NOT NULL,
   `image` text NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL

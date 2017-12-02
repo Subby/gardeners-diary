@@ -1,13 +1,9 @@
 package uk.ac.aston.gardnersdiary.controllers;
 
-import com.sun.xml.internal.ws.wsdl.writer.document.Import;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import uk.ac.aston.gardnersdiary.services.plantinformation.OpenFarmPlantInformationService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Denver on 24/10/2017.

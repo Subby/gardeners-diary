@@ -7,20 +7,36 @@ import uk.ac.aston.gardnersdiary.models.garden.Garden;
 /**
  * Created by Denver on 16/11/2017.
  */
-public class GardenRetrievalJDBC extends Model implements GardenRetrieval {
+public class GardenRetrievalJDBC implements GardenRetrieval {
 
     public Garden getGardenById(int id) {
-        GardenRetrievalJDBC gardenRecord = new GardenRetrievalJDBC();
-        Garden garden = new Garden();
-        garden.setName((String) gardenRecord.getString("name"));
-        garden.setImage((String) gardenRecord.getString("image"));
-        return garden;
+        GardenJDBCModel gardenJDBCModel = GardenJDBCModel.findFirst("id = ?", id);
+        Garden gardenModel = mapToGardenModel(gardenJDBCModel);
+        return gardenModel;
+    }
+
+    private Garden mapToGardenModel(GardenJDBCModel gardenJDBCModel) {
+        Garden gardenModel = new Garden();
+        gardenModel.setId((Integer) gardenJDBCModel.getId());
+        gardenModel.setName(gardenJDBCModel.getName());
+        gardenModel.setImage(gardenJDBCModel.getImage());
+        gardenModel.setRegionJson(gardenJDBCModel.getRegionJson());
+        gardenModel.setCreatedAt(gardenJDBCModel.getCreatedAt());
+        gardenModel.setUpdatedAt(gardenJDBCModel.getUpdatedAt());
+        return gardenModel;
     }
 
     public void saveGarden(Garden garden) {
-        GardenRetrievalJDBC gardenRecord = new GardenRetrievalJDBC();
-        gardenRecord.set("name", garden.getName());
-        gardenRecord.set("image", garden.getName());
+        GardenJDBCModel gardenJDBCModel = mapFromGardenModel(garden);
+        gardenJDBCModel.saveIt();
+    }
+
+    private GardenJDBCModel mapFromGardenModel(Garden garden) {
+        GardenJDBCModel gardenJDBCModel = new GardenJDBCModel();
+        gardenJDBCModel.setName(garden.getName());
+        gardenJDBCModel.setImage(garden.getImage());
+        gardenJDBCModel.setRegionJson(garden.getRegionJson());
+        return gardenJDBCModel;
     }
 
 }

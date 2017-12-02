@@ -7,6 +7,7 @@ public class Garden extends Model {
 
     private String name;
     private String image;
+    private String regionJson;
 
     public Garden() {
     }
@@ -25,5 +26,13 @@ public class Garden extends Model {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getRegionJson() {
+        return regionJson;
+    }
+
+    public void setRegionJson(String regionJson) {
+        this.regionJson = regionJson;
     }
 }
