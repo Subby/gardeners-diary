@@ -34,6 +34,14 @@ public class GardenRetrievalJDBCTest {
     }
 
     @Test
+    public void getGarden() {
+        fixture.givenTestDataIsInDatabase();
+        fixture.givenServiceIsSetup();
+        Garden garden = fixture.whenGetGardenIsCalled();
+        fixture.thenCorrectGardenModelIsBuilt(garden, garden.getId());
+    }
+
+    @Test
     public void saveGarden() {
         fixture.givenServiceIsSetup();
         Garden garden = fixture.givenGardenModelIsSetup();
@@ -107,6 +115,8 @@ public class GardenRetrievalJDBCTest {
         public Garden whenGetGardenByIdIsCalled(int id) {
             return gardenRetrieval.getGardenById(id);
         }
+
+        public Garden whenGetGardenIsCalled() { return gardenRetrieval.getGarden(); }
 
 
         public void whenSaveGardenIsCalled(Garden garden) {

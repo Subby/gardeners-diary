@@ -15,6 +15,12 @@ public class GardenRetrievalJDBC implements GardenRetrieval {
         return gardenModel;
     }
 
+    public Garden getGarden() {
+        GardenJDBCModel gardenJDBCModel = GardenJDBCModel.findFirst("id = (select max(id) from garden)");
+        Garden gardenModel = mapToGardenModel(gardenJDBCModel);
+        return gardenModel;
+    }
+
     private Garden mapToGardenModel(GardenJDBCModel gardenJDBCModel) {
         Garden gardenModel = new Garden();
         gardenModel.setId((Integer) gardenJDBCModel.getId());

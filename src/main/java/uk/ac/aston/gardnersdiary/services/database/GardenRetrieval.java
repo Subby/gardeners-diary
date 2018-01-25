@@ -7,5 +7,6 @@ import uk.ac.aston.gardnersdiary.models.garden.Garden;
  */
 public interface GardenRetrieval {
     public Garden getGardenById(int id);
+    public Garden getGarden();
     public void saveGarden(Garden garden);
 }
