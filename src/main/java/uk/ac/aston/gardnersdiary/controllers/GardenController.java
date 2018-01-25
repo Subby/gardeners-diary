@@ -50,15 +50,16 @@ public class GardenController extends Controller {
         request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("C:/HashiCorp"));
         String name = request.queryParams("name");
         InputStream file = request.raw().getPart("file").getInputStream();
+        Map<String, Object> attributes = new HashMap();
+        attributes.put("title", "Import Garden");
         if(validationSucessful(name, file)) {
             String fileUploadOutput = saveGardenImageFile(request);
             return fileUploadOutput;
         } else {
-
+            attributes.put("title", "Import Garden Error");
+            attributes.put("upload_error", true);
+            return renderView(request, attributes, "importGarden");
         }
-
-        //If not sucessful redirect to error page?
-        return saveGardenImageFile(request);
     };
 
     public boolean validationSucessful(String name, InputStream file) {
@@ -80,7 +81,8 @@ public class GardenController extends Controller {
         try (InputStream input = request.raw().getPart("file").getInputStream()) { // getPart needs to use same "name" as input field in form
             Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
         }
-        return "<h1>You uploaded this image:<h1><img src='" + tempFile.getFileName() + "'>";
+        //return "<h1>You uploaded this image:<h1><img src='" + tempFile.getFileName() + "'>";
+        return tempFile.getFileName().toString();
     }
 
 }

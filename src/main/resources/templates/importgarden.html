@@ -7,6 +7,12 @@
     <div class="row">
         <h2>Manage Garden</h2>
     </div>
+    <div class="row" th:if="${upload_error} == true">
+        <h3>Error with upload</h3>
+        <p>
+            Please make sure the file you uploaded is valid and that no fields are left empty.
+        </p>
+    </div>
     <div class="row">
         <form method="post" action="importgarden" enctype="multipart/form-data">
             <p>
