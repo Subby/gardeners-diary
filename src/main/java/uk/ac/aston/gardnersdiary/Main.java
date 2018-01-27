@@ -21,14 +21,10 @@ public class Main {
     public static void main(String[] args) {
         setupSpark();
         setupRoutes();
-        setupAJDBCConnection();
-    }
-
-    private static void setupAJDBCConnection() {
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiary", "root", "");
     }
 
     private static void setupRoutes() {
+        setupDatabaseConnectionFilterRoutes();
         get(INDEX_PATH, IndexController.getInstance().getIndex);
         get(MANAGE_GARDEN_PATH, GardenController.getInstance().getManageGarden);
         get(IMPORT_GARDEN_PATH, GardenController.getInstance().getImportGarden);
@@ -36,6 +32,11 @@ public class Main {
         get(PLANT_INFO_PATH, PlantInformationController.getInstance().getIndex);
         get(TASKS_PATH, TaskController.getInstance().getIndex);
         get(PLANTS_PATH, PlantsController.getInstance().getIndex);
+    }
+
+    private static void setupDatabaseConnectionFilterRoutes() {
+        before("/*", (req, res) -> Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiary", "root", ""));
+        after("/*", (req, res) -> Base.close());
     }
 
     private static void setupSpark() {
