@@ -10,14 +10,21 @@ import uk.ac.aston.gardnersdiary.models.garden.Garden;
 public class GardenRetrievalJDBC implements GardenRetrieval {
 
     public Garden getGardenById(int id) {
+        Garden gardenModel = null;
         GardenJDBCModel gardenJDBCModel = GardenJDBCModel.findFirst("id = ?", id);
-        Garden gardenModel = mapToGardenModel(gardenJDBCModel);
+        //If a matching record with given id is found, then map information from the database to model
+        if(gardenJDBCModel != null) {
+            gardenModel = mapToGardenModel(gardenJDBCModel);
+        }
         return gardenModel;
     }
 
     public Garden getGarden() {
+        Garden gardenModel = null;
         GardenJDBCModel gardenJDBCModel = GardenJDBCModel.findFirst("id = (select max(id) from garden)");
-        Garden gardenModel = mapToGardenModel(gardenJDBCModel);
+        if(gardenJDBCModel != null) {
+            gardenModel = mapToGardenModel(gardenJDBCModel);
+        }
         return gardenModel;
     }
 

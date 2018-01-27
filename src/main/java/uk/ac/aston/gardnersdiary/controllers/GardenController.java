@@ -40,7 +40,7 @@ public class GardenController extends Controller {
     public Route getManageGarden = (Request request, Response response) -> {
         Map<String, Object> attributes = new HashMap();
         GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
-        Garden garden = gardenRetrieval.getGardenBy();
+        Garden garden = gardenRetrieval.getGardenById(1);
         attributes.put("title", "Manage Garden");
         attributes.put("garden", garden);
         return renderView(request, attributes, "managegarden");
