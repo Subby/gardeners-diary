@@ -3,12 +3,14 @@ var height = window.innerHeight;
 var c1Position;
 var currentRect;
 var drag = false;
+var rectClick = false;
 var stage = new Konva.Stage({
   container: 'canvas',
   width: width,
   height: height
 });
 var layer = new Konva.Layer();
+var tooltipLayer = new Konva.Layer();
 
 var imageObj = new Image();
 
@@ -32,16 +34,21 @@ imageObj.onload = function() {
   });
 
   layer.on('mousedown', function() {
-	c1Position = stage.getPointerPosition();
-	currentRect = createNewRectangle();
-	layer.add(currentRect);
-	layer.draw();
-	drag = true;
+  	if(!rectClick) {
+        c1Position = stage.getPointerPosition();
+        currentRect = createNewRectangle();
+        layer.add(currentRect);
+        layer.draw();
+        drag = true;
+    }
   });
 
   layer.on('mouseup', function() {
-	drag = false;
-	showModal(true);
+  	if(!rectClick) {
+        drag = false;
+        showModal(true);
+	}
+
   });
 
   layer.on('mousemove', function() {
@@ -53,11 +60,24 @@ imageObj.onload = function() {
 	}
   });
 
+  var tooltip = new Konva.Text({
+      text: "",
+      fontFamily: "Calibri",
+      fontSize: 12,
+      padding: 5,
+      textFill: "white",
+      fill: "black",
+      alpha: 0.75,
+      visible: false
+  });
   // add the shape to the layer
   layer.add(gardenImage);
+  tooltipLayer.add(tooltip);
   
   // add the layer to the stage
   stage.add(layer);
+  //add layer for tooltips
+  stage.add(tooltipLayer);
   
   function createNewRectangle() {
 	  var rect = new Konva.Rect({
@@ -68,6 +88,26 @@ imageObj.onload = function() {
 		stroke: 'black',
 		strokeWidth: 2,
 		id: 'Rect'
+	  });
+	  rect.on("mousemove", function() {
+	  	var mousePos = stage.getPointerPosition();
+	  	tooltip.position({
+			x : mousePos.x + 5,
+			y : mousePos.y + 5
+	  	});
+	  	tooltip.text("Some text");
+	  	tooltip.show();
+	  	tooltipLayer.batchDraw();
+	  });
+      rect.on("mousedown", function() {
+          drag = false;
+          rectClick = true;
+          window.location.replace("/plant/");
+
+      });
+	  rect.on("mouseout", function() {
+	  	tooltip.hide();
+	  	tooltipLayer.draw();
 	  });
 	return rect;
   }
