@@ -7,7 +7,14 @@
     <div id="canvas"></div>
 </div>
 <div class="container">
-    <div class="row">
+    <div class="row" th:if="${garden} == null">
+        <h3>No garden image imported</h3>
+        <p>
+            There is currently no garden image within the system. Please <a href="/importgarden">import</a> one.
+        </p>
+    </div>
+    <div class="row" th:if="${garden} != null">
+        <h3 th:text="${garden.name}"></h3>
         <button id="canvasOutputBtn">Output</button>
         <textarea id="outputTextArea"></textarea>
 

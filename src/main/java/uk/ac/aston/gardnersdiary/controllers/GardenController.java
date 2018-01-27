@@ -6,6 +6,9 @@ import spark.Response;
 import spark.Route;
 import spark.Request;
 import spark.utils.IOUtils;
+import uk.ac.aston.gardnersdiary.models.garden.Garden;
+import uk.ac.aston.gardnersdiary.services.database.GardenRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.GardenRetrievalJDBC;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
@@ -36,7 +39,10 @@ public class GardenController extends Controller {
 
     public Route getManageGarden = (Request request, Response response) -> {
         Map<String, Object> attributes = new HashMap();
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
+        Garden garden = gardenRetrieval.getGardenBy();
         attributes.put("title", "Manage Garden");
+        attributes.put("garden", garden);
         return renderView(request, attributes, "managegarden");
     };
 
