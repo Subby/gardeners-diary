@@ -112,7 +112,7 @@ imageObj.onload = function() {
 	return rect;
   }
 };
-imageObj.src = 'http://1.bp.blogspot.com/-UEPCdxt7NpA/VKPQ5nYf5vI/AAAAAAAAMo0/-yf25tzfP_s/s1600/totalbuild_bird_mats.jpg';
+imageObj.src = imageFile;
 $("#canvasOutputBtn").click(function() {
   $('#outputTextArea').val('');
   $('#outputTextArea').val(stage.toJSON());

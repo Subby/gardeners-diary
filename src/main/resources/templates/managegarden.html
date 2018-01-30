@@ -93,6 +93,11 @@
         <p><a href="/plants">Manage Plants</a></p>
     </div>
 </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+        var imageFile = /*[[${garden.image}]]*/ null;
+    /*]]>*/
+</script>
 <script type="text/javascript" src="js/konva.min.js"></script>
 <script
         src="https://code.jquery.com/jquery-3.2.1.min.js"
