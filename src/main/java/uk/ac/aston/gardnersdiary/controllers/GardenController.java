@@ -60,13 +60,24 @@ public class GardenController extends Controller {
         attributes.put("title", "Import Garden");
         if(validationSucessful(name, file)) {
             String fileUploadOutput = saveGardenImageFile(request);
-            return fileUploadOutput;
+            insertNewGardenRecord(name, fileUploadOutput);
+            response.redirect("/managegarden");
+            return "redirect";
         } else {
             attributes.put("title", "Import Garden Error");
             attributes.put("upload_error", true);
             return renderView(request, attributes, "importGarden");
         }
     };
+
+    private void insertNewGardenRecord(String name, String imageFile) {
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
+        Garden garden = new Garden();
+        garden.setName(name);
+        garden.setImage(imageFile);
+        garden.setRegionJson("");
+        gardenRetrieval.saveGarden(garden);
+    }
 
     public boolean validationSucessful(String name, InputStream file) {
         if(StringUtils.isNullOrEmpty(name)) {
@@ -87,7 +98,6 @@ public class GardenController extends Controller {
         try (InputStream input = request.raw().getPart("file").getInputStream()) { // getPart needs to use same "name" as input field in form
             Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
         }
-        //return "<h1>You uploaded this image:<h1><img src='" + tempFile.getFileName() + "'>";
         return tempFile.getFileName().toString();
     }
 
