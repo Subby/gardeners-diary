@@ -4,9 +4,12 @@
 <body>
     <div class="container">
         <header th:replace="fragments/header :: header">Header tag is loaded here</header>
-        <div class="row">
+        <div class="row" th:if="${garden} == null">
             <p>Garden image here</p>
             <p><a href="/managegarden">Edit your garden?</a></p>
+        </div>
+        <div class="row" th:if="${garden} != null">
+            <img th:src="${garden.image}">
         </div>
         <div class="row">
             <div class="col-sm-3">

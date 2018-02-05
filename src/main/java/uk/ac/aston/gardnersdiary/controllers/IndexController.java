@@ -3,6 +3,9 @@ package uk.ac.aston.gardnersdiary.controllers;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import uk.ac.aston.gardnersdiary.models.garden.Garden;
+import uk.ac.aston.gardnersdiary.services.database.GardenRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.GardenRetrievalJDBC;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +29,10 @@ public class IndexController extends Controller {
 
     public Route getIndex = (Request request, Response response) -> {
         Map<String, Object> attributes = new HashMap();
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
+        Garden garden = gardenRetrieval.getGarden();
         attributes.put("title", "Home");
+        attributes.put("garden", garden);
         return renderView(request, attributes, "index");
     };
 
