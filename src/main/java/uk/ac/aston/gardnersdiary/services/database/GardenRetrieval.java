@@ -9,4 +9,5 @@ public interface GardenRetrieval {
     public Garden getGardenById(int id);
     public Garden getGarden();
     public void saveGarden(Garden garden);
+    public void updateGardenJSON(String JSON);
 }

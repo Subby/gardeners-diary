@@ -70,6 +70,13 @@ public class GardenController extends Controller {
         }
     };
 
+    public Route postSaveGardenData = (Request request, Response response) -> {
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
+        String JSON = request.queryParams("json");
+        gardenRetrieval.updateGardenJSON(JSON);
+        return "success";
+    };
+
     private void insertNewGardenRecord(String name, String imageFile) {
         GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
         Garden garden = new Garden();

@@ -52,4 +52,10 @@ public class GardenRetrievalJDBC implements GardenRetrieval {
         return gardenJDBCModel;
     }
 
+    public void updateGardenJSON(String JSON) {
+        GardenJDBCModel gardenJDBCModel = GardenJDBCModel.findFirst("id = (select max(id) from garden)");
+        gardenJDBCModel.setRegionJson(JSON);
+        gardenJDBCModel.saveIt();
+    }
+
 }

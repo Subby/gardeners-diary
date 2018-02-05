@@ -4,11 +4,7 @@ var c1Position;
 var currentRect;
 var drag = false;
 var rectClick = false;
-var stage = new Konva.Stage({
-  container: 'canvas',
-  width: width,
-  height: height
-});
+var stage = setupKonvaStage();
 var layer = new Konva.Layer();
 var tooltipLayer = new Konva.Layer();
 
@@ -22,6 +18,14 @@ function removeCurrentRect() {
   currentRect.destroy();
   layer.draw();
   currentRect = null;
+}
+
+function setupKonvaStage() {
+    return new Konva.Stage({
+        container: 'canvas',
+        width: width,
+        height: height
+    });
 }
 
 imageObj.onload = function() {
@@ -114,8 +118,11 @@ imageObj.onload = function() {
 };
 imageObj.src = imageFile;
 $("#canvasOutputBtn").click(function() {
-  $('#outputTextArea').val('');
-  $('#outputTextArea').val(stage.toJSON());
+  //$('#outputTextArea').val('');
+  $.post("/savegardenjson", { json:stage.toJSON()} ,function(data){
+      //TODO: Display toast confirming or showing error message
+      console.log(data);
+  });
 });
 
 $("#addPlantBtn").click(function() {

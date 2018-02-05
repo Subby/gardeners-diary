@@ -3,10 +3,15 @@
 <head lang="pl" th:replace="fragments/head :: head">
 <body>
 <header th:replace="fragments/header :: header">Header tag is loaded here</header>
-<div class="row" th:if="${garden} != null">
-    <div id="canvas"></div>
-</div>
 <div class="container">
+    <div class="structure" th:if="${garden} != null">
+        <div class="row">
+            <h3 th:text="${garden.name}"></h3>
+        </div>
+        <div class="row">
+            <div id="canvas"></div>
+        </div>
+    </div>
     <div class="row" th:if="${garden} == null">
         <div class="row cols-sm-12 cols-md-10">
             <div class="col-md-offset-1">
@@ -21,9 +26,7 @@
     </div>
 
     <div class="row" th:if="${garden} != null">
-        <h3 th:text="${garden.name}"></h3>
-        <button id="canvasOutputBtn">Output</button>
-        <textarea id="outputTextArea"></textarea>
+        <button id="canvasOutputBtn">Save</button>
 
         <label for="modal-toggle"></label>
 
@@ -96,6 +99,7 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
         var imageFile = /*[[${garden.image}]]*/ null;
+        var gardenJSON = /*[[${garden.regionJson}]]*/ null;
     /*]]>*/
 </script>
 <script type="text/javascript" src="js/konva.min.js"></script>
