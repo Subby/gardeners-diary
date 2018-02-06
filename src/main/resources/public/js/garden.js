@@ -120,8 +120,15 @@ imageObj.src = imageFile;
 $("#canvasOutputBtn").click(function() {
   //$('#outputTextArea').val('');
   $.post("/savegardenjson", { json:stage.toJSON()} ,function(data){
-      //TODO: Display toast confirming or showing error message
-      console.log(data);
+      if(data === "success") {
+          $.toast({
+              heading: 'Success',
+              text: 'The drawn garden regions were stored sucessfully.',
+              showHideTransition: 'slide',
+              icon: 'success',
+              loader: false
+          });
+      }
   });
 });
 

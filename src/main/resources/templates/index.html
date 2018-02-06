@@ -5,8 +5,8 @@
     <div class="container">
         <header th:replace="fragments/header :: header">Header tag is loaded here</header>
         <div class="row" th:if="${garden} == null">
-            <p>Garden image here</p>
-            <p><a href="/managegarden">Edit your garden?</a></p>
+            <p>There is currently no garden image within the system</p>
+            <p><a href="/importgarden">Would you like to import one?</a></p>
         </div>
         <div class="row" th:if="${garden} != null">
             <img th:src="${garden.image}">
