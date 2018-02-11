@@ -3,17 +3,27 @@ var height = window.innerHeight;
 var c1Position;
 var currentRect;
 var drag = false;
+var rectClick = false;
 var stage = new Konva.Stage({
-  container: 'canvas',
-  width: width,
-  height: height
+    container: 'canvas',
+    width: width,
+    height: height
 });
-var layer = new Konva.Layer();
+var layer = generateBaseLayer();
+var imageLayer = new Konva.Layer();
+var tooltipLayer = new Konva.Layer();
 
 var imageObj = new Image();
 
 function showModal(value) {
 	$("#modal-toggle").prop('checked', value);
+}
+
+function generateBaseLayer() {
+    if(gardenJSON) {
+        return Konva.Node.create(gardenJSON);
+    }
+    return new Konva.Layer();
 }
 
 function removeCurrentRect() {
@@ -28,37 +38,106 @@ imageObj.onload = function() {
 	y: 50,
 	height: 250,
 	width: 500,
-	image: imageObj
+	image: imageObj,
+    id: 'gardenImage'
   });
 
-  layer.on('mousedown', function() {
-	c1Position = stage.getPointerPosition();
-	currentRect = createNewRectangle();
-	layer.add(currentRect);
-	layer.draw();
-	drag = true;
+  var tooltip = new Konva.Text({
+      text: "",
+      fontFamily: "Calibri",
+      fontSize: 12,
+      padding: 5,
+      textFill: "white",
+      fill: "black",
+      alpha: 0.75,
+      visible: false
   });
-
-  layer.on('mouseup', function() {
-	drag = false;
-	showModal(true);
-  });
-
-  layer.on('mousemove', function() {
-	if(drag) {
-	  c2Position = stage.getPointerPosition();
-	  currentRect.height(c2Position.y - c1Position.y);
-	  currentRect.width(c2Position.x - c1Position.x);
-	  layer.draw();
-	}
-  });
-
+  imageLayer.add(gardenImage);
   // add the shape to the layer
-  layer.add(gardenImage);
-  
+  if(!gardenJSON) {
+      layer.add(gardenImage);
+  }
+
+  tooltipLayer.add(tooltip);
+
+  stage.add(imageLayer);
   // add the layer to the stage
   stage.add(layer);
-  
+  //add layer for tooltips
+  stage.add(tooltipLayer);
+
+  stage.get('.regionRect').on("mousemove", function() {
+      var mousePos = stage.getPointerPosition();
+      tooltip.position({
+          x : mousePos.x + 5,
+          y : mousePos.y + 5
+      });
+      tooltip.text(this.getAttrs().regionName);
+      tooltip.show();
+      tooltipLayer.batchDraw();
+      stage.draw();
+  });
+  stage.get('.regionRect').on("mousedown", function() {
+      drag = false;
+      rectClick = true;
+      window.location.replace("/plant/");
+
+  });
+  stage.get('.regionRect').on("mouseout", function() {
+      tooltip.hide();
+      tooltipLayer.draw();
+      stage.draw();
+  });
+
+  stage.get('.regionRect').on("mousemove", function() {
+      var mousePos = stage.getPointerPosition();
+      tooltip.position({
+          x : mousePos.x + 5,
+          y : mousePos.y + 5
+      });
+      tooltip.text(this.getAttrs().regionName);
+      tooltip.show();
+      tooltipLayer.batchDraw();
+      stage.draw();
+  });
+  stage.get('.regionRect').on("mousedown", function() {
+      drag = false;
+      rectClick = true;
+      window.location.replace("/plant/");
+
+  });
+  stage.get('.regionRect').on("mouseout", function() {
+      tooltip.hide();
+      tooltipLayer.draw();
+      stage.draw();
+  });
+
+    layer.on('mousedown', function() {
+        if(!rectClick) {
+            c1Position = stage.getPointerPosition();
+            currentRect = createNewRectangle();
+            layer.add(currentRect);
+            layer.draw();
+            drag = true;
+        }
+    });
+
+    layer.on('mouseup', function() {
+        if(!rectClick) {
+            drag = false;
+            showModal(true);
+        }
+    });
+
+    layer.on('mousemove', function() {
+        if(drag) {
+            c2Position = stage.getPointerPosition();
+            currentRect.height(c2Position.y - c1Position.y);
+            currentRect.width(c2Position.x - c1Position.x);
+            layer.draw();
+        }
+    });
+
   function createNewRectangle() {
 	  var rect = new Konva.Rect({
 		x: c1Position.x,
@@ -67,15 +146,42 @@ imageObj.onload = function() {
 		height: 1,
 		stroke: 'black',
 		strokeWidth: 2,
-		id: 'Rect'
+		name: 'regionRect',
+        regionName: 'someName'
 	  });
+      rect.on("mousemove", function() {
+          var mousePos = stage.getPointerPosition();
+          tooltip.position({
+              x : mousePos.x + 5,
+              y : mousePos.y + 5
+          });
+          tooltip.text(this.getAttrs().regionName);
+          tooltip.show();
+          tooltipLayer.batchDraw();
+          stage.draw();
+      });
+      rect.on("mousedown", function() {
+          drag = false;
+          rectClick = true;
+          window.location.replace("/plant/");
+
+      });
+      rect.on("mouseout", function() {
+          tooltip.hide();
+          tooltipLayer.draw();
+          stage.draw();
+      });
 	return rect;
   }
 };
-imageObj.src = 'http://1.bp.blogspot.com/-UEPCdxt7NpA/VKPQ5nYf5vI/AAAAAAAAMo0/-yf25tzfP_s/s1600/totalbuild_bird_mats.jpg';
+imageObj.src = imageFile;
 $("#canvasOutputBtn").click(function() {
-  $('#outputTextArea').val('');
-  $('#outputTextArea').val(stage.toJSON());
+  //$('#outputTextArea').val('');
+  $.post("/savegardenjson", { json:layer.toJSON()} ,function(data){
+      if(data === "success") {
+          showToast("Sucess", "The drawn garden regions were stored sucessfully.", "success")
+      }
+  });
 });
 
 $("#addPlantBtn").click(function() {
