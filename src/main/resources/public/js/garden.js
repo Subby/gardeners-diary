@@ -42,32 +42,6 @@ imageObj.onload = function() {
     id: 'gardenImage'
   });
 
-  layer.on('mousedown', function() {
-  	if(!rectClick) {
-        c1Position = stage.getPointerPosition();
-        currentRect = createNewRectangle();
-        layer.add(currentRect);
-        layer.draw();
-        drag = true;
-    }
-  });
-
-  layer.on('mouseup', function() {
-  	if(!rectClick) {
-        drag = false;
-        showModal(true);
-	}
-  });
-
-  layer.on('mousemove', function() {
-	if(drag) {
-	  c2Position = stage.getPointerPosition();
-	  currentRect.height(c2Position.y - c1Position.y);
-	  currentRect.width(c2Position.x - c1Position.x);
-	  layer.draw();
-	}
-  });
-
   var tooltip = new Konva.Text({
       text: "",
       fontFamily: "Calibri",
@@ -115,6 +89,55 @@ imageObj.onload = function() {
       stage.draw();
   });
 
+  stage.get('.regionRect').on("mousemove", function() {
+      var mousePos = stage.getPointerPosition();
+      tooltip.position({
+          x : mousePos.x + 5,
+          y : mousePos.y + 5
+      });
+      tooltip.text(this.getAttrs().regionName);
+      tooltip.show();
+      tooltipLayer.batchDraw();
+      stage.draw();
+  });
+  stage.get('.regionRect').on("mousedown", function() {
+      drag = false;
+      rectClick = true;
+      window.location.replace("/plant/");
+
+  });
+  stage.get('.regionRect').on("mouseout", function() {
+      tooltip.hide();
+      tooltipLayer.draw();
+      stage.draw();
+  });
+
+    layer.on('mousedown', function() {
+        if(!rectClick) {
+            c1Position = stage.getPointerPosition();
+            currentRect = createNewRectangle();
+            layer.add(currentRect);
+            layer.draw();
+            drag = true;
+        }
+    });
+
+    layer.on('mouseup', function() {
+        if(!rectClick) {
+            drag = false;
+            showModal(true);
+        }
+    });
+
+    layer.on('mousemove', function() {
+        if(drag) {
+            c2Position = stage.getPointerPosition();
+            currentRect.height(c2Position.y - c1Position.y);
+            currentRect.width(c2Position.x - c1Position.x);
+            layer.draw();
+        }
+    });
+
   function createNewRectangle() {
 	  var rect = new Konva.Rect({
 		x: c1Position.x,
@@ -126,6 +149,28 @@ imageObj.onload = function() {
 		name: 'regionRect',
         regionName: 'someName'
 	  });
+      rect.on("mousemove", function() {
+          var mousePos = stage.getPointerPosition();
+          tooltip.position({
+              x : mousePos.x + 5,
+              y : mousePos.y + 5
+          });
+          tooltip.text(this.getAttrs().regionName);
+          tooltip.show();
+          tooltipLayer.batchDraw();
+          stage.draw();
+      });
+      rect.on("mousedown", function() {
+          drag = false;
+          rectClick = true;
+          window.location.replace("/plant/");
+
+      });
+      rect.on("mouseout", function() {
+          tooltip.hide();
+          tooltipLayer.draw();
+          stage.draw();
+      });
 	return rect;
   }
 };
