@@ -92,24 +92,24 @@ imageObj.onload = function() {
   //add layer for tooltips
   stage.add(tooltipLayer);
 
-  stage.get('#region').on("mousemove", function() {
+  stage.get('.regionRect').on("mousemove", function() {
       var mousePos = stage.getPointerPosition();
       tooltip.position({
           x : mousePos.x + 5,
           y : mousePos.y + 5
       });
-      tooltip.text(this.attrs.regionName);
+      tooltip.text(this.getAttrs().regionName);
       tooltip.show();
       tooltipLayer.batchDraw();
       stage.draw();
   });
-  stage.get('#region').on("mousedown", function() {
+  stage.get('.regionRect').on("mousedown", function() {
       drag = false;
       rectClick = true;
       window.location.replace("/plant/");
 
   });
-  stage.get('#region').on("mouseout", function() {
+  stage.get('.regionRect').on("mouseout", function() {
       tooltip.hide();
       tooltipLayer.draw();
       stage.draw();
@@ -123,7 +123,7 @@ imageObj.onload = function() {
 		height: 1,
 		stroke: 'black',
 		strokeWidth: 2,
-		id: 'region',
+		name: 'regionRect',
         regionName: 'someName'
 	  });
 	return rect;
@@ -134,13 +134,7 @@ $("#canvasOutputBtn").click(function() {
   //$('#outputTextArea').val('');
   $.post("/savegardenjson", { json:layer.toJSON()} ,function(data){
       if(data === "success") {
-          $.toast({
-              heading: 'Success',
-              text: 'The drawn garden regions were stored sucessfully.',
-              showHideTransition: 'slide',
-              icon: 'success',
-              loader: false
-          });
+          showToast("Sucess", "The drawn garden regions were stored sucessfully.", "success")
       }
   });
 });
