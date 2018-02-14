@@ -116,7 +116,7 @@ public class PlantRetrievalJDBCTest {
         }
 
         private ResultSet findTestPlantDetailsInDb() throws SQLException{
-            PreparedStatement statement = connection.prepareStatement("SELECT " + NAME_COLUMN + ", " + TYPE_COLUMN + ", " + IMAGE_COLUMN + ", " + GARDEN_ID_COLUMN + " WHERE name = ? LIMIT 1");
+            PreparedStatement statement = connection.prepareStatement("SELECT " + NAME_COLUMN + ", " + TYPE_COLUMN + ", " + IMAGE_COLUMN + ", " + GARDEN_ID_COLUMN + " FROM plant WHERE name = ? LIMIT 1");
             statement.setString(1, "Test Tomato");
             ResultSet result = statement.executeQuery();
             result.next();
