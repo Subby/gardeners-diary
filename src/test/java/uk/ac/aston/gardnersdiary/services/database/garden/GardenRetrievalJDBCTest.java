@@ -1,14 +1,12 @@
-package uk.ac.aston.gardnersdiary.services.database;
+package uk.ac.aston.gardnersdiary.services.database.garden;
 
-import com.sun.corba.se.impl.orb.PrefixParserAction;
 import org.javalite.activejdbc.Base;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.aston.gardnersdiary.models.garden.Garden;
+import uk.ac.aston.gardnersdiary.models.Garden;
 
 import java.sql.*;
-import java.text.DateFormat;
 
 import static org.junit.Assert.assertEquals;
 

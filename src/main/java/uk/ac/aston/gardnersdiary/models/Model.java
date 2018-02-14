@@ -1,4 +1,4 @@
-package uk.ac.aston.gardnersdiary.models.garden;
+package uk.ac.aston.gardnersdiary.models;
 
 import java.util.Date;
 
