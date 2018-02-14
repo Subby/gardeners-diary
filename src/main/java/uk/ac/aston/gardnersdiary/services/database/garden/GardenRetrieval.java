@@ -1,4 +1,4 @@
-package uk.ac.aston.gardnersdiary.services.database;
+package uk.ac.aston.gardnersdiary.services.database.garden;
 
 import uk.ac.aston.gardnersdiary.models.garden.Garden;
 

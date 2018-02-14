@@ -1,4 +1,4 @@
-package uk.ac.aston.gardnersdiary.services.database;
+package uk.ac.aston.gardnersdiary.services.database.garden;
 
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
