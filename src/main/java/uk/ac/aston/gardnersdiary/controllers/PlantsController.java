@@ -31,4 +31,9 @@ public class PlantsController extends Controller {
         return renderView(request, attributes, "plants");
     };
 
+    public Route postAddPlant = (Request request, Response response) -> {
+        String name = request.queryParams("name");
+        return "succ";
+    };
+
 }
