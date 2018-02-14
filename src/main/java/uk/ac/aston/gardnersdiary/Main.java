@@ -2,6 +2,8 @@ package uk.ac.aston.gardnersdiary;
 
 import org.javalite.activejdbc.Base;
 import uk.ac.aston.gardnersdiary.controllers.*;
+import uk.ac.aston.gardnersdiary.services.property.ConfigFilePropertyService;
+import uk.ac.aston.gardnersdiary.services.property.PropertyService;
 
 import java.io.File;
 
@@ -18,6 +20,15 @@ public class Main {
     private static String PLANT_INFO_PATH = "/plantinfo/:plantname";
     private static String TASKS_PATH = "/tasks";
     private static String PLANTS_PATH = "/plants";
+
+    private static PropertyService propertyService = ConfigFilePropertyService.getInstance();
+
+    private static String DATABASE_HOST = propertyService.getProperty("db.host");
+    private static String DATABASE_NAME = propertyService.getProperty("db.name");
+    private static String DATABASE_USERNAME = propertyService.getProperty("db.user");
+    private static String DATABASE_PASSWORD = propertyService.getProperty("db.password");
+
+
 
     public static void main(String[] args) {
         setupSpark();
