@@ -18,6 +18,7 @@ public class Main {
     private static String PLANT_INFO_PATH = "/plantinfo/:plantname";
     private static String TASKS_PATH = "/tasks";
     private static String PLANTS_PATH = "/plants";
+    private static String PLANT_ADD_PATH = "/plant/add";
 
     public static void main(String[] args) {
         setupSpark();
@@ -34,6 +35,7 @@ public class Main {
         get(PLANT_INFO_PATH, PlantInformationController.getInstance().getIndex);
         get(TASKS_PATH, TaskController.getInstance().getIndex);
         get(PLANTS_PATH, PlantsController.getInstance().getIndex);
+        post(PLANT_ADD_PATH, PlantsController.getInstance().postAddPlant);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {

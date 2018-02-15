@@ -37,6 +37,7 @@
                 <h3 class="section">Add new plant</h3>
                 <fieldset>
                     <legend>New plant</legend>
+                    <input type="hidden" id="gardenId" th:value="${garden.id}"/>
                     <div class="input-group fluid">
                         <label for="plantName">Plant name</label>
                         <input type="text" value="" id="plantName" placeholder="Plant name">

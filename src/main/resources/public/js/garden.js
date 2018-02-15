@@ -147,7 +147,8 @@ imageObj.onload = function() {
 		stroke: 'black',
 		strokeWidth: 2,
 		name: 'regionRect',
-        regionName: 'someName'
+        regionName: 'someName',
+        plantId: ''
 	  });
       rect.on("mousemove", function() {
           var mousePos = stage.getPointerPosition();
@@ -163,7 +164,7 @@ imageObj.onload = function() {
       rect.on("mousedown", function() {
           drag = false;
           rectClick = true;
-          window.location.replace("/plant/");
+          window.location.replace("/plant/" + this.getAttrs().plantId);
 
       });
       rect.on("mouseout", function() {
@@ -185,12 +186,28 @@ $("#canvasOutputBtn").click(function() {
 });
 
 $("#addPlantBtn").click(function() {
-	showModal(false);
+    $.post("/plant/add", {
+        name: $("#plantName").val(),
+        type: $("#plantType").val(),
+        gardenId: $("#gardenId").val()
+    } ,function(data){
+        if(data.status === "success") {
+            showModal(false);
+            showToast("Sucess", "The plant " + data.plant_name + " was added to the system. Click <a href='/plant/" + data.id +  "'>here</a> to view information.", "success");
+            currentRect.getAttrs().regionName = data.plant_name;
+            currentRect.getAttrs().plantId = data.id;
+        } else {
+            removeCurrentRect();
+            showToast("Error", "The plant was no added.", "error");
+        }
+    });
+
 });
 
 $("#modal-toggle").change(function() {
 	//If modal has been closed using the close button, remove the rectangle.
 	removeCurrentRect();
+    showToast("Error", "The plant was not added.", "error");
 });
 
 

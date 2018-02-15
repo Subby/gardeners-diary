@@ -3,6 +3,9 @@ package uk.ac.aston.gardnersdiary.controllers;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import uk.ac.aston.gardnersdiary.models.Plant;
+import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrievalJDBC;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +35,22 @@ public class PlantsController extends Controller {
     };
 
     public Route postAddPlant = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
         String name = request.queryParams("name");
-        return "succ";
+        String type = request.queryParams("type");
+        int gardenId = Integer.valueOf(request.queryParams("gardenId"));
+        Plant plant = generatePlantModel(name, type, gardenId);
+        response.type("application/json");
+        return plantRetrieval.addPlant(plant);
     };
+
+    private Plant generatePlantModel(String name, String type, int gardenId) {
+        Plant plant = new Plant();
+        plant.setName(name);
+        plant.setImageName("");
+        plant.setType(type);
+        plant.setGardenId(gardenId);
+        return plant;
+    }
 
 }
