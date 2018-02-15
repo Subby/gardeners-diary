@@ -176,14 +176,6 @@ imageObj.onload = function() {
   }
 };
 imageObj.src = imageFile;
-$("#canvasOutputBtn").click(function() {
-  //$('#outputTextArea').val('');
-  $.post("/savegardenjson", { json:layer.toJSON()} ,function(data){
-      if(data === "success") {
-          showToast("Sucess", "The drawn garden regions were stored sucessfully.", "success")
-      }
-  });
-});
 
 $("#addPlantBtn").click(function() {
     $.post("/plant/add", {
@@ -192,13 +184,20 @@ $("#addPlantBtn").click(function() {
         gardenId: $("#gardenId").val()
     } ,function(data){
         if(data.status === "success") {
+            var apiImage = getPlantTypeImage();
+            var rectImage = new Image();
+            rectImage.onload = function() {
+                currentRect.fillPatternImage(rectImage);
+            };
+            rectImage.src = apiImage;
             showModal(false);
-            showToast("Sucess", "The plant " + data.plant_name + " was added to the system. Click <a href='/plant/" + data.id +  "'>here</a> to view information.", "success");
+            showToast("Success", "The plant " + data.plant_name + " was added to the system. Click <a href='/plant/" + data.id +  "'>here</a> to view information.", "success");
             currentRect.getAttrs().regionName = data.plant_name;
             currentRect.getAttrs().plantId = data.id;
+            saveGardenState();
         } else {
             removeCurrentRect();
-            showToast("Error", "The plant was no added.", "error");
+            showToast("Error", "The plant was not added.", "error");
         }
     });
 
@@ -209,5 +208,23 @@ $("#modal-toggle").change(function() {
 	removeCurrentRect();
     showToast("Error", "The plant was not added.", "error");
 });
+
+function getPlantTypeImage() {
+    var type = $("#plantType").val().toLowerCase();
+    $.get("/plantinfo/" + type,function(data){
+        if(data.status === "Ok") {
+           return data.image;
+        }
+    });
+    return null;
+}
+
+function saveGardenState() {
+    $.post("/savegardenjson", { json:layer.toJSON()} ,function(data){
+        if(data === "success") {
+            showToast("Success", "The drawn garden regions were stored sucessfully.", "success")
+        }
+    });
+}
 
 
