@@ -34,6 +34,21 @@ public class PlantsController extends Controller {
         return renderView(request, attributes, "plants");
     };
 
+    public Route getPlantView = (Request request, Response response) -> {
+      PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+      int plantId = Integer.valueOf((request.queryParams("plantId")));
+      Plant foundPlant = plantRetrieval.getPlantById(plantId);
+      Map<String, Object> attributes = new HashMap();
+      if(foundPlant != null) {
+          attributes.put("title", "Manage plant - " + foundPlant.getName());
+          attributes.put("plant", foundPlant);
+      } else {
+          attributes.put("title", "Manage plant error");
+          attributes.put("error", "Plant not found.");
+      }
+      return renderView(request, attributes, "plant");
+    };
+
     public Route postAddPlant = (Request request, Response response) -> {
         PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
         String name = request.queryParams("name");

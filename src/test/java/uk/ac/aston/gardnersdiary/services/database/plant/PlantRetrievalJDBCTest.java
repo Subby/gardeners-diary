@@ -28,12 +28,14 @@ public class PlantRetrievalJDBCTest {
         String output = fixture.whenAddPlantIsCalled(plant);
         fixture.thenPlantDataExistsInDb();
         fixture.thenCorrectOutputIsGenerated(output);
-
     }
 
     @Test
-    public void addPlantFailure() {
-
+    public void getPlantById() {
+        int id = fixture.givenTestDataIsInDatabase();
+        fixture.givenServiceIsSetup();
+        Plant plant = fixture.whenGetPlantByIdIsCalled(id);
+        fixture.thenCorrectPlantModelIsBuilt(plant, id);
     }
 
     @After
@@ -126,6 +128,43 @@ public class PlantRetrievalJDBCTest {
 
         public void thenCorrectOutputIsGenerated(String output) {
             assertEquals("{\"status\":\"success\",\"plant_name\":\"Test Tomato\",\"id\":", output.substring(0, 52));
+        }
+
+        public int givenTestDataIsInDatabase() {
+            PreparedStatement statement = null;
+            int id = 0;
+            try {
+                statement = connection.prepareStatement("INSERT INTO `plant` (name, type, image, garden_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)", new String[]{"id"});
+                statement.setString(1, "Test Tomato");
+                statement.setString(2, "Tomato");
+                statement.setString(3, "tomato.jpg");
+                statement.setString(4, "69");
+                statement.setDate(5, Date.valueOf("2017-11-01"));
+                statement.setDate(6, Date.valueOf("2017-11-01"));
+                id = statement.executeUpdate();
+                ResultSet result = statement.getGeneratedKeys();
+                if (result.next()) {
+                    id = result.getByte(1);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return id;
+        }
+
+        public Plant whenGetPlantByIdIsCalled(int id) {
+            return plantRetrieval.getPlantById(id);
+        }
+
+        public void thenCorrectPlantModelIsBuilt(Plant plant, int id) {
+            assertEquals(id, plant.getId());
+            assertEquals("Test Tomato", plant.getName());
+            assertEquals("Tomato", plant.getType());
+            assertEquals("tomato.jpg", plant.getImageName());
+            assertEquals(69, plant.getGardenId());
+            assertEquals("2017-11-01", plant.getCreatedAt().toString());
+            assertEquals("2017-11-01", plant.getUpdatedAt().toString());
         }
     }
 }

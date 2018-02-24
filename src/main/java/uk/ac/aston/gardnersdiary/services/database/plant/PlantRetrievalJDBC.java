@@ -3,7 +3,7 @@ package uk.ac.aston.gardnersdiary.services.database.plant;
 import org.json.JSONStringer;
 import uk.ac.aston.gardnersdiary.models.Plant;
 
-public class PlantRetrievalJDBC implements  PlantRetrieval{
+public class PlantRetrievalJDBC implements  PlantRetrieval {
 
     @Override
     public String addPlant(Plant plantToAdd) {
@@ -12,6 +12,16 @@ public class PlantRetrievalJDBC implements  PlantRetrieval{
             return generateSuccessJsonOutput(plantToAdd.getName(), (Long) plantJDBCModel.getId());
         }
         return new JSONStringer().object().key("status").value("failed").endObject().toString();
+    }
+
+    @Override
+    public Plant getPlantById(int id) {
+        Plant plantModel = null;
+        PlantJDBCModel plantJDBCModel = PlantJDBCModel.findFirst("id = ?", id);
+        if(plantJDBCModel != null) {
+            plantModel = mapToModel(plantJDBCModel);
+        }
+        return plantModel;
     }
 
     private String generateSuccessJsonOutput(String plantName, long id) {

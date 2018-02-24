@@ -6,4 +6,6 @@ public interface PlantRetrieval {
 
     public String addPlant(Plant plantToAdd);
 
+    public Plant getPlantById(int id);
+
 }
