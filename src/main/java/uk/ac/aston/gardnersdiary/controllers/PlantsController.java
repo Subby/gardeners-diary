@@ -36,7 +36,7 @@ public class PlantsController extends Controller {
 
     public Route getPlantView = (Request request, Response response) -> {
       PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
-      int plantId = Integer.valueOf((request.queryParams("plantId")));
+      int plantId = Integer.valueOf((request.params(":plantid")));
       Plant foundPlant = plantRetrieval.getPlantById(plantId);
       Map<String, Object> attributes = new HashMap();
       if(foundPlant != null) {

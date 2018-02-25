@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="pl" th:replace="fragments/head :: head">
+<body>
+<div class="container">
+    <header th:replace="fragments/header :: header">Header tag is loaded here</header>
+    <div class="structure" th:if="${error} != null">
+        <h3>Error</h3>
+        <p th:text="${error}"></p>
+    </div>
+    <div class="structure" th:if="${plant} != null">
+        <div class="row">
+            <h3>Viewing plant [[${plant.name}]]</h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <img src="http://via.placeholder.com/350x150">
+            </div>
+            <div class="col-sm-10">
+                <h3>[[${plant.name}]] <button id="editTaskBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit plant</button></h3>
+                <p><small><strong>Plant type</strong>: [[${plant.type}]]</small></p>
+                <p><small><strong>Created</strong>: [[${plant.createdAt}]]</small></p>
+                <p><small><strong>Updated</strong>: [[${plant.updatedAt}]]</small></p>
+            </div>
+        </div>
+        <div class="row">
+            <table class="scrollable sortable">
+                <caption>Tasks associated with this plant <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button></caption>
+                <thead>
+                <tr>
+                    <th>Task name</th>
+                    <th>Task type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td data-label="Plant">Tomato Left Corner</td>
+                    <td data-label="PlantType">Tomato</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/plants.js"></script>
+</body>
+</html>
