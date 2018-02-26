@@ -38,6 +38,14 @@ public class PlantRetrievalJDBCTest {
         fixture.thenCorrectPlantModelIsBuilt(plant, id);
     }
 
+    @Test
+    public void getPlantByIdJSON() {
+        int id = fixture.givenTestDataIsInDatabase();
+        fixture.givenServiceIsSetup();
+        String json = fixture.whenGetPlantByIdJsonIsCalled(id);
+        fixture.thenCorrectJsonIsProduced(json, id);
+    }
+
     @After
     public void tearDown() {
         fixture.clearDownTestData();
@@ -165,6 +173,14 @@ public class PlantRetrievalJDBCTest {
             assertEquals(69, plant.getGardenId());
             assertEquals("2017-11-01", plant.getCreatedAt().toString());
             assertEquals("2017-11-01", plant.getUpdatedAt().toString());
+        }
+
+        public String whenGetPlantByIdJsonIsCalled(int id) {
+            return plantRetrieval.getPlantByIdJSON(id);
+        }
+
+        public void thenCorrectJsonIsProduced(String json, int id) {
+            assertEquals("{\"garden_id\":69,\"id\":" + id + ",\"image\":\"tomato.jpg\",\"name\":\"Test Tomato\",\"type\":\"Tomato\"}", json);
         }
     }
 }

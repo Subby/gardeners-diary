@@ -49,6 +49,12 @@ public class PlantsController extends Controller {
       return renderView(request, attributes, "plant");
     };
 
+    public Route getPlantData = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        int plantId = Integer.valueOf((request.params(":plantid")));
+        return plantRetrieval.getPlantByIdJSON(plantId);
+    };
+
     public Route postAddPlant = (Request request, Response response) -> {
         PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
         String name = request.queryParams("name");
@@ -57,6 +63,15 @@ public class PlantsController extends Controller {
         Plant plant = generatePlantModel(name, type, gardenId);
         response.type("application/json");
         return plantRetrieval.addPlant(plant);
+    };
+
+    public Route postUpdatePlant = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        int id = Integer.valueOf(request.queryParams("id"));
+        String name = request.queryParams("name");
+        String type = request.queryParams("type");
+        response.type("application/json");
+        return plantRetrieval.updatePlantDetails(id, name, type);
     };
 
     private Plant generatePlantModel(String name, String type, int gardenId) {
