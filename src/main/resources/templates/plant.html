@@ -49,6 +49,12 @@
                     <h3 class="section">Edit plant</h3>
                     <fieldset>
                         <legend>Edit [[${plant.name}]]</legend>
+                        <div id="errorContainer">
+                            <h3>Error</h3>
+                            <ul id="errors">
+                                <li>Please make sure that both plant name and plant type fields are filled in.</li>
+                            </ul>
+                        </div>
                         <input type="hidden" id="plantId" th:value="${plant.id}"/>
                         <div class="input-group fluid">
                             <label for="plantName">Plant name</label>
@@ -61,12 +67,6 @@
                         <p class="secondary" id="plantFormStatus"></p>
                         <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
                         <p><i class="fa fa-pencil" aria-hidden="true"></i></i><input type="submit" id="updatePlantBtn" value="Update plant"></p>
-                        <div id="errorContainer">
-                            <h3>Error</h3>
-                            <ul id="errors">
-                                <li>Please make sure that both plant name and plant type fields are filled in.</li>
-                            </ul>
-                        </div>
                     </fieldset>
                     <fieldset>
                         <legend>Plant information</legend>
@@ -89,6 +89,8 @@
         src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="/js/plants.js"></script>
+<script type="text/javascript" src="/js/jquery.toast.min.js"></script>
+<script type="text/javascript" src="/js/plant.js"></script>
+<script type="text/javascript" src="/js/toast.js"></script>
 </body>
 </html>

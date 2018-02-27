@@ -2,12 +2,21 @@ function showModal(value) {
     $("#modal-toggle").prop('checked', value);
 }
 
-function registerHandlers() {
-    $("editPlantBtn").click(function() {
+function showErrorContainer(value) {
+    if(value) {
+        $("#errorContainer").show();
+    } else {
         $("#errorContainer").hide();
+    }
+
+}
+
+function registerHandlers() {
+    $("#editPlantBtn").click(function() {
+        showErrorContainer(false);
         showModal(true);
     });
-    $("editPlantBtn").click(function() {
+    $("#updatePlantBtn").click(function() {
         sendUpdatePlantRequest();
     });
 }
@@ -17,12 +26,12 @@ function sendUpdatePlantRequest() {
     var nameVal = $("#plantName").val();
     var typeVal = $("#plantType").val();
     if(!nameVal && !typeVal) {
-        $("#errorContainer").show();
+        showErrorContainer(true);
         return;
     }
-    $.post("/plant/add", {
+    $.post("/plant/update", {
         name: nameVal,
-        type: typeval,
+        type: typeVal,
         id: plantIdVal
     } ,function(data){
         if(data.status === "success") {

@@ -8,10 +8,10 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
     @Override
     public String addPlant(Plant plantToAdd) {
         PlantJDBCModel plantJDBCModel = mapFromModel(plantToAdd);
-        if(plantJDBCModel.saveIt()) {
+        if(plantJDBCModel.save()) {
             return generateSuccessJsonOutput(plantToAdd.getName(), (Long) plantJDBCModel.getId());
         }
-        return new JSONStringer().object().key("status").value("failed").endObject().toString();
+        return generateFailedJSONOutput();
     }
 
     @Override
@@ -35,8 +35,10 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
         PlantJDBCModel plantJDBCModel = PlantJDBCModel.findFirst("id = ?", id);
         plantJDBCModel.set("name", name);
         plantJDBCModel.set("type", type);
-        plantJDBCModel.save();
-        return "success";
+        if(plantJDBCModel.save()) {
+            return new JSONStringer().object().key("status").value("success").endObject().toString();
+        }
+        return generateFailedJSONOutput();
     }
 
     private String generateSuccessJsonOutput(String plantName, long id) {
@@ -71,5 +73,9 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
         plant.setCreatedAt(plantJDBCModel.getCreatedAt());
         plant.setUpdatedAt(plantJDBCModel.getUpdatedAt());
         return plant;
+    }
+
+    private String generateFailedJSONOutput() {
+        return new JSONStringer().object().key("status").value("failed").endObject().toString();
     }
 }

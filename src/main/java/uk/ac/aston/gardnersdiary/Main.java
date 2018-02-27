@@ -40,7 +40,7 @@ public class Main {
         get(PLANTS_PATH, PlantsController.getInstance().getIndex);
         post(PLANT_ADD_PATH, PlantsController.getInstance().postAddPlant);
         get(PLANT_VIEW_PATH, PlantsController.getInstance().getPlantView);
-        get(UPDATE_PLANT_PATH, PlantsController.getInstance().postUpdatePlant);
+        post(UPDATE_PLANT_PATH, PlantsController.getInstance().postUpdatePlant);
         get(PLANT_DETAILS, PlantsController.getInstance().getPlantData);
     }
 
