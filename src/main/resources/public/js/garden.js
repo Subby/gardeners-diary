@@ -12,11 +12,11 @@ var stage = new Konva.Stage({
 var layer = generateBaseLayer();
 var imageLayer = new Konva.Layer();
 var tooltipLayer = new Konva.Layer();
-
 var imageObj = new Image();
 
 function showModal(value) {
 	$("#modal-toggle").prop('checked', value);
+    $("#errorContainer").hide();
 }
 
 function generateBaseLayer() {
@@ -80,7 +80,7 @@ imageObj.onload = function() {
   stage.get('.regionRect').on("mousedown", function() {
       drag = false;
       rectClick = true;
-      window.location.replace("/plant/");
+      window.location.replace("/plant/view/");
 
   });
   stage.get('.regionRect').on("mouseout", function() {
@@ -103,7 +103,7 @@ imageObj.onload = function() {
   stage.get('.regionRect').on("mousedown", function() {
       drag = false;
       rectClick = true;
-      window.location.replace("/plant/");
+      window.location.replace("/plant/view/" + this.getAttrs().plantId);
 
   });
   stage.get('.regionRect').on("mouseout", function() {
@@ -164,7 +164,7 @@ imageObj.onload = function() {
       rect.on("mousedown", function() {
           drag = false;
           rectClick = true;
-          window.location.replace("/plant/" + this.getAttrs().plantId);
+          window.location.replace("/plant/view/" + this.getAttrs().plantId);
 
       });
       rect.on("mouseout", function() {
@@ -176,14 +176,20 @@ imageObj.onload = function() {
   }
 };
 imageObj.src = imageFile;
-
 $("#addPlantBtn").click(function() {
+    var nameVal = $("#plantName").val();
+    var typeVal = $("#plantType").val();
+    if(!nameVal && !typeVal) {
+        $("#errorContainer").show();
+        return;
+    }
     $.post("/plant/add", {
-        name: $("#plantName").val(),
+        name: nameVal,
         type: $("#plantType").val(),
         gardenId: $("#gardenId").val()
     } ,function(data){
         if(data.status === "success") {
+            $("#errorContainer").hide();
             var apiImage = getPlantTypeImage();
             var rectImage = new Image();
             rectImage.onload = function() {
@@ -191,7 +197,7 @@ $("#addPlantBtn").click(function() {
             };
             rectImage.src = apiImage;
             showModal(false);
-            showToast("Success", "The plant " + data.plant_name + " was added to the system. Click <a href='/plant/" + data.id +  "'>here</a> to view information.", "success");
+            showToast("Success", "The plant " + data.plant_name + " was added to the system. Click <a href='/plant/view/" + data.id +  "'>here</a> to view information.", "success");
             currentRect.getAttrs().regionName = data.plant_name;
             currentRect.getAttrs().plantId = data.id;
             saveGardenState();
