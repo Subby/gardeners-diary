@@ -203,7 +203,7 @@ $("#addPlantBtn").click(function() {
             saveGardenState();
         } else {
             removeCurrentRect();
-            showToast("Error", "The plant was not added.", "error");
+            showToast("Information", "The plant was not added.", "info");
         }
     });
 
@@ -212,7 +212,7 @@ $("#addPlantBtn").click(function() {
 $("#modal-toggle").change(function() {
 	//If modal has been closed using the close button, remove the rectangle.
 	removeCurrentRect();
-    showToast("Error", "The plant was not added.", "error");
+    showToast("Information", "The plant was not added.", "info");
 });
 
 function getPlantTypeImage() {
