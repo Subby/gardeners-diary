@@ -15,8 +15,8 @@ import uk.ac.aston.gardnersdiary.services.rest.UniRestClient;
 public class OpenFarmPlantInformationService implements PlantInformationService {
 
     private static final String OPEN_FARM_API_URL = "http://openfarm.cc/api/v1/";
-    private static final String STATUS_OKAY = "Ok";
-    private static final String STATUS_NOT_FOUND = "Not Found";
+    private static final String STATUS_OKAY = "success";
+    private static final String STATUS_NOT_FOUND = "error";
 
     private RestClient client;
     private String status;
