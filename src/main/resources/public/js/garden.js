@@ -179,7 +179,7 @@ imageObj.src = imageFile;
 $("#addPlantBtn").click(function() {
     var nameVal = $("#plantName").val();
     var typeVal = $("#plantType").val();
-    if(!nameVal && !typeVal) {
+    if(!nameVal || !typeVal) {
         $("#errorContainer").show();
         return;
     }

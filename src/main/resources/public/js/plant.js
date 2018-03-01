@@ -25,7 +25,7 @@ function sendUpdatePlantRequest() {
     var plantIdVal = $("#plantId").val();
     var nameVal = $("#plantName").val();
     var typeVal = $("#plantType").val();
-    if(!nameVal && !typeVal) {
+    if(!nameVal || !typeVal) {
         showErrorContainer(true);
         return;
     }
