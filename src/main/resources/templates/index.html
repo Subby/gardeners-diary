@@ -13,23 +13,40 @@
         </div>
         <div class="row">
             <div class="col-sm-3">
-                <h4><i class="fa fa-leaf" aria-hidden="true"> </i>Recently Planted<small>Your recently planted plants</small></h4>
+                <h4><i class="fa fa-leaf" aria-hidden="true"> </i> Recently Planted<small>Your recently planted plants</small></h4>
                 <ul>
                     <li>Plant 1</li>
                     <li>Plant 2</li>
                 </ul>
             </div>
             <div class="col-sm-3">
-                <h4><i class="fa fa-tasks" aria-hidden="true"> </i>Tasks<small>Your upcoming tasks</small></h4>
+                <h4><i class="fa fa-tasks" aria-hidden="true"> </i> Tasks<small>Your upcoming tasks</small></h4>
                 <ul>
                     <li>Task 1</li>
                     <li>Task 2</li>
                 </ul>
             </div>
             <div class="col-sm-3">
-                <h4><i class="fa fa-search" aria-hidden="true"> </i>Search for plant information<small>Conduct a search for gardening related plant information</small></h4>
+                <h4><i class="fa fa-search" aria-hidden="true"> </i> Search for plant information<small>Conduct a search for gardening related plant information</small></h4>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group fluid">
+                            <input type="text" id="plantType" placeholder="Plant type">
+                            <button id="searchPlantsBtn"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div th:replace="fragments/plantinfo :: div">Plant info container is loaded here</div>
+                </div>
             </div>
         </div>
     </div>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/toast.js"></script>
+    <script type="text/javascript" src="/js/plantinfo.js"></script>
 </body>
 </html>
