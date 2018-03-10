@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="pl" th:replace="fragments/head :: head">
+<body>
+<header th:replace="fragments/header :: header">Header tag is loaded here</header>
+<div class="container">
+    <div class="structure" th:if="${garden} != null">
+        <div class="row">
+            <h3 th:text="${garden.name}"></h3>
+        </div>
+        <div class="row">
+            <div id="canvas"></div>
+        </div>
+    </div>
+    <div class="row" th:if="${garden} == null">
+        <div class="row cols-sm-12 cols-md-10">
+            <div class="col-md-offset-1">
+                <p>
+                <h3>No garden image imported</h3>
+                <p>
+                    There is currently no garden image within the system. Please <a href="/importgarden">import</a> one before managing a garden.
+                </p>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" th:if="${garden} != null">
+
+        <label for="modal-toggle"></label>
+
+        <input id="modal-toggle" type="checkbox"/>
+        <div class="modal">
+            <div class="card">
+                <label for="modal-toggle" class="close"></label>
+                <h3 class="section">Add new plant</h3>
+                <fieldset>
+                    <div id="errorContainer">
+                        <h3>Error</h3>
+                        <ul id="errors">
+                            <li>Please make sure that both plant name and plant type fields are filled in.</li>
+                        </ul>
+                    </div>
+                    <legend>New plant</legend>
+                    <input type="hidden" id="gardenId" th:value="${garden.id}"/>
+                    <div class="input-group fluid">
+                        <label for="plantName">Plant name</label>
+                        <input type="text" value="" id="plantName" placeholder="Plant name">
+                    </div>
+                    <div class="input-group fluid">
+                        <label for="plantType">Plant type</label>
+                        <input type="text" value="" id="plantType" placeholder="Plant type">
+                    </div>
+                    <p class="secondary" id="plantFormStatus"></p>
+                    <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
+                    <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addPlantBtn" value="Add plant"></p>
+                </fieldset>
+                <div th:replace="fragments/plantinfo :: div">Plant info container is loaded here</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <a href="/importgarden">Re-import garden?</a>
+    </div>
+    <div class="row" th:if="${garden} != null">
+        <table class="scrollable">
+            <caption>Plants</caption>
+            <thead>
+            <tr>
+                <th>Plant</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td data-label="Name">Tomato Left Corner</td>
+                <td data-label="PlantName">Tomato</td>
+
+            </tr>
+            <tr>
+                <td data-label="Name">Cucumber 2</td>
+                <td data-label="PlantName">Cucumber</td>
+            </tr>
+            <tr>
+                <td data-label="Name">Lettuce</td>
+                <td data-label="PlantName">Lettuce</td>
+            </tr>
+            </tbody>
+        </table>
+        <p><a href="/plants">Manage Plants</a></p>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+        var imageFile = /*[[${garden.image}]]*/ null;
+        var gardenJSON = /*[[${garden.regionJson}]]*/ null;
+    /*]]>*/
+</script>
+<script type="text/javascript" src="js/konva.min.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/jquery.toast.min.js"></script>
+<script type="text/javascript" src="/js/toast.js"></script>
+<script type="text/javascript" src="/js/garden.js"></script>
+<script type="text/javascript" src="/js/plantinfo.js"></script>
+
+</body>
+</html>

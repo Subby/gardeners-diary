@@ -1,90 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head lang="pl" th:replace="fragments/head :: head">
+<head lang="pl" th:replace="fragments/head :: head">
 <body>
+<div class="container">
     <header th:replace="fragments/header :: header">Header tag is loaded here</header>
     <div class="row">
-        <div id="canvas"></div>
+        <h2>Import Garden</h2>
     </div>
-    <div class="container">
-        <div class="row">
-            <button id="canvasOutputBtn">Output</button>
-            <textarea id="outputTextArea"></textarea>
-
-            <label for="modal-toggle"></label>
-
-            <input id="modal-toggle" type="checkbox"/>
-            <div class="modal">
-                <div class="card">
-                    <label for="modal-toggle" class="close"></label>
-                    <h3 class="section">Add new plant</h3>
-                    <fieldset>
-                        <legend>New plant</legend>
-                        <div class="input-group fluid">
-                            <label for="plantName">Plant name</label>
-                            <input type="text" value="" id="plantName" placeholder="Plant name">
-                        </div>
-                        <div class="input-group fluid">
-                            <label for="plantType">Plant type</label>
-                            <input type="text" value="" id="plantType" placeholder="Plant type">
-                        </div>
-                        <p class="secondary" id="plantFormStatus"></p>
-                        <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
-                        <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addPlantBtn" value="Add plant"></p>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Plant information</legend>
-                        <p id="plantInformation">
-                        <ul>
-                            <li><strong>Description</strong>:</li>
-                            <li><strong>Sun requirements</strong>:</li>
-                            <li><strong>Sowing method</strong>:</li>
-                            <li><strong>Row spacing</strong>:</li>
-                            <li><strong>Height</strong>:</li>
-                        </ul>
-                        </p>
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-        </div>
-        <div class="row">
-            <table class="scrollable">
-                <caption>Plants</caption>
-                <thead>
-                <tr>
-                    <th>Plant</th>
-                    <th>Type</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td data-label="Name">Tomato Left Corner</td>
-                    <td data-label="PlantName">Tomato</td>
-
-                </tr>
-                <tr>
-                    <td data-label="Name">Cucumber 2</td>
-                    <td data-label="PlantName">Cucumber</td>
-                </tr>
-                <tr>
-                    <td data-label="Name">Lettuce</td>
-                    <td data-label="PlantName">Lettuce</td>
-                </tr>
-                </tbody>
-            </table>
-            <p><a href="/plants">Manage Plants</a></p>
-        </div>
+    <div class="row" th:if="${upload_error} == true">
+        <h3>Error with upload</h3>
+        <p>
+            Please make sure the file you uploaded is valid and that no fields are left empty.
+        </p>
     </div>
-    <script type="text/javascript" src="js/konva.min.js"></script>
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/js/garden.js"></script>
-
+    <div class="row">
+        <form method="post" action="importgarden" enctype="multipart/form-data">
+            <p>
+                <label for="name">Name</label>
+                <input id="name" type="text" name="name"/>
+            </p>
+            <p>
+                <input type="file" id="file-input" name="file">
+                <label for="file-input" class="button">Upload image file...</label>
+            </p>
+            <p>
+                <input type="submit" value="Submit"/>
+            </p>
+        </form>
+    </div>
+</div>
 </body>
 </html>

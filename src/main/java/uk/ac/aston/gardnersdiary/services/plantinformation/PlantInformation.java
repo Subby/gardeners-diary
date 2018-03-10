@@ -10,13 +10,15 @@ public class PlantInformation {
     private String sowingMethod;
     private int rowSpacing;
     private int height;
+    private String image;
 
-    public PlantInformation(String description, String sunRequirements, String sowingMethod, int rowSpacing, int height) {
+    public PlantInformation(String description, String sunRequirements, String sowingMethod, int rowSpacing, int height, String image) {
         this.description = description;
         this.sunRequirements = sunRequirements;
         this.sowingMethod = sowingMethod;
         this.rowSpacing = rowSpacing;
         this.height = height;
+        this.image = image;
     }
 
     public String getDescription() {
@@ -37,5 +39,9 @@ public class PlantInformation {
 
     public int getHeight() {
         return height;
+    }
+
+    public String getImage() {
+        return image;
     }
 }
