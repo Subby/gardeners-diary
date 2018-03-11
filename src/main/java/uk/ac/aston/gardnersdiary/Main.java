@@ -1,9 +1,14 @@
 package uk.ac.aston.gardnersdiary;
 
 import org.javalite.activejdbc.Base;
+import spark.Spark;
 import uk.ac.aston.gardnersdiary.controllers.*;
+import uk.ac.aston.gardnersdiary.services.property.ConfigFilePropertyService;
+import uk.ac.aston.gardnersdiary.services.property.PropertyService;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import static spark.Spark.*;
 
@@ -45,7 +50,12 @@ public class Main {
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {
-        before("/*", (req, res) -> Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiary", "root", ""));
+        PropertyService propertyService = ConfigFilePropertyService.getInstance();
+        String databaseHost = propertyService.getProperty("db.host");
+        String databaseName = propertyService.getProperty("db.name");
+        String databaseUser = propertyService.getProperty("db.user");
+        String databasePass = propertyService.getProperty("db.password");
+        before("/*", (req, res) -> Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://"+databaseHost+"/"+databaseName, databaseUser, databasePass));
         after("/*", (req, res) -> Base.close());
     }
 
@@ -54,11 +64,23 @@ public class Main {
         staticFiles.location("/public");
         setupUploadsDir();
         staticFiles.expireTime(600L);
+        setupSparkExceptionHandling();
+    }
+
+    private static void setupSparkExceptionHandling() {
+        Spark.exception(Exception.class, (e, request, response) -> {
+            final StringWriter sw = new StringWriter();
+            final PrintWriter pw = new PrintWriter(sw, true);
+            e.printStackTrace(pw);
+            System.err.println(sw.getBuffer().toString());
+        });
     }
 
     private static void setupUploadsDir() {
-        File uploadDir = new File("upload");
+        PropertyService propertyService = ConfigFilePropertyService.getInstance();
+        String uploadDirectory = propertyService.getProperty("dir.uploads");
+        File uploadDir = new File(uploadDirectory);
         uploadDir.mkdir(); // create the upload directory if it doesn't exist
-        staticFiles.externalLocation("upload");
+        staticFiles.externalLocation(uploadDirectory);
     }
 }
