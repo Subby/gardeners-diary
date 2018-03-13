@@ -45,10 +45,15 @@ function sendUpdatePlantRequest() {
 }
 
 function replaceImage() {
+    $("#loadingSpinnerImage").show();
     $.get("/plantinfo/" + plantType.toLowerCase(),
         function(data){
             if(data.status === "success") {
+                $("#loadingSpinnerImage").hide();
                 $('#plantImage').attr("src", data.image);
+            } else {
+                $("#loadingSpinnerImage").hide();
+                $('#plantImage').attr("src", "/img/imageNA.png");
             }
         });
 }
