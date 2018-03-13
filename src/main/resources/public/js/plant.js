@@ -12,6 +12,7 @@ function showErrorContainer(value) {
 }
 
 function registerHandlers() {
+    replaceImage();
     $("#editPlantBtn").click(function() {
         showErrorContainer(false);
         showModal(true);
@@ -19,6 +20,7 @@ function registerHandlers() {
     $("#updatePlantBtn").click(function() {
         sendUpdatePlantRequest();
     });
+
 }
 
 function sendUpdatePlantRequest() {
@@ -40,6 +42,15 @@ function sendUpdatePlantRequest() {
             showToast("Success", "The plant " + nameVal + " was updated to the system. Click <a href='/plant/view/" + plantIdVal +  "'>here</a> view your changes.", "success");
         }
     });
+}
+
+function replaceImage() {
+    $.get("/plantinfo/" + plantType.toLowerCase(),
+        function(data){
+            if(data.status === "success") {
+                $('#plantImage').attr("src", data.image);
+            }
+        });
 }
 
 registerHandlers();

@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <img src="http://via.placeholder.com/350x150">
+                <img id="plantImage">
             </div>
             <div class="col-sm-10">
                 <h3>[[${plant.name}]] <button id="editPlantBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit plant</button></h3>
@@ -78,6 +78,9 @@
         src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    var plantType = /*[[${plant.type}]]*/ null;
+</script>
 <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/js/plant.js"></script>
 <script type="text/javascript" src="/js/toast.js"></script>
