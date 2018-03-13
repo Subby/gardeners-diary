@@ -2,7 +2,6 @@ package uk.ac.aston.gardnersdiary.services.database.plant;
 
 import org.javalite.activejdbc.Base;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.aston.gardnersdiary.models.Plant;
@@ -39,11 +38,11 @@ public class PlantRetrievalJDBCTest {
     }
 
     @Test
-    public void getPlantByIdJSON() {
+    public void getPlantNameForId() {
         int id = fixture.givenTestDataIsInDatabase();
         fixture.givenServiceIsSetup();
-        String json = fixture.whenGetPlantByIdJsonIsCalled(id);
-        fixture.thenCorrectJsonIsProduced(json, id);
+        String name = fixture.whenGetPlantNameByIdIsCalled(id);
+        fixture.thenCorrectNameIsReturned(name);
     }
 
     @After
@@ -175,12 +174,12 @@ public class PlantRetrievalJDBCTest {
             assertEquals("2017-11-01", plant.getUpdatedAt().toString());
         }
 
-        public String whenGetPlantByIdJsonIsCalled(int id) {
-            return plantRetrieval.getPlantByIdJSON(id);
+        public String whenGetPlantNameByIdIsCalled(int id) {
+            return plantRetrieval.getPlantNameForId(id);
         }
 
-        public void thenCorrectJsonIsProduced(String json, int id) {
-            assertEquals("{\"garden_id\":69,\"id\":" + id + ",\"image\":\"tomato.jpg\",\"name\":\"Test Tomato\",\"type\":\"Tomato\"}", json);
+        public void thenCorrectNameIsReturned(String json) {
+            assertEquals("Test Tomato", json);
         }
     }
 }

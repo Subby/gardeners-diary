@@ -25,9 +25,9 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
     }
 
     @Override
-    public String getPlantByIdJSON(int id) {
+    public String getPlantNameForId(int id) {
         PlantJDBCModel plantJDBCModel = PlantJDBCModel.findFirst("id = ?", id);
-        return plantJDBCModel.toJson(false, "garden_id", "id", "image", "name", "type");
+        return (String) plantJDBCModel.get("name");
     }
 
     @Override

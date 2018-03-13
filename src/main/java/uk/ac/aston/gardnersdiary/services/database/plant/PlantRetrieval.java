@@ -6,6 +6,6 @@ public interface PlantRetrieval {
 
     public String addPlant(Plant plantToAdd);
     public Plant getPlantById(int id);
-    public String getPlantByIdJSON(int id);
+    public String getPlantNameForId(int id);
     public String updatePlantDetails(int id, String name, String type);
 }
