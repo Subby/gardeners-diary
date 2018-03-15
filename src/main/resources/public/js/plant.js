@@ -71,7 +71,7 @@ function sendDeletePlantRequest() {
         url: '/plant/delete/' + plantId,
         type: 'DELETE',
         success: function(result) {
-            if(result === "sucesss") {
+            if(result === "success") {
                 showToast("Success", "The plant was deleted successfully. Redirecting to manage garden plant, click <a href='/managegarden'>here</a> to return to the page.", "success");
             }
         },

@@ -5,7 +5,7 @@ import uk.ac.aston.gardnersdiary.models.Plant;
 
 public class PlantRetrievalJDBC implements  PlantRetrieval {
 
-    private static final String SUCESS_STATUS = "sucess";
+    private static final String SUCESS_STATUS = "success";
     private static final String FAILED_STATUS = "failed";
 
     @Override
