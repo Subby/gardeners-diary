@@ -8,4 +8,5 @@ public interface PlantRetrieval {
     public Plant getPlantById(int id);
     public String getPlantNameForId(int id);
     public String updatePlantDetails(int id, String name, String type);
+    public String deletePlant(int id);
 }

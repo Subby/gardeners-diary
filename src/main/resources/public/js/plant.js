@@ -2,13 +2,16 @@ function showModal(value) {
     $("#modal-toggle").prop('checked', value);
 }
 
+function showDeleteModal(value) {
+    $("#delete-modal-toggle").prop('checked', value);
+}
+
 function showErrorContainer(value) {
     if(value) {
         $("#errorContainer").show();
     } else {
         $("#errorContainer").hide();
     }
-
 }
 
 function registerHandlers() {
@@ -20,7 +23,12 @@ function registerHandlers() {
     $("#updatePlantBtn").click(function() {
         sendUpdatePlantRequest();
     });
-
+    $("#deletePlantBtn").click(function() {
+        showDeleteModal(true);
+    });
+    $("#deletePlantConfirmBtn").click(function() {
+        sendDeletePlantRequest();
+    });
 }
 
 function sendUpdatePlantRequest() {
@@ -56,6 +64,21 @@ function replaceImage() {
                 $('#plantImage').attr("src", "/img/imageNA.png");
             }
         });
+}
+
+function sendDeletePlantRequest() {
+    $.ajax({
+        url: '/plant/delete/' + plantId,
+        type: 'DELETE',
+        success: function(result) {
+            if(result === "sucesss") {
+                showToast("Success", "The plant was deleted successfully. Redirecting to manage garden plant, click <a href='/managegarden'>here</a> to return to the page.", "success");
+            }
+        },
+        error: function(result, statusText, errorText) {
+            showToast("Error", "The plant was not deleted.", "error");
+        }
+    });
 }
 
 registerHandlers();

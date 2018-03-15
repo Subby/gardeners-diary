@@ -5,6 +5,9 @@ import uk.ac.aston.gardnersdiary.models.Plant;
 
 public class PlantRetrievalJDBC implements  PlantRetrieval {
 
+    private static final String SUCESS_STATUS = "sucess";
+    private static final String FAILED_STATUS = "failed";
+
     @Override
     public String addPlant(Plant plantToAdd) {
         PlantJDBCModel plantJDBCModel = mapFromModel(plantToAdd);
@@ -36,7 +39,20 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
         plantJDBCModel.set("name", name);
         plantJDBCModel.set("type", type);
         if(plantJDBCModel.save()) {
-            return new JSONStringer().object().key("status").value("success").endObject().toString();
+            return generateSucessJSON();
+        }
+        return generateFailedJSONOutput();
+    }
+
+    private String generateSucessJSON() {
+        return new JSONStringer().object().key("status").value(SUCESS_STATUS).endObject().toString();
+    }
+
+    @Override
+    public String deletePlant(int id) {
+        PlantJDBCModel plantJDBCModel = PlantJDBCModel.findFirst("id = ?", id);
+        if(plantJDBCModel.delete()) {
+            return SUCESS_STATUS;
         }
         return generateFailedJSONOutput();
     }
@@ -45,7 +61,7 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
         return new JSONStringer()
                 .object()
                 .key("status")
-                .value("success")
+                .value(SUCESS_STATUS)
                 .key("plant_name")
                 .value(plantName)
                 .key("id")
@@ -76,6 +92,6 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
     }
 
     private String generateFailedJSONOutput() {
-        return new JSONStringer().object().key("status").value("failed").endObject().toString();
+        return new JSONStringer().object().key("status").value(FAILED_STATUS).endObject().toString();
     }
 }

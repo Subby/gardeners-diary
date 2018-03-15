@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.ac.aston.gardnersdiary.models.Plant;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 
 import static junit.framework.TestCase.assertEquals;
@@ -43,6 +44,15 @@ public class PlantRetrievalJDBCTest {
         fixture.givenServiceIsSetup();
         String name = fixture.whenGetPlantNameByIdIsCalled(id);
         fixture.thenCorrectNameIsReturned(name);
+    }
+
+    @Test
+    public void deletePlant() {
+        int id = fixture.givenTestDataIsInDatabase();
+        fixture.givenServiceIsSetup();
+        String statusMessage = fixture.whenDeletePlantIsCalled(id);
+        fixture.thenCorrectStatusIsReturned(statusMessage);
+        fixture.thenPlantDoesNotExistInDb();
     }
 
     @After
@@ -181,5 +191,31 @@ public class PlantRetrievalJDBCTest {
         public void thenCorrectNameIsReturned(String json) {
             assertEquals("Test Tomato", json);
         }
+
+        public String whenDeletePlantIsCalled(int id) {
+            return plantRetrieval.deletePlant(id);
+        }
+
+        public void thenPlantDoesNotExistInDb() {
+            boolean exists = findPlantInDatabase();
+             assertEquals(false, exists);
+        }
+
+        public void thenCorrectStatusIsReturned(String status) {
+            assertEquals("sucess", status);
+        }
+
+        private boolean findPlantInDatabase() {
+            try {
+                PreparedStatement statement = connection.prepareStatement("SELECT " +  NAME_COLUMN + " FROM plant where " + NAME_COLUMN + " = ?");
+                statement.setString(1, "Test Tomato");
+                ResultSet result = statement.executeQuery();
+                return result.next();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
     }
 }

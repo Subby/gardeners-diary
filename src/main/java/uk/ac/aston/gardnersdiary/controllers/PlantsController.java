@@ -74,6 +74,13 @@ public class PlantsController extends Controller {
         return plantRetrieval.updatePlantDetails(id, name, type);
     };
 
+    public Route deletePlant = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        int id = Integer.valueOf((request.params(":plantid")));
+        //TODO: add support for deleting tasks associated with the plant
+        return plantRetrieval.deletePlant(id);
+    };
+
     private Plant generatePlantModel(String name, String type, int gardenId) {
         Plant plant = new Plant();
         plant.setName(name);

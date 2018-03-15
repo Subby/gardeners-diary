@@ -18,7 +18,7 @@
                 <img id="plantImage">
             </div>
             <div class="col-sm-10">
-                <h3>[[${plant.name}]] <button id="editPlantBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit plant</button></h3>
+                <h3>[[${plant.name}]] <button id="editPlantBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit plant</button><button id="deletePlantBtn"><i class="fa fa-trash" aria-hidden="true"></i> Delete plant</button></h3>
                 <p><small><strong>Plant type</strong>: [[${plant.type}]]</small></p>
                 <p><small><strong>Created</strong>: [[${plant.createdAt}]]</small></p>
                 <p><small><strong>Updated</strong>: [[${plant.updatedAt}]]</small></p>
@@ -73,6 +73,17 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <input id="delete-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="delete-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure you want to delete the plant [[${plant.name}]]?</h3>
+                    <p class="section">Deleting this plant will <strong>permanently</strong> delete this plant from the system and any associated tasks.</p>
+                    <button id="deletePlantConfirmBtn" class="secondary"><i class="fa fa-trash" aria-hidden="true"></i> Delete plant</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script
@@ -81,6 +92,7 @@
         crossorigin="anonymous"></script>
 <script th:inline="javascript">
     var plantType = /*[[${plant.type}]]*/ null;
+    var plantId = /*[[${plant.id}]]*/ null;
 </script>
 <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/js/plant.js"></script>

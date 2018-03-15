@@ -27,6 +27,7 @@ public class Main {
     private static String PLANT_VIEW_PATH = "/plant/view/:plantid";
     private static String UPDATE_PLANT_PATH = "/plant/update";
     private static String PLANT_NAME_INFO = "/plant/nameinfo/:plantid";
+    private static String DELETE_PLANT_PATH = "/plant/delete/:plantid";
 
     public static void main(String[] args) {
         setupSpark();
@@ -35,18 +36,27 @@ public class Main {
 
     private static void setupRoutes() {
         setupDatabaseConnectionFilterRoutes();
+        setupGardenRoutes();
+        setupPlantsRoutes();
         get(INDEX_PATH, IndexController.getInstance().getIndex);
-        get(MANAGE_GARDEN_PATH, GardenController.getInstance().getManageGarden);
-        get(IMPORT_GARDEN_PATH, GardenController.getInstance().getImportGarden);
-        post(IMPORT_GARDEN_PATH, GardenController.getInstance().postImportGarden);
-        post(SAVE_GARDEN_JSON_PATH, GardenController.getInstance().postSaveGardenData);
         get(PLANT_INFO_PATH, PlantInformationController.getInstance().getIndex);
         get(TASKS_PATH, TaskController.getInstance().getIndex);
+    }
+
+    private static void setupPlantsRoutes() {
         get(PLANTS_PATH, PlantsController.getInstance().getIndex);
         post(PLANT_ADD_PATH, PlantsController.getInstance().postAddPlant);
         get(PLANT_VIEW_PATH, PlantsController.getInstance().getPlantView);
         post(UPDATE_PLANT_PATH, PlantsController.getInstance().postUpdatePlant);
         get(PLANT_NAME_INFO, PlantsController.getInstance().getPlantData);
+        delete(DELETE_PLANT_PATH, PlantsController.getInstance().deletePlant);
+    }
+
+    private static void setupGardenRoutes() {
+        get(MANAGE_GARDEN_PATH, GardenController.getInstance().getManageGarden);
+        get(IMPORT_GARDEN_PATH, GardenController.getInstance().getImportGarden);
+        post(IMPORT_GARDEN_PATH, GardenController.getInstance().postImportGarden);
+        post(SAVE_GARDEN_JSON_PATH, GardenController.getInstance().postSaveGardenData);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {
