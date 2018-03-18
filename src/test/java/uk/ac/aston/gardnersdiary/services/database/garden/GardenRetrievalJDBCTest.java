@@ -47,6 +47,15 @@ public class GardenRetrievalJDBCTest {
         fixture.thenCorrectDetailsExistInDb();
     }
 
+    @Test
+    public void updatePlantNameInJSON() {
+        fixture.givenServiceIsSetup();
+        fixture.givenJSONTestDataIsInDatabase();
+        fixture.whenUpdatePlantNameInJSONIsCalled(24, "Sick plant");
+        fixture.thenNameHasBeenCorrectlyUpdated();
+
+    }
+
     @After
     public void tearDown() {
         fixture.clearDownTestData();
@@ -88,6 +97,22 @@ public class GardenRetrievalJDBCTest {
             return id;
         }
 
+
+        public void givenJSONTestDataIsInDatabase() {
+            PreparedStatement statement = null;
+            try {
+                statement = connection.prepareStatement("INSERT INTO `garden` (name, image, region_json, created_at, updated_at) VALUES (?, ?, ?, ?, ?)");
+                statement.setString(1, "Test Garden");
+                statement.setString(2, "garden.jpg");
+                statement.setString(3, "{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"x\":50,\"y\":50,\"height\":250,\"width\":500,\"id\":\"gardenImage\"},\"className\":\"Image\"},{\"attrs\":{\"x\":252,\"y\":174,\"width\":34,\"height\":25,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"\",\"plantId\":21},\"className\":\"Rect\"},{\"attrs\":{\"x\":447,\"y\":189,\"width\":49,\"height\":38,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Plant\",\"plantId\":24},\"className\":\"Rect\"},{\"attrs\":{\"x\":227,\"y\":204,\"width\":25,\"height\":32,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Test\",\"plantId\":25},\"className\":\"Rect\"},{\"attrs\":{\"x\":288,\"y\":227,\"width\":26,\"height\":34,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Cucumber\",\"plantId\":46},\"className\":\"Rect\"},{\"attrs\":{\"x\":373,\"y\":200,\"width\":33,\"height\":44,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"zx\",\"plantId\":65},\"className\":\"Rect\"},{\"attrs\":{\"x\":131,\"y\":231,\"width\":55,\"height\":42,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Mango\",\"plantId\":84},\"className\":\"Rect\"}]}");
+                statement.setDate(4, Date.valueOf("2017-11-01"));
+                statement.setDate(5, Date.valueOf("2017-11-01"));
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         public Garden givenGardenModelIsSetup() {
             Garden model = new Garden();
             model.setName("Test Garden");
@@ -121,6 +146,10 @@ public class GardenRetrievalJDBCTest {
             gardenRetrieval.saveGarden(garden);
         }
 
+        public void whenUpdatePlantNameInJSONIsCalled(int id, String newName) {
+            gardenRetrieval.updatePlantNameInJSON(id, newName);
+        }
+
         public void thenCorrectGardenModelIsBuilt(Garden garden, int id) {
             assertEquals(id, garden.getId());
             assertEquals("Test Garden", garden.getName());
@@ -149,6 +178,15 @@ public class GardenRetrievalJDBCTest {
             ResultSet result = statement.executeQuery();
             result.next();
             return result;
+        }
+
+        public void thenNameHasBeenCorrectlyUpdated() {
+            try {
+                ResultSet result = findTestGardenDetailsInDb();
+                assertEquals("{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"x\":50,\"y\":50,\"height\":250,\"width\":500,\"id\":\"gardenImage\"},\"className\":\"Image\"},{\"attrs\":{\"x\":252,\"y\":174,\"width\":34,\"height\":25,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"\",\"plantId\":21},\"className\":\"Rect\"},{\"attrs\":{\"x\":447,\"y\":189,\"width\":49,\"height\":38,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Sick plant\",\"plantId\":24},\"className\":\"Rect\"},{\"attrs\":{\"x\":227,\"y\":204,\"width\":25,\"height\":32,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Test\",\"plantId\":25},\"className\":\"Rect\"},{\"attrs\":{\"x\":288,\"y\":227,\"width\":26,\"height\":34,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Cucumber\",\"plantId\":46},\"className\":\"Rect\"},{\"attrs\":{\"x\":373,\"y\":200,\"width\":33,\"height\":44,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"zx\",\"plantId\":65},\"className\":\"Rect\"},{\"attrs\":{\"x\":131,\"y\":231,\"width\":55,\"height\":42,\"stroke\":\"black\",\"name\":\"regionRect\",\"regionName\":\"Mango\",\"plantId\":84},\"className\":\"Rect\"}]}", result.getString(REGION_JSON_COLUMN));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         public void closeDatabaseConnections() {
