@@ -4,6 +4,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import uk.ac.aston.gardnersdiary.models.Plant;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrievalJDBC;
 import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrieval;
 import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrievalJDBC;
 
@@ -67,10 +69,12 @@ public class PlantsController extends Controller {
 
     public Route postUpdatePlant = (Request request, Response response) -> {
         PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
         int id = Integer.valueOf(request.queryParams("id"));
         String name = request.queryParams("name");
         String type = request.queryParams("type");
         response.type("application/json");
+        gardenRetrieval.updatePlantNameInJSON(id, name);
         return plantRetrieval.updatePlantDetails(id, name, type);
     };
 
