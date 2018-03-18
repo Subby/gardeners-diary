@@ -80,8 +80,9 @@ public class PlantsController extends Controller {
 
     public Route deletePlant = (Request request, Response response) -> {
         PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
         int id = Integer.valueOf((request.params(":plantid")));
-        //TODO: add support for deleting tasks associated with the plant
+        gardenRetrieval.deletePlantInJson(id);
         return plantRetrieval.deletePlant(id);
     };
 

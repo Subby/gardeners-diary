@@ -11,4 +11,5 @@ public interface GardenRetrieval {
     public void saveGarden(Garden garden);
     public void updateGardenJSON(String JSON);
     public void updatePlantNameInJSON(int id, String newName);
+    public void deletePlantInJson(int id);
 }

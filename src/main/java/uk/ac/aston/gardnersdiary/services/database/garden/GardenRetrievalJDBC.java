@@ -72,13 +72,21 @@ public class GardenRetrievalJDBC implements GardenRetrieval {
     @Override
     public void updatePlantNameInJSON(int id, String newName) {
         String existingRegionJSON = getExistingRegionJSON();
-        JsonParser parser = new JsonParser();
-        JsonObject modifiedRootObj = replaceExistingNameWithNewName(id, newName, existingRegionJSON, parser);
+        JsonObject modifiedRootObj = replaceExistingNameWithNewName(id, newName, existingRegionJSON);
         String newJson = modifiedRootObj.toString();
         updateGardenJSON(newJson);
     }
 
-    private JsonObject replaceExistingNameWithNewName(int id, String newName, String existingRegionJSON, JsonParser parser) {
+    @Override
+    public void deletePlantInJson(int id) {
+        String existingRegionJSON = getExistingRegionJSON();
+        JsonObject modifiedRootObj = findAndDeletePlantInJson(id, existingRegionJSON);
+        String newJson = modifiedRootObj.toString();
+        updateGardenJSON(newJson);
+    }
+
+    private JsonObject replaceExistingNameWithNewName(int id, String newName, String existingRegionJSON) {
+        JsonParser parser = new JsonParser();
         JsonObject rootObj = parser.parse(existingRegionJSON).getAsJsonObject();
         JsonArray childrenArray = rootObj.getAsJsonArray(REGION_JSON_CHILDREN_ARRAY);
         for(JsonElement currentElement : childrenArray) {
@@ -89,6 +97,23 @@ public class GardenRetrievalJDBC implements GardenRetrieval {
                 if(plantIdElement == id) {
                     currentAttrsObject.addProperty(REGION_JSON_REGIONNAME_ELEMENT, newName);
                     break;
+                }
+            }
+        }
+        return rootObj;
+    }
+
+    private JsonObject findAndDeletePlantInJson(int id, String existingRegionJSON) {
+        JsonParser parser = new JsonParser();
+        JsonObject rootObj = parser.parse(existingRegionJSON).getAsJsonObject();
+        JsonArray childrenArray = rootObj.getAsJsonArray(REGION_JSON_CHILDREN_ARRAY);
+        for(int i=0; i < childrenArray.size(); i++) {
+            JsonObject currentElementAsObject = (JsonObject) childrenArray.get(i);
+            JsonObject currentAttrsObject = currentElementAsObject.get(REGION_JSON_ATTRS_OBJECT).getAsJsonObject();
+            if(currentAttrsObject.has(REGION_JSON_PLANTID_ELEMENT)) {
+                int plantIdElement = currentAttrsObject.get(REGION_JSON_PLANTID_ELEMENT).getAsInt();
+                if(plantIdElement == id) {
+                    childrenArray.remove(i);
                 }
             }
         }
