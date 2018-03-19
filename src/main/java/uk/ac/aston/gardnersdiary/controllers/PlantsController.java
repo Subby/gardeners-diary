@@ -54,7 +54,7 @@ public class PlantsController extends Controller {
     public Route getPlantData = (Request request, Response response) -> {
         PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
         int plantId = Integer.valueOf((request.params(":plantid")));
-        return plantRetrieval.getPlantNameForId(plantId);
+        return plantRetrieval.getAllPlantData();
     };
 
     public Route postAddPlant = (Request request, Response response) -> {

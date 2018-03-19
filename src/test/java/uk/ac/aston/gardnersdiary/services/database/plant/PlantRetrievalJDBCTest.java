@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.ac.aston.gardnersdiary.models.Plant;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 
 import static junit.framework.TestCase.assertEquals;
@@ -39,11 +38,11 @@ public class PlantRetrievalJDBCTest {
     }
 
     @Test
-    public void getPlantNameForId() {
+    public void getAllPlantData() {
         int id = fixture.givenTestDataIsInDatabase();
         fixture.givenServiceIsSetup();
-        String name = fixture.whenGetPlantNameByIdIsCalled(id);
-        fixture.thenCorrectNameIsReturned(name);
+        String resultantJson = fixture.whenGetAllPlantDataIsCalled();
+        fixture.thenCorrectPlantDataIsReturned(resultantJson, id);
     }
 
     @Test
@@ -184,12 +183,22 @@ public class PlantRetrievalJDBCTest {
             assertEquals("2017-11-01", plant.getUpdatedAt().toString());
         }
 
-        public String whenGetPlantNameByIdIsCalled(int id) {
-            return plantRetrieval.getPlantNameForId(id);
+        public String whenGetAllPlantDataIsCalled() {
+            return plantRetrieval.getAllPlantData();
         }
 
-        public void thenCorrectNameIsReturned(String json) {
-            assertEquals("Test Tomato", json);
+        public void thenCorrectPlantDataIsReturned(String json, int id) {
+            assertEquals("[\n" +
+                    "  {\n" +
+                    "    \"created_at\":\"2017-11-01\",\n" +
+                    "    \"garden_id\":69,\n" +
+                    "    \"id\":" + id+ ",\n" +
+                    "    \"image\":\"tomato.jpg\",\n" +
+                    "    \"name\":\"Test Tomato\",\n" +
+                    "    \"type\":\"Tomato\",\n" +
+                    "    \"updated_at\":\"2017-11-01\"\n" +
+                    "  }\n" +
+                    "]", json);
         }
 
         public String whenDeletePlantIsCalled(int id) {
