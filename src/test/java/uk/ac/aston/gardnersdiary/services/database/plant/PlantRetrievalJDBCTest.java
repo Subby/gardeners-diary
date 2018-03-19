@@ -202,7 +202,7 @@ public class PlantRetrievalJDBCTest {
         }
 
         public void thenCorrectStatusIsReturned(String status) {
-            assertEquals("sucess", status);
+            assertEquals("success", status);
         }
 
         private boolean findPlantInDatabase() {
