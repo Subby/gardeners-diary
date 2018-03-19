@@ -64,29 +64,24 @@
         <a href="/importgarden">Re-import garden?</a>
     </div>
     <div class="row" th:if="${garden} != null">
-        <table class="scrollable">
+        <table id="plantsTable" class="display">
             <caption>Plants</caption>
             <thead>
-            <tr>
-                <th>Plant</th>
-                <th>Type</th>
-            </tr>
+                <tr>
+                    <th>Plant name</th>
+                    <th>Type</th>
+                    <th>Created</th>
+                    <th>Last updated</th>
+                </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td data-label="Name">Tomato Left Corner</td>
-                <td data-label="PlantName">Tomato</td>
-
-            </tr>
-            <tr>
-                <td data-label="Name">Cucumber 2</td>
-                <td data-label="PlantName">Cucumber</td>
-            </tr>
-            <tr>
-                <td data-label="Name">Lettuce</td>
-                <td data-label="PlantName">Lettuce</td>
-            </tr>
-            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Plant name</th>
+                    <th>Type</th>
+                    <th>Created</th>
+                    <th>Last updated</th>
+                </tr>
+            </tfoot>
         </table>
         <p><a href="/plants">Manage Plants</a></p>
     </div>
@@ -106,6 +101,8 @@
 <script type="text/javascript" src="/js/toast.js"></script>
 <script type="text/javascript" src="/js/garden.js"></script>
 <script type="text/javascript" src="/js/plantinfo.js"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/js/plants.js"></script>
 
 </body>
 </html>

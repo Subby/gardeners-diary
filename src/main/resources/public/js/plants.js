@@ -1,11 +1,23 @@
-function showModal(value) {
-    $("#modal-toggle").prop('checked', value);
+var plantData;
+
+function registerHandlers() {
+    getPlantData();
 }
 
-$("#editPlantBtn").click(function() {
-    showModal(true);
-});
+function getPlantData() {
+    $('#plantsTable').DataTable({
+        ajax: {
+            url: '/plants/data',
+            dataSrc: ''
+        },
+        columns: [
+            { data: 'name' },
+            { data: 'type' },
+            { data: 'created_at' },
+            { data: 'updated_at' },
+            {}
+        ]
+    });
+}
 
-$("#modal-toggle").change(function() {
-
-});
+registerHandlers();
