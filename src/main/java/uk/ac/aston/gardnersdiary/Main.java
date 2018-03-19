@@ -26,7 +26,7 @@ public class Main {
     private static String PLANT_ADD_PATH = "/plant/add";
     private static String PLANT_VIEW_PATH = "/plant/view/:plantid";
     private static String UPDATE_PLANT_PATH = "/plant/update";
-    private static String PLANT_NAME_INFO = "/plant/nameinfo/:plantid";
+    private static String PLANTS_DATA = "/plants/data";
     private static String DELETE_PLANT_PATH = "/plant/delete/:plantid";
 
     public static void main(String[] args) {
@@ -48,7 +48,7 @@ public class Main {
         post(PLANT_ADD_PATH, PlantsController.getInstance().postAddPlant);
         get(PLANT_VIEW_PATH, PlantsController.getInstance().getPlantView);
         post(UPDATE_PLANT_PATH, PlantsController.getInstance().postUpdatePlant);
-        get(PLANT_NAME_INFO, PlantsController.getInstance().getPlantData);
+        get(PLANTS_DATA, PlantsController.getInstance().getPlantData);
         delete(DELETE_PLANT_PATH, PlantsController.getInstance().deletePlant);
     }
 
