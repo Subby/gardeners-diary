@@ -201,6 +201,7 @@ $("#addPlantBtn").click(function() {
             currentRect.getAttrs().regionName = data.plant_name;
             currentRect.getAttrs().plantId = data.id;
             saveGardenState();
+            plantTable.ajax.reload();
         } else {
             removeCurrentRect();
             showToast("Information", "The plant was not added.", "info");

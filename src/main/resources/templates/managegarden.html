@@ -64,26 +64,29 @@
         <a href="/importgarden">Re-import garden?</a>
     </div>
     <div class="row" th:if="${garden} != null">
-        <table id="plantsTable" class="display">
-            <caption>Plants</caption>
-            <thead>
+        <div class="col-sm-12">
+            <table id="plantsTable" class="display">
+                <caption>Plants</caption>
+                <thead>
                 <tr>
                     <th>Plant name</th>
                     <th>Type</th>
                     <th>Created</th>
                     <th>Last updated</th>
+                    <th></th>
                 </tr>
-            </thead>
-            <tfoot>
+                </thead>
+                <tfoot>
                 <tr>
                     <th>Plant name</th>
                     <th>Type</th>
                     <th>Created</th>
                     <th>Last updated</th>
+                    <th></th>
                 </tr>
-            </tfoot>
-        </table>
-        <p><a href="/plants">Manage Plants</a></p>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 <script th:inline="javascript">
@@ -99,10 +102,10 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/js/toast.js"></script>
-<script type="text/javascript" src="/js/garden.js"></script>
-<script type="text/javascript" src="/js/plantinfo.js"></script>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/js/plants.js"></script>
+<script type="text/javascript" src="/js/garden.js"></script>
+<script type="text/javascript" src="/js/plantinfo.js"></script>
 
 </body>
 </html>
