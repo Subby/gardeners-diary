@@ -1,4 +1,4 @@
-package uk.ac.aston.gardnersdiary.models.garden;
+package uk.ac.aston.gardnersdiary.models;
 
 /**
  * Created by Denver on 15/11/2017.

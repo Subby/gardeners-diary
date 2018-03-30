@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="pl" th:replace="fragments/head :: head">
+<body>
+<div class="container">
+    <header th:replace="fragments/header :: header">Header tag is loaded here</header>
+    <div class="structure" th:if="${error} != null">
+        <h3>Error</h3>
+        <p th:text="${error}"></p>
+    </div>
+    <div class="structure" th:if="${plant} != null">
+        <div class="row">
+            <h3>Viewing plant [[${plant.name}]]</h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div id="loadingSpinnerImage" class="spinner-donut"></div>
+                <img id="plantImage">
+            </div>
+            <div class="col-sm-10">
+                <h3>[[${plant.name}]] <button id="editPlantBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit plant</button><button id="deletePlantBtn"><i class="fa fa-trash" aria-hidden="true"></i> Delete plant</button></h3>
+                <p><small><strong>Plant type</strong>: [[${plant.type}]]</small></p>
+                <p><small><strong>Created</strong>: [[${plant.createdAt}]]</small></p>
+                <p><small><strong>Updated</strong>: [[${plant.updatedAt}]]</small></p>
+            </div>
+        </div>
+        <div class="row">
+            <table class="scrollable sortable">
+                <caption>Tasks associated with this plant <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button></caption>
+                <thead>
+                <tr>
+                    <th>Task name</th>
+                    <th>Task type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td data-label="Plant">Tomato Left Corner</td>
+                    <td data-label="PlantType">Tomato</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <label for="modal-toggle"></label>
+            <input id="modal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="modal-toggle" class="close"></label>
+                    <h3 class="section">Edit plant</h3>
+                    <fieldset>
+                        <legend>Edit [[${plant.name}]]</legend>
+                        <div id="errorContainer">
+                            <h3>Error</h3>
+                            <ul id="errors">
+                                <li>Please make sure that both plant name and plant type fields are filled in.</li>
+                            </ul>
+                        </div>
+                        <input type="hidden" id="plantId" th:value="${plant.id}"/>
+                        <div class="input-group fluid">
+                            <label for="plantName">Plant name</label>
+                            <input type="text" th:value="${plant.name}" id="plantName" placeholder="Plant name">
+                        </div>
+                        <div class="input-group fluid">
+                            <label for="plantType">Plant type</label>
+                            <input type="text" th:value="${plant.type}" id="plantType" placeholder="Plant type">
+                        </div>
+                        <p class="secondary" id="plantFormStatus"></p>
+                        <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
+                        <p><i class="fa fa-pencil" aria-hidden="true"></i></i><input type="submit" id="updatePlantBtn" value="Update plant"></p>
+                    </fieldset>
+                    <div th:replace="fragments/plantinfo :: div">Plant info container is loaded here</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="delete-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="delete-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure you want to delete the plant [[${plant.name}]]?</h3>
+                    <p class="section">Deleting this plant will <strong>permanently</strong> delete this plant from the system and any associated tasks.</p>
+                    <button id="deletePlantConfirmBtn" class="secondary"><i class="fa fa-trash" aria-hidden="true"></i> Delete plant</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        src="/js/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    var plantType = /*[[${plant.type}]]*/ null;
+    var plantId = /*[[${plant.id}]]*/ null;
+</script>
+<script type="text/javascript" src="/js/jquery.toast.min.js"></script>
+<script type="text/javascript" src="/js/plant.js"></script>
+<script type="text/javascript" src="/js/toast.js"></script>
+<script type="text/javascript" src="/js/plantinfo.js"></script>
+</body>
+</html>

@@ -3,6 +3,11 @@ package uk.ac.aston.gardnersdiary.controllers;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import uk.ac.aston.gardnersdiary.models.Plant;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrievalJDBC;
+import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrievalJDBC;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +35,63 @@ public class PlantsController extends Controller {
         attributes.put("title", "Manage Plants");
         return renderView(request, attributes, "plants");
     };
+
+    public Route getPlantView = (Request request, Response response) -> {
+      PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+      int plantId = Integer.valueOf((request.params(":plantid")));
+      Plant foundPlant = plantRetrieval.getPlantById(plantId);
+      Map<String, Object> attributes = new HashMap();
+      if(foundPlant != null) {
+          attributes.put("title", "Manage plant - " + foundPlant.getName());
+          attributes.put("plant", foundPlant);
+      } else {
+          attributes.put("title", "Manage plant error");
+          attributes.put("error", "Plant not found.");
+      }
+      return renderView(request, attributes, "plant");
+    };
+
+    public Route getPlantData = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        return plantRetrieval.getAllPlantData();
+    };
+
+    public Route postAddPlant = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        String name = request.queryParams("name");
+        String type = request.queryParams("type");
+        int gardenId = Integer.valueOf(request.queryParams("gardenId"));
+        Plant plant = generatePlantModel(name, type, gardenId);
+        response.type("application/json");
+        return plantRetrieval.addPlant(plant);
+    };
+
+    public Route postUpdatePlant = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
+        int id = Integer.valueOf(request.queryParams("id"));
+        String name = request.queryParams("name");
+        String type = request.queryParams("type");
+        response.type("application/json");
+        gardenRetrieval.updatePlantNameInJSON(id, name);
+        return plantRetrieval.updatePlantDetails(id, name, type);
+    };
+
+    public Route deletePlant = (Request request, Response response) -> {
+        PlantRetrieval plantRetrieval = new PlantRetrievalJDBC();
+        GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
+        int id = Integer.valueOf((request.params(":plantid")));
+        gardenRetrieval.deletePlantInJson(id);
+        return plantRetrieval.deletePlant(id);
+    };
+
+    private Plant generatePlantModel(String name, String type, int gardenId) {
+        Plant plant = new Plant();
+        plant.setName(name);
+        plant.setImageName("");
+        plant.setType(type);
+        plant.setGardenId(gardenId);
+        return plant;
+    }
 
 }

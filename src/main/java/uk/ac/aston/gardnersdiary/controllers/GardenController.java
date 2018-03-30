@@ -1,27 +1,21 @@
 package uk.ac.aston.gardnersdiary.controllers;
 
 import com.mysql.jdbc.StringUtils;
-import jdk.internal.util.xml.impl.Input;
 import spark.Response;
 import spark.Route;
 import spark.Request;
-import spark.utils.IOUtils;
-import uk.ac.aston.gardnersdiary.models.garden.Garden;
-import uk.ac.aston.gardnersdiary.services.database.GardenRetrieval;
-import uk.ac.aston.gardnersdiary.services.database.GardenRetrievalJDBC;
+import uk.ac.aston.gardnersdiary.models.Garden;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrievalJDBC;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.Part;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
-
-import static spark.Spark.staticFiles;
 
 /**
  * Created by Denver on 15/10/2017.

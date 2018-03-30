@@ -26,7 +26,6 @@
     </div>
 
     <div class="row" th:if="${garden} != null">
-        <button id="canvasOutputBtn">Save</button>
 
         <label for="modal-toggle"></label>
 
@@ -36,7 +35,14 @@
                 <label for="modal-toggle" class="close"></label>
                 <h3 class="section">Add new plant</h3>
                 <fieldset>
+                    <div id="errorContainer">
+                        <h3>Error</h3>
+                        <ul id="errors">
+                            <li>Please make sure that both plant name and plant type fields are filled in.</li>
+                        </ul>
+                    </div>
                     <legend>New plant</legend>
+                    <input type="hidden" id="gardenId" th:value="${garden.id}"/>
                     <div class="input-group fluid">
                         <label for="plantName">Plant name</label>
                         <input type="text" value="" id="plantName" placeholder="Plant name">
@@ -49,18 +55,7 @@
                     <p><i class="fa fa-search" aria-hidden="true"></i><input type="submit" id="searchPlantsBtn" value="Search for plant information"></p>
                     <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addPlantBtn" value="Add plant"></p>
                 </fieldset>
-                <fieldset>
-                    <legend>Plant information</legend>
-                    <p id="plantInformation">
-                    <ul>
-                        <li><strong>Description</strong>:</li>
-                        <li><strong>Sun requirements</strong>:</li>
-                        <li><strong>Sowing method</strong>:</li>
-                        <li><strong>Row spacing</strong>:</li>
-                        <li><strong>Height</strong>:</li>
-                    </ul>
-                    </p>
-                </fieldset>
+                <div th:replace="fragments/plantinfo :: div">Plant info container is loaded here</div>
             </div>
         </div>
     </div>
@@ -69,31 +64,29 @@
         <a href="/importgarden">Re-import garden?</a>
     </div>
     <div class="row" th:if="${garden} != null">
-        <table class="scrollable">
-            <caption>Plants</caption>
-            <thead>
-            <tr>
-                <th>Plant</th>
-                <th>Type</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td data-label="Name">Tomato Left Corner</td>
-                <td data-label="PlantName">Tomato</td>
-
-            </tr>
-            <tr>
-                <td data-label="Name">Cucumber 2</td>
-                <td data-label="PlantName">Cucumber</td>
-            </tr>
-            <tr>
-                <td data-label="Name">Lettuce</td>
-                <td data-label="PlantName">Lettuce</td>
-            </tr>
-            </tbody>
-        </table>
-        <p><a href="/plants">Manage Plants</a></p>
+        <div class="col-sm-12">
+            <table id="plantsTable" class="display">
+                <caption>Plants</caption>
+                <thead>
+                <tr>
+                    <th>Plant name</th>
+                    <th>Type</th>
+                    <th>Created</th>
+                    <th>Last updated</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Plant name</th>
+                    <th>Type</th>
+                    <th>Created</th>
+                    <th>Last updated</th>
+                    <th></th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 <script th:inline="javascript">
@@ -104,12 +97,15 @@
 </script>
 <script type="text/javascript" src="js/konva.min.js"></script>
 <script
-        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        src="/js/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/js/toast.js"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/js/plants.js"></script>
 <script type="text/javascript" src="/js/garden.js"></script>
+<script type="text/javascript" src="/js/plantinfo.js"></script>
 
 </body>
 </html>

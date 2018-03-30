@@ -3,9 +3,10 @@ package uk.ac.aston.gardnersdiary.controllers;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import uk.ac.aston.gardnersdiary.models.garden.Garden;
-import uk.ac.aston.gardnersdiary.services.database.GardenRetrieval;
-import uk.ac.aston.gardnersdiary.services.database.GardenRetrievalJDBC;
+import uk.ac.aston.gardnersdiary.models.Garden;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrievalJDBC;
+
 
 import java.util.HashMap;
 import java.util.Map;

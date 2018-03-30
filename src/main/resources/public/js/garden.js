@@ -12,11 +12,11 @@ var stage = new Konva.Stage({
 var layer = generateBaseLayer();
 var imageLayer = new Konva.Layer();
 var tooltipLayer = new Konva.Layer();
-
 var imageObj = new Image();
 
 function showModal(value) {
 	$("#modal-toggle").prop('checked', value);
+    $("#errorContainer").hide();
 }
 
 function generateBaseLayer() {
@@ -80,7 +80,7 @@ imageObj.onload = function() {
   stage.get('.regionRect').on("mousedown", function() {
       drag = false;
       rectClick = true;
-      window.location.replace("/plant/");
+      window.location.replace("/plant/view/");
 
   });
   stage.get('.regionRect').on("mouseout", function() {
@@ -103,7 +103,7 @@ imageObj.onload = function() {
   stage.get('.regionRect').on("mousedown", function() {
       drag = false;
       rectClick = true;
-      window.location.replace("/plant/");
+      window.location.replace("/plant/view/" + this.getAttrs().plantId);
 
   });
   stage.get('.regionRect').on("mouseout", function() {
@@ -147,7 +147,8 @@ imageObj.onload = function() {
 		stroke: 'black',
 		strokeWidth: 2,
 		name: 'regionRect',
-        regionName: 'someName'
+        regionName: 'someName',
+        plantId: ''
 	  });
       rect.on("mousemove", function() {
           var mousePos = stage.getPointerPosition();
@@ -163,7 +164,7 @@ imageObj.onload = function() {
       rect.on("mousedown", function() {
           drag = false;
           rectClick = true;
-          window.location.replace("/plant/");
+          window.location.replace("/plant/view/" + this.getAttrs().plantId);
 
       });
       rect.on("mouseout", function() {
@@ -175,22 +176,62 @@ imageObj.onload = function() {
   }
 };
 imageObj.src = imageFile;
-$("#canvasOutputBtn").click(function() {
-  //$('#outputTextArea').val('');
-  $.post("/savegardenjson", { json:layer.toJSON()} ,function(data){
-      if(data === "success") {
-          showToast("Sucess", "The drawn garden regions were stored sucessfully.", "success")
-      }
-  });
-});
-
 $("#addPlantBtn").click(function() {
-	showModal(false);
+    var nameVal = $("#plantName").val();
+    var typeVal = $("#plantType").val();
+    if(!nameVal || !typeVal) {
+        $("#errorContainer").show();
+        return;
+    }
+    $.post("/plant/add", {
+        name: nameVal,
+        type: $("#plantType").val(),
+        gardenId: $("#gardenId").val()
+    } ,function(data){
+        if(data.status === "success") {
+            $("#errorContainer").hide();
+            var apiImage = getPlantTypeImage();
+            var rectImage = new Image();
+            rectImage.onload = function() {
+                currentRect.fillPatternImage(rectImage);
+            };
+            rectImage.src = apiImage;
+            showModal(false);
+            showToast("Success", "The plant " + data.plant_name + " was added to the system. Click <a href='/plant/view/" + data.id +  "'>here</a> to view information.", "success");
+            currentRect.getAttrs().regionName = data.plant_name;
+            currentRect.getAttrs().plantId = data.id;
+            saveGardenState();
+            plantTable.ajax.reload();
+        } else {
+            removeCurrentRect();
+            showToast("Information", "The plant was not added.", "info");
+        }
+    });
+
 });
 
 $("#modal-toggle").change(function() {
 	//If modal has been closed using the close button, remove the rectangle.
 	removeCurrentRect();
+    showToast("Information", "The plant was not added.", "info");
 });
+
+function getPlantTypeImage() {
+    var type = $("#plantType").val().toLowerCase();
+    $.get("/plantinfo/" + type,function(data){
+        if(data.status === "Ok") {
+           return data.image;
+        }
+    });
+    return null;
+}
+
+function saveGardenState() {
+    $.post("/savegardenjson", { json:layer.toJSON()} ,function(data){
+        if(data === "success") {
+            showToast("Success", "The drawn garden regions were stored sucessfully.", "success")
+        }
+    });
+}
 
 

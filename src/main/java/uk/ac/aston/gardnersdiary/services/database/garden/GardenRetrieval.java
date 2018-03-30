@@ -1,6 +1,6 @@
-package uk.ac.aston.gardnersdiary.services.database;
+package uk.ac.aston.gardnersdiary.services.database.garden;
 
-import uk.ac.aston.gardnersdiary.models.garden.Garden;
+import uk.ac.aston.gardnersdiary.models.Garden;
 
 /**
  * Created by Denver on 16/11/2017.
@@ -10,4 +10,6 @@ public interface GardenRetrieval {
     public Garden getGarden();
     public void saveGarden(Garden garden);
     public void updateGardenJSON(String JSON);
+    public void updatePlantNameInJSON(int id, String newName);
+    public void deletePlantInJson(int id);
 }

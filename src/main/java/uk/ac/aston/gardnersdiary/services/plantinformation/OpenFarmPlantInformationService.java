@@ -15,8 +15,8 @@ import uk.ac.aston.gardnersdiary.services.rest.UniRestClient;
 public class OpenFarmPlantInformationService implements PlantInformationService {
 
     private static final String OPEN_FARM_API_URL = "http://openfarm.cc/api/v1/";
-    private static final String STATUS_OKAY = "Ok";
-    private static final String STATUS_NOT_FOUND = "Not Found";
+    private static final String STATUS_OKAY = "success";
+    private static final String STATUS_NOT_FOUND = "error";
 
     private RestClient client;
     private String status;
@@ -46,7 +46,8 @@ public class OpenFarmPlantInformationService implements PlantInformationService 
             String plantSowingMethod = jsonDataAttributesElement.getString("sowing_method");
             int plantRowSpacing = jsonDataAttributesElement.getInt("row_spacing");
             int plantHeight = jsonDataAttributesElement.getInt("height");
-            plantInformation = new PlantInformation(plantDescription, plantSunRequirements, plantSowingMethod, plantRowSpacing, plantHeight);
+            String image = jsonDataAttributesElement.getString("main_image_path");
+            plantInformation = new PlantInformation(plantDescription, plantSunRequirements, plantSowingMethod, plantRowSpacing, plantHeight, image);
             status = STATUS_OKAY;
         } catch (JSONException exception) {
             status = STATUS_NOT_FOUND;
@@ -77,6 +78,8 @@ public class OpenFarmPlantInformationService implements PlantInformationService 
                     .value(plantToConvert.getRowSpacing())
                     .key("height")
                     .value(plantToConvert.getHeight())
+                    .key("image")
+                    .value(plantToConvert.getImage())
                     .key("status")
                     .value(status)
                     .endObject()
