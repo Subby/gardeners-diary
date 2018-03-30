@@ -2,7 +2,7 @@ package uk.ac.aston.gardnersdiary.services.database.task;
 
 import uk.ac.aston.gardnersdiary.models.TaskType;
 
-public interface TaskRetrieval {
+public interface TaskTypeRetrieval {
 
     /**
      * Adds a {@link TaskType task type} to the database.
