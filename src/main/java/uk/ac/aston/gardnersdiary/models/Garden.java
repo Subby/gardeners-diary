@@ -2,6 +2,7 @@ package uk.ac.aston.gardnersdiary.models;
 
 /**
  * Created by Denver on 15/11/2017.
+ * Used to represent Garden information.
  */
 public class Garden extends Model {
 

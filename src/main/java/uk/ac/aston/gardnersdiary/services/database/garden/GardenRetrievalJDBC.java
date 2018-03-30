@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by Denver on 16/11/2017.
+ * Adapted from: http://javalite.io/documentation
  */
 public class GardenRetrievalJDBC implements GardenRetrieval {
 
@@ -85,16 +86,20 @@ public class GardenRetrievalJDBC implements GardenRetrieval {
         updateGardenJSON(newJson);
     }
 
+    //Adapted from: https://stackoverflow.com/a/37427484
     private JsonObject replaceExistingNameWithNewName(int id, String newName, String existingRegionJSON) {
         JsonParser parser = new JsonParser();
         JsonObject rootObj = parser.parse(existingRegionJSON).getAsJsonObject();
         JsonArray childrenArray = rootObj.getAsJsonArray(REGION_JSON_CHILDREN_ARRAY);
+        //Search through the children array
         for(JsonElement currentElement : childrenArray) {
             JsonObject currentElementAsObject = currentElement.getAsJsonObject();
             JsonObject currentAttrsObject = currentElementAsObject.get(REGION_JSON_ATTRS_OBJECT).getAsJsonObject();
+            //Make sure the children array has the appropriate element
             if(currentAttrsObject.has(REGION_JSON_PLANTID_ELEMENT)) {
                 int plantIdElement = currentAttrsObject.get(REGION_JSON_PLANTID_ELEMENT).getAsInt();
                 if(plantIdElement == id) {
+                    //Overwrite the element value with the new name value
                     currentAttrsObject.addProperty(REGION_JSON_REGIONNAME_ELEMENT, newName);
                     break;
                 }
@@ -103,16 +108,20 @@ public class GardenRetrievalJDBC implements GardenRetrieval {
         return rootObj;
     }
 
+    //Adapted from: https://stackoverflow.com/a/37427484
     private JsonObject findAndDeletePlantInJson(int id, String existingRegionJSON) {
         JsonParser parser = new JsonParser();
         JsonObject rootObj = parser.parse(existingRegionJSON).getAsJsonObject();
         JsonArray childrenArray = rootObj.getAsJsonArray(REGION_JSON_CHILDREN_ARRAY);
+        //Loop through the children array
         for(int i=0; i < childrenArray.size(); i++) {
             JsonObject currentElementAsObject = (JsonObject) childrenArray.get(i);
             JsonObject currentAttrsObject = currentElementAsObject.get(REGION_JSON_ATTRS_OBJECT).getAsJsonObject();
+            //Make sure the children array has the appropriate element
             if(currentAttrsObject.has(REGION_JSON_PLANTID_ELEMENT)) {
                 int plantIdElement = currentAttrsObject.get(REGION_JSON_PLANTID_ELEMENT).getAsInt();
                 if(plantIdElement == id) {
+                    //Remove the required array element
                     childrenArray.remove(i);
                 }
             }

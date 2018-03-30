@@ -5,6 +5,11 @@ package uk.ac.aston.gardnersdiary.services.plantinformation;
  */
 public interface PlantInformationService {
 
-    public String getPlantInformation(String plantName);
+    /**
+     * Gets plant information from an API given the plant name.
+     * @param plantName the plant name
+     * @return the plant information for the given name
+     */
+    String getPlantInformation(String plantName);
 
 }

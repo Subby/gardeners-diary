@@ -3,6 +3,10 @@ package uk.ac.aston.gardnersdiary.services.database.plant;
 import org.json.JSONStringer;
 import uk.ac.aston.gardnersdiary.models.Plant;
 
+/**
+ * Adapted from: Adapted from: http://javalite.io/documentation
+ */
+
 public class PlantRetrievalJDBC implements  PlantRetrieval {
 
     private static final String SUCESS_STATUS = "success";

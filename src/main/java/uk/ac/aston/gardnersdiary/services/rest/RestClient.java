@@ -7,5 +7,10 @@ import java.util.Map;
  */
 public interface RestClient {
 
-    public Object get(String url);
+    /**
+     * Issues a GET request to the given URL.
+     * @param url the url to send the request to
+     * @return the data returned from the GET request
+     */
+    Object get(String url);
 }

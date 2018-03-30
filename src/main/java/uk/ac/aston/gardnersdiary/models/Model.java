@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by Denver on 01/12/2017.
+ * Used as a base class for all the models (see other classes in this package).
  */
 public abstract class Model {
 
