@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2017 at 12:46 PM
+-- Generation Time: Mar 31, 2018 at 09:39 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -51,7 +51,6 @@ CREATE TABLE `plant` (
   `updated_at` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-
 -- --------------------------------------------------------
 
 --
@@ -90,7 +89,7 @@ CREATE TABLE `task` (
 --
 
 CREATE TABLE `task_type` (
-  `task_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL
@@ -128,7 +127,7 @@ ALTER TABLE `task`
 -- Indexes for table `task_type`
 --
 ALTER TABLE `task_type`
-  ADD PRIMARY KEY (`task_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -158,7 +157,7 @@ ALTER TABLE `task`
 -- AUTO_INCREMENT for table `task_type`
 --
 ALTER TABLE `task_type`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
