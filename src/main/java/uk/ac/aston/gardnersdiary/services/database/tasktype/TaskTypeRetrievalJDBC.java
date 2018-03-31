@@ -1,4 +1,4 @@
-package uk.ac.aston.gardnersdiary.services.database.task;
+package uk.ac.aston.gardnersdiary.services.database.tasktype;
 
 import uk.ac.aston.gardnersdiary.models.TaskType;
 

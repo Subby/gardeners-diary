@@ -1,16 +1,16 @@
-package uk.ac.aston.gardnersdiary.services.database.task;
+package uk.ac.aston.gardnersdiary.services.database.tasktype;
 
 import org.javalite.activejdbc.Base;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.aston.gardnersdiary.models.TaskType;
-import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrievalJDBCTest;
+import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeRetrievalJDBC;
 
 import java.sql.*;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.*;
 
 public class TaskTypeRetrievalJDBCTest {
 

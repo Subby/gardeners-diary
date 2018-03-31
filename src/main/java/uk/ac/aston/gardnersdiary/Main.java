@@ -28,6 +28,7 @@ public class Main {
     private static String UPDATE_PLANT_PATH = "/plant/update";
     private static String PLANTS_DATA = "/plants/data";
     private static String DELETE_PLANT_PATH = "/plant/delete/:plantid";
+    private static String TASK_TYPE_VIEW = "/tasktypes";
 
     private static PropertyService propertyService = ConfigFilePropertyService.getInstance();
 
@@ -47,6 +48,7 @@ public class Main {
         setupDatabaseConnectionFilterRoutes();
         setupGardenRoutes();
         setupPlantsRoutes();
+        setupTaskTypesRoutes();
         get(INDEX_PATH, IndexController.getInstance().getIndex);
         get(PLANT_INFO_PATH, PlantInformationController.getInstance().getIndex);
         get(TASKS_PATH, TaskController.getInstance().getIndex);
@@ -66,6 +68,10 @@ public class Main {
         get(IMPORT_GARDEN_PATH, GardenController.getInstance().getImportGarden);
         post(IMPORT_GARDEN_PATH, GardenController.getInstance().postImportGarden);
         post(SAVE_GARDEN_JSON_PATH, GardenController.getInstance().postSaveGardenData);
+    }
+
+    private static void setupTaskTypesRoutes() {
+        get(TASK_TYPE_VIEW, TaskTypesController.getInstance().getIndex);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {
