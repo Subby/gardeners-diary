@@ -29,6 +29,7 @@ public class Main {
     private static String PLANTS_DATA = "/plants/data";
     private static String DELETE_PLANT_PATH = "/plant/delete/:plantid";
     private static String TASK_TYPE_VIEW = "/tasktypes";
+    private static String TASK_TYPE_ADD = "/tasktype/add";
 
     private static PropertyService propertyService = ConfigFilePropertyService.getInstance();
 
@@ -72,6 +73,7 @@ public class Main {
 
     private static void setupTaskTypesRoutes() {
         get(TASK_TYPE_VIEW, TaskTypesController.getInstance().getIndex);
+        get(TASK_TYPE_ADD, TaskTypesController.getInstance().postAdd);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {

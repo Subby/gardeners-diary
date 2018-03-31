@@ -26,8 +26,17 @@ public class TaskTypeRetrievalJDBCTest {
     public void addTaskType() {
         TaskType taskType = fixture.givenTaskTypeModelIsSetup();
         fixture.givenServiceIsSetup();
-        fixture.whenAddTaskTypeIsCalled(taskType);
+        String statusMessage = fixture.whenAddTaskTypeIsCalled(taskType);
         fixture.thenTaskTypeExistsInDatabase();
+        fixture.thenCorrectStatusIsReturned(statusMessage);
+    }
+
+    @Test
+    public void getAllTaskTypeData() {
+        fixture.givenServiceIsSetup();
+        int id = fixture.givenTestDataIsInDatabase();
+        String returnedJSON = fixture.whenGetAllTaskTypeDataIsCalled();
+        fixture.thenCorrectJSONIsReturned(returnedJSON, id);
     }
 
     @After
@@ -44,14 +53,14 @@ public class TaskTypeRetrievalJDBCTest {
         private TaskTypeRetrieval taskTypeRetrieval;
 
         public void givenDatabaseConnectionsAreSetup() {
-            Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiary", "root", "");
+            Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiarytest", "root", "");
             setupTestMySQLConnection();
         }
 
         private void setupTestMySQLConnection() {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost/gardenerdiary?" + "user=root&password=");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost/gardenerdiarytest?" + "user=root&password=");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -86,8 +95,8 @@ public class TaskTypeRetrievalJDBCTest {
             return taskType;
         }
 
-        public void whenAddTaskTypeIsCalled(TaskType taskType) {
-            taskTypeRetrieval.addTaskType(taskType);
+        public String whenAddTaskTypeIsCalled(TaskType taskType) {
+            return taskTypeRetrieval.addTaskType(taskType);
         }
 
         public void thenTaskTypeExistsInDatabase() {
@@ -99,12 +108,51 @@ public class TaskTypeRetrievalJDBCTest {
             }
         }
 
+        public int givenTestDataIsInDatabase() {
+            PreparedStatement statement = null;
+            int id = 0;
+            try {
+                statement = connection.prepareStatement("INSERT INTO `task_type` (name, created_at, updated_at) VALUES (?, ?, ?)", new String[]{"id"});
+                statement.setString(1, DEFAULT_TASK_NAME);
+                statement.setDate(2, Date.valueOf("2017-11-01"));
+                statement.setDate(3, Date.valueOf("2017-11-01"));
+                id = statement.executeUpdate();
+                ResultSet result = statement.getGeneratedKeys();
+                if (result.next()) {
+                    id = result.getByte(1);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return id;
+        }
+
         private ResultSet findTaskTypeDetailsInDb() throws SQLException{
             PreparedStatement statement = connection.prepareStatement("SELECT " + NAME_COLUMN + " FROM task_type WHERE name = ? LIMIT 1");
             statement.setString(1, DEFAULT_TASK_NAME);
             ResultSet result = statement.executeQuery();
             result.next();
             return result;
+        }
+
+        public void thenCorrectStatusIsReturned(String status) {
+            assertEquals("{\"status\":\"success\"}", status);
+        }
+
+        public String whenGetAllTaskTypeDataIsCalled() {
+            return taskTypeRetrieval.getAllTaskTypeData();
+        }
+
+        public void thenCorrectJSONIsReturned(String returnedJSON, int id) {
+            assertEquals("[\n" +
+                    "  {\n" +
+                    "    \"created_at\":\"2017-11-01\",\n" +
+                    "    \"id\":" + id +",\n" +
+                    "    \"name\":\"Test Task Type\",\n" +
+                    "    \"updated_at\":\"2017-11-01\"\n" +
+                    "  }\n" +
+                    "]", returnedJSON);
         }
     }
 

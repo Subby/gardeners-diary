@@ -8,8 +8,8 @@
         <h2>Manage Custom Task Types</h2>
     </div>
     <div class="row">
-        <table class="scrollable sortable">
-            <caption>Custom Task Types <button id="openTaskTypeModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task type</button></caption>
+        <table id="taskTypesTable" class="display scrollable">
+            <caption>Task types <button><i class="fa fa-plus" aria-hidden="true"></i> Add new task type</button></caption>
             <thead>
             <tr>
                 <th>Task type name</th>
@@ -17,28 +17,34 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tfoot>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <th>Task type name</th>
+                <th></th>
+                <th></th>
             </tr>
-            </tbody>
+            </tfoot>
         </table>
     </div>
     <div id="addTaskTypeModal">
-        <label for="modal-toggle"></label>
+        <label for="addTaskTypeModal-toggle"></label>
 
-        <input id="modal-toggle" type="checkbox"/>
+        <input id="addTaskTypeModal-toggle" type="checkbox"/>
         <div class="modal">
             <div class="card">
-                <label for="modal-toggle" class="close"></label>
+                <label for="addTaskTypeModal" class="close"></label>
                 <h3 class="section">Add new task type</h3>
                 <fieldset>
                     <legend>New task type</legend>
+                    <div id="errorContainer">
+                        <h3>Error</h3>
+                        <ul id="errors">
+                            <li>Please make sure that both plant name and plant type fields are filled in.</li>
+                        </ul>
+                    </div>
                     <div class="input-group fluid">
-                        <label for="taskName">Task name</label>
-                        <input type="text" value="" id="taskName" placeholder="Task name">
+                        <label for="taskTypeName">Task name</label>
+                        <input type="text" value="" id="taskTypeName" placeholder="Task name">
                     </div>
                     <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addTaskTypeBtn" value="Add task type"></p>
                 </fieldset>
@@ -49,8 +55,8 @@
     <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/js/sorttable.js"></script>
     <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
-    <script type="text/javascript" src="/js/tasktype.js"></script>
     <script type="text/javascript" src="/js/toast.js"></script>
+    <script type="text/javascript" src="/js/tasktype.js"></script>
 </div>
 </body>
 </html>

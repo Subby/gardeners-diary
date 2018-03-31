@@ -3,6 +3,9 @@ package uk.ac.aston.gardnersdiary.controllers;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import uk.ac.aston.gardnersdiary.models.TaskType;
+import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeRetrievalJDBC;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +33,20 @@ public class TaskTypesController extends Controller {
         attributes.put("title", "Manage Task Types");
         return renderView(request, attributes, "tasktypes");
     };
+
+    public Route postAdd = (Request request, Response response) -> {
+        TaskTypeRetrieval taskTypeRetrieval = new TaskTypeRetrievalJDBC();
+        String name = request.queryParams("name");
+        TaskType taskType = generateTaskType(name);
+        response.type("application/json");
+        return taskTypeRetrieval.addTaskType(taskType);
+    };
+
+    private TaskType generateTaskType(String name) {
+        TaskType taskType = new TaskType();
+        taskType.setName(name);
+        return taskType;
+    }
+
 
 }
