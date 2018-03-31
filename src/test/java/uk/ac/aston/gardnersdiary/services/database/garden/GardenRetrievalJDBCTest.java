@@ -129,14 +129,14 @@ public class GardenRetrievalJDBCTest {
         }
 
         public void givenDatabaseConnectionsAreSetup() {
-            Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiary", "root", "");
+            Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/gardenerdiarytest", "root", "");
             setupTestMySQLConnection();
         }
 
         private void setupTestMySQLConnection() {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost/gardenerdiary?" + "user=root&password=");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost/gardenerdiarytest?" + "user=root&password=");
             } catch (Exception e) {
                 e.printStackTrace();
             }
