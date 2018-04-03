@@ -4,7 +4,7 @@ import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table("task_type")
-public class TaskTypeJDBC extends Model {
+public class TaskTypeJDBCModel extends Model {
 
     private static String NAME_COLUMN = "name";
 

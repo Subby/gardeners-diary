@@ -10,9 +10,9 @@ public class TaskTypeRetrievalJDBC implements TaskTypeRetrieval {
 
     @Override
     public String addTaskType(TaskType taskType) {
-        TaskTypeJDBC taskTypeJDBC = new TaskTypeJDBC();
-        taskTypeJDBC.setName(taskType.getName());
-        if(taskTypeJDBC.saveIt()) {
+        TaskTypeJDBCModel taskTypeJDBCModel = new TaskTypeJDBCModel();
+        taskTypeJDBCModel.setName(taskType.getName());
+        if(taskTypeJDBCModel.saveIt()) {
             return generateSuccessJSONOutput();
         }
         return generateFailedJSONOutput();
@@ -20,12 +20,12 @@ public class TaskTypeRetrievalJDBC implements TaskTypeRetrieval {
 
     @Override
     public String getAllTaskTypeData() {
-        return TaskTypeJDBC.findAll().toJson(true);
+        return TaskTypeJDBCModel.findAll().toJson(true);
     }
 
     @Override
     public String deleteTaskType(int id) {
-        TaskTypeJDBC taskTypeJDBCModel = TaskTypeJDBC.findFirst("id = ?", id);
+        TaskTypeJDBCModel taskTypeJDBCModel = TaskTypeJDBCModel.findFirst("id = ?", id);
         if(taskTypeJDBCModel.delete()) {
             return generateSuccessJSONOutput();
         }
