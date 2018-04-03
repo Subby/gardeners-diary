@@ -54,6 +54,7 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
     @Override
     public String deletePlant(int id) {
         PlantJDBCModel plantJDBCModel = PlantJDBCModel.findFirst("id = ?", id);
+        //TODO: Delete associated tasks
         if(plantJDBCModel.delete()) {
             return SUCESS_STATUS;
         }

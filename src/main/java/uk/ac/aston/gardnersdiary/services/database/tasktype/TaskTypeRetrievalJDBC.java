@@ -23,6 +23,15 @@ public class TaskTypeRetrievalJDBC implements TaskTypeRetrieval {
         return TaskTypeJDBC.findAll().toJson(true);
     }
 
+    @Override
+    public String deleteTaskType(int id) {
+        TaskTypeJDBC taskTypeJDBCModel = TaskTypeJDBC.findFirst("id = ?", id);
+        if(taskTypeJDBCModel.delete()) {
+            return generateSuccessJSONOutput();
+        }
+        return generateFailedJSONOutput();
+    }
+
     private String generateSuccessJSONOutput() {
         return new JSONStringer().object().key("status").value(SUCCESS_STATUS).endObject().toString();
     }

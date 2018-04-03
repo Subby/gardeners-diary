@@ -5,8 +5,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.aston.gardnersdiary.models.TaskType;
-import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeRetrieval;
-import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeRetrievalJDBC;
 
 import java.sql.*;
 
@@ -37,6 +35,15 @@ public class TaskTypeRetrievalJDBCTest {
         int id = fixture.givenTestDataIsInDatabase();
         String returnedJSON = fixture.whenGetAllTaskTypeDataIsCalled();
         fixture.thenCorrectJSONIsReturned(returnedJSON, id);
+    }
+
+    @Test
+    public void deleteTaskType() {
+        fixture.givenServiceIsSetup();
+        int id = fixture.givenTestDataIsInDatabase();
+        String returnedJSON = fixture.whenDeleteTaskTypeIsCalled(id);
+        fixture.thenCorrectJSONIsReturned(returnedJSON);
+        fixture.thenTaskTypeDoesNotExistInDb();
     }
 
     @After
@@ -153,6 +160,31 @@ public class TaskTypeRetrievalJDBCTest {
                     "    \"updated_at\":\"2017-11-01\"\n" +
                     "  }\n" +
                     "]", returnedJSON);
+        }
+
+        public String whenDeleteTaskTypeIsCalled(int id) {
+            return taskTypeRetrieval.deleteTaskType(id);
+        }
+
+        public void thenTaskTypeDoesNotExistInDb() {
+            boolean exists = findTaskTypeInDatabase();
+            assertEquals(false, exists);
+        }
+
+        public void thenCorrectJSONIsReturned(String returnedJSON) {
+            assertEquals("{\"status\":\"success\"}", returnedJSON);
+        }
+
+        private boolean findTaskTypeInDatabase() {
+            try {
+                PreparedStatement statement = connection.prepareStatement("SELECT " +  NAME_COLUMN + " FROM task_type where " + NAME_COLUMN + " = ?");
+                statement.setString(1, DEFAULT_TASK_NAME);
+                ResultSet result = statement.executeQuery();
+                return result.next();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return true;
         }
     }
 

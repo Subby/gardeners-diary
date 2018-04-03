@@ -28,8 +28,11 @@ public class Main {
     private static String UPDATE_PLANT_PATH = "/plant/update";
     private static String PLANTS_DATA = "/plants/data";
     private static String DELETE_PLANT_PATH = "/plant/delete/:plantid";
-    private static String TASK_TYPE_VIEW = "/tasktypes";
-    private static String TASK_TYPE_ADD = "/tasktype/add";
+    private static String TASK_TYPE_VIEW_PATH = "/tasktypes";
+    private static String TASK_TYPE_ADD_PATH = "/tasktype/add";
+    private static String TASK_TYPES_DATA_PATH = "/tasktypes/data";
+    private static String DELETE_TASK_TYPES_PATH = "/tasktype/delete/:tasktypeid";
+
 
     private static PropertyService propertyService = ConfigFilePropertyService.getInstance();
 
@@ -53,6 +56,7 @@ public class Main {
         get(INDEX_PATH, IndexController.getInstance().getIndex);
         get(PLANT_INFO_PATH, PlantInformationController.getInstance().getIndex);
         get(TASKS_PATH, TaskController.getInstance().getIndex);
+
     }
 
     private static void setupPlantsRoutes() {
@@ -72,8 +76,10 @@ public class Main {
     }
 
     private static void setupTaskTypesRoutes() {
-        get(TASK_TYPE_VIEW, TaskTypesController.getInstance().getIndex);
-        get(TASK_TYPE_ADD, TaskTypesController.getInstance().postAdd);
+        get(TASK_TYPE_VIEW_PATH, TaskTypesController.getInstance().getIndex);
+        post(TASK_TYPE_ADD_PATH, TaskTypesController.getInstance().postAdd);
+        get(TASK_TYPES_DATA_PATH, TaskTypesController.getInstance().getTaskTypes);
+        delete(DELETE_TASK_TYPES_PATH, TaskTypesController.getInstance().deleteTaskType);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {
