@@ -1,7 +1,9 @@
 package uk.ac.aston.gardnersdiary.services.database.task;
 
 import org.javalite.activejdbc.Model;
+import org.javalite.activejdbc.annotations.Table;
 
+@Table("task")
 public class TaskJDBCModel extends Model {
 
     private static final String NAME_COLUMN = "name";
