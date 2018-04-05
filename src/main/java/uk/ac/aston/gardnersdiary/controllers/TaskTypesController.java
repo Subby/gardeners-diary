@@ -61,5 +61,13 @@ public class TaskTypesController extends Controller {
         return taskTypeRetrieval.deleteTaskType(id);
     };
 
+    public Route updateTaskType = (Request request, Response response) -> {
+        TaskTypeRetrieval taskTypeRetrieval = new TaskTypeRetrievalJDBC();
+        int id = Integer.valueOf(request.queryParams("id"));
+        String name = request.queryParams("name");
+        response.type("application/json");
+        return taskTypeRetrieval.updateTaskType(id, name);
+    };
+
 
 }

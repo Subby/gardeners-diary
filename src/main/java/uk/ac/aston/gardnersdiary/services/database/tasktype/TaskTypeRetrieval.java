@@ -19,9 +19,17 @@ public interface TaskTypeRetrieval {
     String getAllTaskTypeData();
 
     /**
-     * Deletes a {@link TaskType task type} from  the database.
+     * Deletes a {@link TaskType task type} from the database.
      * @param id the id of the task type to delete
      * @return the status of the operation, used in the UI code
      */
     String deleteTaskType(int id);
+
+    /**
+     * Updates a {@link TaskType task type} in the database.
+     * @param id the id of the task tyope to update
+     * @param newName the new name of the task type
+     * @return the status of the operation, used in the UI code
+     */
+    String updateTaskType(int id, String newName);
 }

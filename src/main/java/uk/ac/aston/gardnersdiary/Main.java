@@ -32,6 +32,7 @@ public class Main {
     private static String TASK_TYPE_ADD_PATH = "/tasktype/add";
     private static String TASK_TYPES_DATA_PATH = "/tasktypes/data";
     private static String DELETE_TASK_TYPES_PATH = "/tasktype/delete/:tasktypeid";
+    private static String UPDATE_TASK_TYPE_PATH = "/tasktype/update";
 
 
     private static PropertyService propertyService = ConfigFilePropertyService.getInstance();
@@ -80,6 +81,7 @@ public class Main {
         post(TASK_TYPE_ADD_PATH, TaskTypesController.getInstance().postAdd);
         get(TASK_TYPES_DATA_PATH, TaskTypesController.getInstance().getTaskTypes);
         delete(DELETE_TASK_TYPES_PATH, TaskTypesController.getInstance().deleteTaskType);
+        post(UPDATE_TASK_TYPE_PATH, TaskTypesController.getInstance().updateTaskType);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {

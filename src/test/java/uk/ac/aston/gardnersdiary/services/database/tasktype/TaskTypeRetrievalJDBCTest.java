@@ -46,6 +46,15 @@ public class TaskTypeRetrievalJDBCTest {
         fixture.thenTaskTypeDoesNotExistInDb();
     }
 
+    @Test
+    public void updateTaskType() {
+        fixture.givenServiceIsSetup();
+        int id = fixture.givenTestDataIsInDatabase();
+        String returnedJSON = fixture.whenUpdateTaskTypeIsCalled(id, Fixture.UPDATED_NAME);
+        fixture.thenCorrectJSONIsReturned(returnedJSON);
+        fixture.thenTaskTypeHasBeenUpdatedInDb();
+    }
+
     @After
     public void tearDown() {
         fixture.clearDownTestData();
@@ -55,6 +64,7 @@ public class TaskTypeRetrievalJDBCTest {
     private class Fixture {
         private static final String NAME_COLUMN = "name";
         private static final String DEFAULT_TASK_NAME = "Test Task Type";
+        private static final String UPDATED_NAME = "Updated Test Task Type";
 
         private Connection connection;
         private TaskTypeRetrieval taskTypeRetrieval;
@@ -75,8 +85,7 @@ public class TaskTypeRetrievalJDBCTest {
 
         public void clearDownTestData() {
             try {
-                PreparedStatement statement = connection.prepareStatement("DELETE FROM task_type where " + NAME_COLUMN + " = ?");
-                statement.setString(1, DEFAULT_TASK_NAME);
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM task_type where " + NAME_COLUMN + " IN ('" + DEFAULT_TASK_NAME + "', '" + UPDATED_NAME + "')");
                 statement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -185,6 +194,27 @@ public class TaskTypeRetrievalJDBCTest {
                 e.printStackTrace();
             }
             return true;
+        }
+
+        public String whenUpdateTaskTypeIsCalled(int id, String newName) {
+            return taskTypeRetrieval.updateTaskType(id, newName);
+        }
+
+        public void thenTaskTypeHasBeenUpdatedInDb() {
+            assertEquals(true, hasTaskTypeUpdatedWithNewName());
+        }
+
+        private boolean hasTaskTypeUpdatedWithNewName() {
+            try {
+                PreparedStatement statement = connection.prepareStatement("SELECT " +  NAME_COLUMN + " FROM task_type where " + NAME_COLUMN + " = ?");
+                statement.setString(1, UPDATED_NAME);
+                ResultSet result = statement.executeQuery();
+                result.next();
+                return UPDATED_NAME.equals(result.getString(NAME_COLUMN));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
     }
 

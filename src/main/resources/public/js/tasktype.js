@@ -1,6 +1,8 @@
 var taskTypeTable;
 var taskTypeIdToDelete;
 var taskTypeNameToDelete;
+var taskTypeIdToUpdate;
+var taskTypeNameToUpdate;
 
 function registerHandlers() {
     $("#openTaskTypeModalBtn").click(function() {
@@ -11,7 +13,10 @@ function registerHandlers() {
         sendAddTaskTypeRequest();
     });
     $("#deleteTaskTypeConfirmBtn").click(function() {
-        sendTaskTypeRequest();
+        sendTaskTypeDeleteRequest();
+    });
+    $("#updateTaskConfirmBtn").click(function() {
+        sendTaskTypeUpdateRequest();
     });
     setupTaskTypeTable();
 }
@@ -31,9 +36,23 @@ function showErrorContainer(value) {
     }
 }
 
+function showEditErrorContainer(value) {
+    if(value) {
+        $("#errorContainerEditTaskType").show();
+    } else {
+        $("#errorContainerEditTaskType").hide();
+    }
+}
+
+function showEditModal(value) {
+    $("#editTaskTypeName").val(taskTypeNameToUpdate);
+    $("#editTaskTypeModal-toggle").prop('checked', value);
+}
+
 function showDeleteModal(value) {
     $("#delete-modal-toggle").prop('checked', value);
 }
+
 
 function sendAddTaskTypeRequest() {
     var taskTypeName = $('#taskTypeName').val();
@@ -64,7 +83,7 @@ function setupTaskTypeTable() {
             {
                 data: 'id',
                 render: function(data, type, full, meta) {
-                    return '<button onclick="" id="editTaskType"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>';
+                    return '<button onclick="updateTaskType(' + full.id + ',\'' + full.name + '\')" id="editTaskType"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>';
                 }
             },
             {
@@ -83,7 +102,7 @@ function deleteTaskType(taskTypeId, taskTypeName) {
     showDeleteModal(true);
 }
 
-function sendTaskTypeRequest() {
+function sendTaskTypeDeleteRequest() {
     $.ajax({
         url: '/tasktype/delete/' + taskTypeIdToDelete,
         type: 'DELETE',
@@ -98,6 +117,34 @@ function sendTaskTypeRequest() {
         },
         error: function(result, statusText, errorText) {
             showToast("Error", "The task type was not deleted.", "error");
+        }
+    });
+}
+
+function updateTaskType(taskTypeId, taskTypeName) {
+    taskTypeIdToUpdate = taskTypeId;
+    taskTypeNameToUpdate = taskTypeName;
+    showEditErrorContainer(false);
+    showEditModal(true);
+}
+
+function sendTaskTypeUpdateRequest() {
+    var nameVal = $("#editTaskTypeName").val();
+    if(!nameVal) {
+        showErrorContainer(true);
+        return;
+    }
+    $.post("/tasktype/update", {
+        name: nameVal,
+        id: taskTypeIdToUpdate
+    } ,function(data){
+        if(data.status === "success") {
+            taskTypeTable.ajax.reload();
+            $("#errorContainer").hide();
+            showEditModal(false);
+            showToast("Success", "The task type " + nameVal + " was updated in the system.", "success");
+        } else {
+            showToast("Error", "The task type was not updated.", "error");
         }
     });
 }

@@ -56,6 +56,32 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div id="editTaskTypeModal">
+            <label for="editTaskTypeModal-toggle"></label>
+            <input id="editTaskTypeModal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="editTaskTypeModal" class="close"></label>
+                    <h3 class="section">Edit task type</h3>
+                    <fieldset>
+                        <legend>Edit task type</legend>
+                        <div id="errorContainerEditTaskType">
+                            <h3>Error</h3>
+                            <ul id="errorsEditTaskType">
+                                <li>Please make sure that the name field is filled in.</li>
+                            </ul>
+                        </div>
+                        <div class="input-group fluid">
+                            <label for="taskTypeName">Task name</label>
+                            <input type="text" value="" id="editTaskTypeName" placeholder="Task name">
+                        </div>
+                        <p><i class="fa fa-pencil" aria-hidden="true"></i><input type="submit" id="updateTaskConfirmBtn" value="Edit task type"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/js/sorttable.js"></script>

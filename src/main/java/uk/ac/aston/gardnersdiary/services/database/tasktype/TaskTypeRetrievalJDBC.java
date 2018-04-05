@@ -32,6 +32,16 @@ public class TaskTypeRetrievalJDBC implements TaskTypeRetrieval {
         return generateFailedJSONOutput();
     }
 
+    @Override
+    public String updateTaskType(int id, String newName) {
+        TaskTypeJDBCModel taskTypeJDBCModel = TaskTypeJDBCModel.findFirst("id = ?", id);
+        taskTypeJDBCModel.set("name", newName);
+        if(taskTypeJDBCModel.save()) {
+            return generateSuccessJSONOutput();
+        }
+        return generateFailedJSONOutput();
+    }
+
     private String generateSuccessJSONOutput() {
         return new JSONStringer().object().key("status").value(SUCCESS_STATUS).endObject().toString();
     }
