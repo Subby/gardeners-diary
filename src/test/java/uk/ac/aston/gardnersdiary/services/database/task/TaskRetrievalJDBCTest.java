@@ -28,6 +28,14 @@ public class TaskRetrievalJDBCTest {
         fixture.thenCorrectOutputIsGenerated(output);
     }
 
+    @Test
+    public void getTasksForGivenPlant() {
+        fixture.givenServiceIsSetup();
+        int id = fixture.givenTestDataIsInDatabase();
+        String JSONOutput = fixture.whenGetTasksForGivenPlantIsCalled();
+        fixture.thenCorrectJSONOutputIsReturned(JSONOutput, id);
+    }
+
 
     @After
     public void tearDown() {
@@ -43,6 +51,7 @@ public class TaskRetrievalJDBCTest {
         private static final String COMPLETED_COLUMN = "completed";
 
         private static final String TEST_TASK_NAME = "Test Task";
+        private static final int TEST_TASK_PLANT_ID = 2;
 
         private Connection connection;
         private TaskRetrieval taskRetrieval;
@@ -73,7 +82,7 @@ public class TaskRetrievalJDBCTest {
         public void clearDownTestData() {
 
             try {
-                PreparedStatement statement = connection.prepareStatement("DELETE FROM plant where " + NAME_COLUMN + " = ?");
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM task where " + NAME_COLUMN + " = ?");
                 statement.setString(1, TEST_TASK_NAME);
                 statement.executeUpdate();
             } catch (SQLException e) {
@@ -122,6 +131,44 @@ public class TaskRetrievalJDBCTest {
 
         public void thenCorrectOutputIsGenerated(String output) {
             assertEquals("{\"status\":\"success\"}", output);
+        }
+
+        public int givenTestDataIsInDatabase() {
+            PreparedStatement statement = null;
+            int id = 0;
+            try {
+                statement = connection.prepareStatement("INSERT INTO `task` (name, task_type_id, plant_id, email_reminder, completed, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)", new String[]{"id"});
+                statement.setString(1, TEST_TASK_NAME);
+                statement.setInt(2, 1);
+                statement.setInt(3, TEST_TASK_PLANT_ID);
+                statement.setBoolean(4, true);
+                statement.setBoolean(5, false);
+                statement.setDate(6, Date.valueOf("2017-11-01"));
+                statement.setDate(7, Date.valueOf("2017-11-01"));
+                id = statement.executeUpdate();
+                ResultSet result = statement.getGeneratedKeys();
+                if (result.next()) {
+                    id = result.getByte(1);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return id;
+        }
+
+        public String whenGetTasksForGivenPlantIsCalled() {
+            return taskRetrieval.getTasksForGivenPlant(TEST_TASK_PLANT_ID);
+        }
+
+        public void thenCorrectJSONOutputIsReturned(String jsonOutput, int id) {
+            assertEquals("{\n" +
+                    "  \"id\":" + id +",\n" +
+                    "  \"name\":\"Test Task\",\n" +
+                    "  \"completed\":false,\n" +
+                    "  \"created_at\":\"2017-11-01\",\n" +
+                    "  \"updated_at\":\"2017-11-01\"\n" +
+                    "}", jsonOutput);
         }
     }
 }

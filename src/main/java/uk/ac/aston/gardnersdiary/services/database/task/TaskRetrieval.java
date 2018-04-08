@@ -11,4 +11,11 @@ public interface TaskRetrieval {
      */
     String addTask(Task taskToAdd);
 
+    /**
+     * Gets a {@Task task} from the database given a associated plant id.
+     * @param plantId the plant id to retrieve the task using
+     * @return the matching data from the data
+     */
+    String getTasksForGivenPlant(int plantId);
+
 }
