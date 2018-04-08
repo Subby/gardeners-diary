@@ -20,7 +20,7 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
     @Override
     public String getTasksForGivenPlant(int plantId) {
         TaskJDBCModel taskJDBCModel = TaskJDBCModel.findFirst("plant_id = " + plantId);
-        return taskJDBCModel.toJson(true, "id", "name", "completed", "created_at", "updated_at");
+        return taskJDBCModel.toJson(true, "id", "name", "task_type_id", "completed", "created_at", "updated_at");
     }
 
     private TaskJDBCModel mapFromTaskModel(Task task) {

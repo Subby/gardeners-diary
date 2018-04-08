@@ -25,18 +25,24 @@
             </div>
         </div>
         <div class="row">
-            <table class="scrollable sortable">
-                <caption>Tasks associated with this plant <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button></caption>
+            <table id="tasksTable" class="scrollable sortable">
+                <caption>Tasks <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button> <a href="/tasktypes" class="button"><i class="fa fa-list"></i> Manage task types</a></caption>
                 <thead>
                 <tr>
-                    <th>Task name</th>
-                    <th>Task type</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td data-label="Plant">Tomato Left Corner</td>
-                    <td data-label="PlantType">Tomato</td>
+                    <td data-label="TaskName">Task Name</td>
+                    <td data-label="TaskType">Task Type</td>
+                    <td data-label="TaskCreated">Tomato</td>
+                    <td data-label="TaskUpdated">Harvesting</td>
+                    <td data-label="ViewTask"><button><i class="fa fa-eye" aria-hidden="true"></i> Complete</button></td>
                 </tr>
                 </tbody>
             </table>
