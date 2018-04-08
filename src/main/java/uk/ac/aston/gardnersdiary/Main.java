@@ -33,6 +33,7 @@ public class Main {
     private static String TASK_TYPES_DATA_PATH = "/tasktypes/data";
     private static String DELETE_TASK_TYPES_PATH = "/tasktype/delete/:tasktypeid";
     private static String UPDATE_TASK_TYPE_PATH = "/tasktype/update";
+    private static String PLANT_TASKS = "/plant/:plantid/tasks";
 
 
     private static PropertyService propertyService = ConfigFilePropertyService.getInstance();
@@ -67,6 +68,7 @@ public class Main {
         post(UPDATE_PLANT_PATH, PlantsController.getInstance().postUpdatePlant);
         get(PLANTS_DATA, PlantsController.getInstance().getPlantData);
         delete(DELETE_PLANT_PATH, PlantsController.getInstance().deletePlant);
+        get(PLANT_TASKS, PlantsController.getInstance().getTasks);
     }
 
     private static void setupGardenRoutes() {
