@@ -4,10 +4,28 @@ var taskTypeData;
 function registerHandlers() {
     setupTasksTable();
     getTaskTypeData();
+    $("#openTaskModalBtn").click(function() {
+        showAddTaskModal(true);
+    });
+}
+
+function showAddTaskModal(value) {
+    $("#show-task-modal-toggle").prop('checked', value);
+}
+
+function showErrorContainer(value) {
+    if(value) {
+        $("#addTaskErrorContainer").show();
+    } else {
+        $("#addTaskErrorContainer").hide();
+    }
 }
 
 function setupTasksTable() {
     tasksTable = $('#tasksTable').DataTable({
+        language: {
+            "emptyTable": "Currently no tasks associated with this plant."
+        },
         ajax: {
             url: '/plant/' + plantId + '/tasks',
             dataSrc: ''
@@ -35,7 +53,7 @@ function setupTasksTable() {
 function getTaskNameForTaskId(taskTypeId) {
     //Loop through task type array
     for(var i=0; i < taskTypeData.length; i++) {
-        var currentArrayElement = taskTypeId[i];
+        var currentArrayElement = taskTypeData[i];
         //Find matching id
         if(currentArrayElement.id) {
             return currentArrayElement.name;
@@ -45,9 +63,29 @@ function getTaskNameForTaskId(taskTypeId) {
 }
 
 function getTaskTypeData() {
-    $.get("/tasktypes/data", function(data) {
-        taskTypeData = data;
+    $.ajax({
+        url: '/tasktypes/data',
+        type: 'GET',
+        success: function(data){
+            taskTypeData = data;
+            setupUpTaskTypeSelectOptions();
+        },
+        error: function(data) {
+            console.log("ERROR");
+        }
     });
+}
+
+function sendAddTaskRequest() {
+
+}
+
+function setupUpTaskTypeSelectOptions() {
+    var selectElement = $("#taskTypeSelect");
+    for(var i=0; i < taskTypeData.length; i++) {
+        var currentArrayElement = taskTypeData[i];
+        selectElement.append('<option value="' + currentArrayElement.id + '">' + currentArrayElement.name + '</option>');
+    }
 }
 
 registerHandlers();

@@ -36,15 +36,6 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td data-label="TaskName">Task Name</td>
-                    <td data-label="TaskType">Task Type</td>
-                    <td data-label="TaskCreated">Tomato</td>
-                    <td data-label="TaskUpdated">Harvesting</td>
-                    <td data-label="ViewTask"><button><i class="fa fa-eye" aria-hidden="true"></i> Complete</button></td>
-                </tr>
-                </tbody>
             </table>
         </div>
         <div class="row">
@@ -90,6 +81,42 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <label for="show-task-modal-toggle"></label>
+            <input id="show-task-modal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="modal-toggle" class="close"></label>
+                    <h3 class="section">Add task</h3>
+                    <fieldset>
+                        <legend>Add task for [[${plant.name}]]</legend>
+                        <div id="addTaskErrorContainer">
+                            <h3>Error</h3>
+                            <ul id="addTaskErrors">
+                                <li>Please make sure that the task name field is filled on.</li>
+                            </ul>
+                        </div>
+                        <input type="hidden" id="addTaskPlantId" th:value="${plant.id}"/>
+                        <div class="row label-aligned">
+                            <div class="input-group fluid">
+                                <label for="plantName">Task name</label>
+                                <input type="text" id="taskName" placeholder="Task name">
+                            </div>
+                            <div class="input-group vertical">
+                                <label for="plantType">Task type</label>
+                                <select id="taskTypeSelect">
+                                </select>
+                            </div>
+                            <div class="input-group fluid">
+                                <input type="checkbox" id="emailReminder" tabindex="0">
+                                <label for="emailReminder" class="switch">Allow email reminders</label>
+                            </div>
+                        </div>
+                        <p><i class="fa fa-plus" aria-hidden="true"></i><input type="submit" id="addPlantButton" value="Add task for plant"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script
@@ -98,8 +125,10 @@
     var plantType = /*[[${plant.type}]]*/ null;
     var plantId = /*[[${plant.id}]]*/ null;
 </script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/js/plant.js"></script>
+<script type="text/javascript" src="/js/planttasks.js"></script>
 <script type="text/javascript" src="/js/toast.js"></script>
 <script type="text/javascript" src="/js/plantinfo.js"></script>
 </body>
