@@ -37,7 +37,7 @@ public class TaskController extends Controller {
 
     public Route postAdd = (Request request, Response response) -> {
         TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
-        String name = request.queryParams("taskName");
+        String name = request.queryParams("name");
         int taskType = Integer.valueOf(request.queryParams("taskTypeId"));
         int plantId = Integer.valueOf(request.queryParams("plantId"));
         boolean emailReminder = Boolean.valueOf(request.queryParams("emailReminder"));

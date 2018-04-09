@@ -168,15 +168,17 @@ public class TaskRetrievalJDBCTest {
         }
 
         public void thenCorrectJSONOutputIsReturned(String jsonOutput, int id) {
-            assertEquals("{\n" +
-                    "  \"id\":" + id + ",\n" +
-                    "  \"name\":\"Test Task\",\n" +
-                    "  \"task_type_id\":1,\n" +
-                    "  \"completed\":false,\n" +
-                    "  \"due_date\":\"2018-12-26\",\n" +
-                    "  \"created_at\":\"2017-11-01\",\n" +
-                    "  \"updated_at\":\"2017-11-01\"\n" +
-                    "}", jsonOutput);
+            assertEquals("[\n" +
+                    "  {\n" +
+                    "    \"id\":" + id + ",\n" +
+                    "    \"name\":\"Test Task\",\n" +
+                    "    \"task_type_id\":1,\n" +
+                    "    \"completed\":false,\n" +
+                    "    \"due_date\":\"2018-12-26\",\n" +
+                    "    \"created_at\":\"2017-11-01\",\n" +
+                    "    \"updated_at\":\"2017-11-01\"\n" +
+                    "  }\n" +
+                    "]", jsonOutput);
         }
     }
 }

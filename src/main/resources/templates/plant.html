@@ -93,7 +93,7 @@
                         <div id="addTaskErrorContainer">
                             <h3>Error</h3>
                             <ul id="addTaskErrors">
-                                <li>Please make sure that the task name field is filled on.</li>
+                                <li>Please make sure that all the fields are filled in.</li>
                             </ul>
                         </div>
                         <input type="hidden" id="addTaskPlantId" th:value="${plant.id}"/>
@@ -103,16 +103,20 @@
                                 <input type="text" id="taskName" placeholder="Task name">
                             </div>
                             <div class="input-group vertical">
-                                <label for="plantType">Task type</label>
-                                <select id="taskTypeSelect">
+                                <label for="taskType">Task type</label>
+                                <select id="taskType">
                                 </select>
+                            </div>
+                            <div class="input-group vertical">
+                                <label for="dueDate">Due date</label>
+                                <input type="date" id="dueDate"/>
                             </div>
                             <div class="input-group fluid">
                                 <input type="checkbox" id="emailReminder" tabindex="0">
                                 <label for="emailReminder" class="switch">Allow email reminders</label>
                             </div>
                         </div>
-                        <p><i class="fa fa-plus" aria-hidden="true"></i><input type="submit" id="addPlantButton" value="Add task for plant"></p>
+                        <p><i class="fa fa-plus" aria-hidden="true"></i><input type="submit" id="addTaskForPlantButton" value="Add task for plant"></p>
                     </fieldset>
                 </div>
             </div>

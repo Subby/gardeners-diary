@@ -2,10 +2,14 @@ var tasksTable;
 var taskTypeData;
 
 function registerHandlers() {
-    setupTasksTable();
     getTaskTypeData();
+    setupTasksTable();
+    showAddTaskErrorContainer(false);
     $("#openTaskModalBtn").click(function() {
         showAddTaskModal(true);
+    });
+    $("#addTaskForPlantButton").click(function() {
+        sendAddTaskRequest();
     });
 }
 
@@ -13,7 +17,7 @@ function showAddTaskModal(value) {
     $("#show-task-modal-toggle").prop('checked', value);
 }
 
-function showErrorContainer(value) {
+function showAddTaskErrorContainer(value) {
     if(value) {
         $("#addTaskErrorContainer").show();
     } else {
@@ -77,15 +81,47 @@ function getTaskTypeData() {
 }
 
 function sendAddTaskRequest() {
+    var taskNameVal = $("#taskName").val();
+    var taskTypeVal = $("#taskType").val();
+    var plantIdValTask = $("#addTaskPlantId").val();
+    var emailReminderVal = $("#emailReminder").val();
+    var dueDateVal = $("#dueDate").val();
 
+    if(!taskNameVal || !taskTypeVal || !taskTypeVal || !plantIdValTask || !emailReminderVal || !dueDateVal) {
+        showAddTaskErrorContainer(true);
+    }
+
+    $.post("/task/add", {
+        name: taskNameVal,
+        taskTypeId: taskTypeVal,
+        plantId: plantIdValTask,
+        emailReminder: convertEmailReminderSwitchToBoolean(emailReminderVal),
+        dueDate: dueDateVal
+    } ,function(data){
+        if(data.status === "success") {
+            showAddTaskErrorContainer(false);
+            showToast("Success", "The task was added to the system.", "success");
+            tasksTable.ajax.reload();
+        } else {
+            showToast("Error", "The plant was not added.", "error");
+        }
+    });
 }
 
 function setupUpTaskTypeSelectOptions() {
-    var selectElement = $("#taskTypeSelect");
+    var selectElement = $("#taskType");
     for(var i=0; i < taskTypeData.length; i++) {
         var currentArrayElement = taskTypeData[i];
         selectElement.append('<option value="' + currentArrayElement.id + '">' + currentArrayElement.name + '</option>');
     }
+}
+
+function convertEmailReminderSwitchToBoolean(emailReminderVal) {
+    //Convert the email reminder switch to a boolean for easier parsing server side
+    if(emailReminderVal === "on") {
+        return "true";
+    }
+    return "false";
 }
 
 registerHandlers();
