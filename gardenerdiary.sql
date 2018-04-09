@@ -78,6 +78,7 @@ CREATE TABLE `task` (
   `plant_id` int(11) NOT NULL,
   `email_reminder` tinyint(1) NOT NULL DEFAULT '0',
   `completed` tinyint(1) NOT NULL DEFAULT '0',
+  `due_date` date NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
