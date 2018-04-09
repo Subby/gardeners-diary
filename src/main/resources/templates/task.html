@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="pl" th:replace="fragments/head :: head">
+<body>
+<div class="container">
+    <header th:replace="fragments/header :: header">Header tag is loaded here</header>
+    <div class="structure" th:if="${error} != null">
+        <h3>Error</h3>
+        <p th:text="${error}"></p>
+    </div>
+    <div class="structure" th:if="${task} != null">
+        <div class="row">
+            <h3>Viewing task [[${task.name}]]</h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <p>Something here</p>
+            </div>
+            <div class="col-sm-10">
+                <h3>[[${task.name}]] <button class="tertiary" id="completeTaskBtn"><i class="fa fa-check" aria-hidden="true"></i> Complete task</button><button id="editTaskBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit task</button><button id="deleteTaskBtn"><i class="fa fa-trash" aria-hidden="true"></i> Delete task</button></h3>
+                <p><small><strong>Task type</strong>: [[${taskTypeName}]]</small></p>
+                <p><small><strong>Name of plant assigned to</strong>: <a th:href="${task.plantId}">[[${plantName}]]</a></small></p>
+                <p><small><strong>Completed</strong>: [[${task.updatedAt}]]</small></p>
+                <p><small><strong>Email reminders enabled</strong>: [[${task.emailReminder}]]</small></p>
+                <p><small><strong>Completed</strong>: [[${task.completed}]]</small></p>
+                <p><small><strong>Due date</strong>: [[${task.dueDate}]]</small></p>
+                <p><small><strong>Created at</strong>: [[${task.createdAt}]]</small></p>
+                <p><small><strong>Updated at</strong>: [[${task.updatedAt}]]</small></p>
+
+            </div>
+        </div>
+        <div class="row">
+            <label for="show-task-modal-toggle"></label>
+            <input id="show-task-modal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="show-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Add task</h3>
+                    <fieldset>
+                        <legend>Edit task [[${task.name}]]</legend>
+                        <div id="addTaskErrorContainer">
+                            <h3>Error</h3>
+                            <ul id="addTaskErrors">
+                                <li>Please make sure that all the fields are filled in.</li>
+                            </ul>
+                        </div>
+                        <input type="hidden" id="taskId" th:value="${task.id}"/>
+                        <div class="row label-aligned">
+                            <div class="input-group fluid">
+                                <label for="taskName">Task name</label>
+                                <input type="text" id="taskName" placeholder="Task name" th:value="${task.name}">
+                            </div>
+                            <div class="input-group vertical">
+                                <label for="taskType">Task type</label>
+                                <select id="taskType">
+                                </select>
+                            </div>
+                            <div class="input-group vertical">
+                                <label for="dueDate">Due date</label>
+                                <input type="date" id="dueDate" th:value="${task.dueDate}"/>
+                            </div>
+                            <div class="input-group fluid">
+                                <input type="checkbox" id="emailReminder" tabindex="0">
+                                <label for="emailReminder" class="switch">Allow email reminders</label>
+                            </div>
+                        </div>
+                        <p><i class="fa fa-plus" aria-hidden="true"></i><input type="submit" id="addTaskForPlantButton" value="Add task for plant"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="delete-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="delete-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure you want to delete the task [[${task.name}]]?</h3>
+                    <p class="section">Deleting this task will <strong>permanently</strong> delete this task from the system</p>
+                    <button id="deletePlantConfirmBtn" class="secondary"><i class="fa fa-trash" aria-hidden="true"></i> Delete task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        src="/js/jquery-3.2.1.min.js"></script>
+<script th:inline="javascript">
+    var currentTaskTypeId = /*[[${task.taskTypeId}]]*/ null;
+</script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/js/jquery.toast.min.js"></script>
+<script type="text/javascript" src="/js/plant.js"></script>
+<script type="text/javascript" src="/js/planttasks.js"></script>
+<script type="text/javascript" src="/js/toast.js"></script>
+<script type="text/javascript" src="/js/plantinfo.js"></script>
+</body>
+</html>

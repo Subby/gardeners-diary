@@ -37,6 +37,13 @@ public class TaskRetrievalJDBCTest {
         fixture.thenCorrectJSONOutputIsReturned(JSONOutput, id);
     }
 
+    @Test
+    public void getTaskById() {
+        fixture.givenServiceIsSetup();
+        int taskId = fixture.givenTestDataIsInDatabase();
+        Task task = fixture.whenGetTaskByIdIsCalled(taskId);
+        fixture.thenCorrectModelIsBuilt(taskId, task);
+    }
 
     @After
     public void tearDown() {
@@ -180,5 +187,20 @@ public class TaskRetrievalJDBCTest {
                     "  }\n" +
                     "]", jsonOutput);
         }
+
+        public Task whenGetTaskByIdIsCalled(int taskId) {
+            return taskRetrieval.getTaskById(taskId);
+        }
+
+        public void thenCorrectModelIsBuilt(int taskId, Task task) {
+            assertEquals(taskId, task.getId());
+            assertEquals(TEST_TASK_NAME, task.getName());
+            assertEquals(1, task.getTaskTypeId());
+            assertEquals(TEST_TASK_PLANT_ID, task.getPlantId());
+            assertEquals(true, task.isEmailReminder());
+            assertEquals(false, task.isCompleted());
+            assertEquals(TEST_DUE_DATE, task.getDueDate());
+        }
+
     }
 }

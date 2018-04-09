@@ -35,6 +35,7 @@ public class Main {
     private static String UPDATE_TASK_TYPE_PATH = "/tasktype/update";
     private static String PLANT_TASKS = "/plant/:plantid/tasks";
     private static String TASK_ADD_PATH = "/task/add";
+    private static String TASK_VIEW_PATH = "/task/view/:taskid";
 
 
     private static PropertyService propertyService = ConfigFilePropertyService.getInstance();
@@ -90,6 +91,7 @@ public class Main {
 
     private static void setupTaskRoutes() {
         post(TASK_ADD_PATH, TaskController.getInstance().postAdd);
+        get(TASK_VIEW_PATH, TaskController.getInstance().getTaskView);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {

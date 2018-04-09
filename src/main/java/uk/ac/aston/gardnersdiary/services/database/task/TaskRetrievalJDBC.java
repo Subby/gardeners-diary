@@ -1,8 +1,16 @@
 package uk.ac.aston.gardnersdiary.services.database.task;
 
+import org.javalite.activejdbc.annotations.BelongsTo;
+import org.javalite.activejdbc.annotations.BelongsToParents;
 import org.json.JSONStringer;
 import uk.ac.aston.gardnersdiary.models.Task;
+import uk.ac.aston.gardnersdiary.services.database.plant.PlantJDBCModel;
+import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeJDBCModel;
 
+@BelongsToParents({
+        @BelongsTo(foreignKeyName="task_type_id",parent=TaskTypeJDBCModel.class),
+        @BelongsTo(foreignKeyName="plant_id",parent=PlantJDBCModel.class)
+})
 public class TaskRetrievalJDBC implements TaskRetrieval {
 
     private static final String SUCCESS_STATUS = "success";
@@ -24,6 +32,25 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
             return "[]";
         }
         return returnedJson;
+    }
+
+    @Override
+    public Task getTaskById(int taskId) {
+        TaskJDBCModel taskJDBCModel = TaskJDBCModel.findFirst("id = " + taskId);
+        return mapToTaskModel(taskJDBCModel);
+    }
+
+    private Task mapToTaskModel(TaskJDBCModel taskJDBCModel) {
+        Task task = new Task();
+        task.setId((Integer) (taskJDBCModel.getId()));
+        task.setName(taskJDBCModel.getName());
+        task.setTaskTypeId(taskJDBCModel.getTaskTypeId());
+        task.setPlantId(taskJDBCModel.getPlantId());
+        task.setEmailReminder(taskJDBCModel.isEmailReminder());
+        task.setDueDate(taskJDBCModel.getDueDate());
+        task.setCreatedAt(taskJDBCModel.getCreatedAt());
+        task.setUpdatedAt(taskJDBCModel.getUpdatedAt());
+        return task;
     }
 
     private TaskJDBCModel mapFromTaskModel(Task task) {

@@ -16,6 +16,8 @@ public class TaskJDBCModel extends Model {
     private static final String EMAIL_REMINDER_COLUMN = "email_reminder";
     private static final String COMPLETED_COLUMN = "completed";
     private static final String DUE_DATE_COLUMN = "due_date";
+    private static final String CREATED_AT_COLUMN = "created_at";
+    private static final String UPDATED_AT_COLUMN = "updated_at";
 
     public String getName() {
         return getString(NAME_COLUMN);
@@ -55,6 +57,15 @@ public class TaskJDBCModel extends Model {
 
     public void setIsCompleted(boolean isCompleted) {
         set(COMPLETED_COLUMN, isCompleted);
+    }
+
+
+    public Date getUpdatedAt() {
+        return getDate(CREATED_AT_COLUMN);
+    }
+
+    public Date getCreatedAt() {
+        return getDate(UPDATED_AT_COLUMN);
     }
 
     public void setDueDate(LocalDate date) {
