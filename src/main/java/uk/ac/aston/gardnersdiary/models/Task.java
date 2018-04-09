@@ -12,6 +12,13 @@ public class Task extends Model {
 
     }
 
+    public Task(String name, int taskTypeId, int plantId, boolean emailReminder) {
+        this.name = name;
+        this.taskTypeId = taskTypeId;
+        this.plantId = plantId;
+        this.emailReminder = emailReminder;
+    }
+
     public String getName() {
         return name;
     }
