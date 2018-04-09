@@ -23,7 +23,7 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
         if(taskJDBCModel == null) {
             return "[]";
         }
-        return taskJDBCModel.toJson(true, "id", "name", "task_type_id", "completed", "created_at", "updated_at");
+        return taskJDBCModel.toJson(true, "id", "name", "task_type_id", "completed", "due_date", "created_at", "updated_at");
     }
 
     private TaskJDBCModel mapFromTaskModel(Task task) {
@@ -33,6 +33,7 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
         taskJDBCModel.setPlantId(task.getPlantId());
         taskJDBCModel.setIsEmailReminder(task.isEmailReminder());
         taskJDBCModel.setIsCompleted(task.isCompleted());
+        taskJDBCModel.setDueDate(task.getDueDate());
         return taskJDBCModel;
     }
 

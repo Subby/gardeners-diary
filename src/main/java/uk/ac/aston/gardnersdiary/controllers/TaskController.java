@@ -7,6 +7,7 @@ import uk.ac.aston.gardnersdiary.models.Task;
 import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrieval;
 import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrievalJDBC;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,13 +41,14 @@ public class TaskController extends Controller {
         int taskType = Integer.valueOf(request.queryParams("taskTypeId"));
         int plantId = Integer.valueOf(request.queryParams("plantId"));
         boolean emailReminder = Boolean.valueOf(request.queryParams("emailReminder"));
-        Task taskToAdd = buildTaskModel(name, taskType, plantId, emailReminder);
+        LocalDate dueDate = LocalDate.parse(request.queryParams("dueDate"));
+        Task taskToAdd = buildTaskModel(name, taskType, plantId, emailReminder, dueDate);
         response.type("application/json");
         return taskRetrieval.addTask(taskToAdd);
     };
 
-    private Task buildTaskModel(String name, int taskType, int plantId, boolean emailReminder) {
-        return new Task(name, taskType, plantId, emailReminder);
+    private Task buildTaskModel(String name, int taskType, int plantId, boolean emailReminder, LocalDate dueDate) {
+        return new Task(name, taskType, plantId, emailReminder, dueDate);
     }
 
 }

@@ -3,6 +3,10 @@ package uk.ac.aston.gardnersdiary.services.database.task;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 @Table("task")
 public class TaskJDBCModel extends Model {
 
@@ -11,6 +15,7 @@ public class TaskJDBCModel extends Model {
     private static final String PLANT_ID_COLUMN = "plant_id";
     private static final String EMAIL_REMINDER_COLUMN = "email_reminder";
     private static final String COMPLETED_COLUMN = "completed";
+    private static final String DUE_DATE_COLUMN = "due_date";
 
     public String getName() {
         return getString(NAME_COLUMN);
@@ -52,7 +57,23 @@ public class TaskJDBCModel extends Model {
         set(COMPLETED_COLUMN, isCompleted);
     }
 
+    public void setDueDate(LocalDate date) {
+        setDate(DUE_DATE_COLUMN, convertLocalDateToDate(date));
+    }
 
+    public LocalDate getDueDate() {
+        return convertDateToLocalDate(getDate(DUE_DATE_COLUMN));
+    }
+
+    //Source: https://stackoverflow.com/questions/29168494/how-to-convert-localdate-to-sql-date-java
+    private Date convertLocalDateToDate(LocalDate localDate) {
+        return Date.valueOf(localDate);
+    }
+
+    //Source: https://stackoverflow.com/questions/29168494/how-to-convert-localdate-to-sql-date-java
+    private LocalDate convertDateToLocalDate(Date date) {
+        return date.toLocalDate();
+    }
 
 
 }

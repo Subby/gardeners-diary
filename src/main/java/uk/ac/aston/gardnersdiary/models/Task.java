@@ -1,5 +1,7 @@
 package uk.ac.aston.gardnersdiary.models;
 
+import java.time.LocalDate;
+
 public class Task extends Model {
 
     private String name;
@@ -7,16 +9,18 @@ public class Task extends Model {
     private int plantId;
     private boolean emailReminder;
     private boolean completed;
+    private LocalDate dueDate;
 
     public Task() {
 
     }
 
-    public Task(String name, int taskTypeId, int plantId, boolean emailReminder) {
+    public Task(String name, int taskTypeId, int plantId, boolean emailReminder, LocalDate dueDate) {
         this.name = name;
         this.taskTypeId = taskTypeId;
         this.plantId = plantId;
         this.emailReminder = emailReminder;
+        this.dueDate = dueDate;
     }
 
     public String getName() {
@@ -57,5 +61,13 @@ public class Task extends Model {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 }
