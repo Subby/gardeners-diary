@@ -2,6 +2,9 @@ package uk.ac.aston.gardnersdiary.services.database.task;
 
 import uk.ac.aston.gardnersdiary.models.Task;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public interface TaskRetrieval {
 
     /**
@@ -25,4 +28,21 @@ public interface TaskRetrieval {
      */
     Task getTaskById(int taskId);
 
+    /**
+     * Updates a {@Task task} in the system given the id.
+     * @param taskId the id to update by
+     * @param newName the new task name
+     * @param newTaskTypeId the new task type id
+     * @param newPlantId the new plant id
+     * @param newDueDate the new date
+     * @return the status of the operation, used in the UI
+     */
+    String updateTask(int taskId, String newName, int newTaskTypeId, int newPlantId, boolean emailReminder, LocalDate newDueDate);
+
+    /**
+     * Deletes a {@Task task} from the database.
+     * @param taskId the id to delete using
+     * @return the status of the operation, used in the UI
+     */
+    String deleteTask(int taskId);
 }

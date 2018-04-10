@@ -47,24 +47,29 @@
                         <input type="hidden" id="taskId" th:value="${task.id}"/>
                         <div class="row label-aligned">
                             <div class="input-group fluid">
-                                <label for="taskName">Task name</label>
-                                <input type="text" id="taskName" placeholder="Task name" th:value="${task.name}">
+                                <label for="newTaskName">Task name</label>
+                                <input type="text" id="newTaskName" placeholder="Task name" th:value="${task.name}">
                             </div>
                             <div class="input-group vertical">
-                                <label for="taskType">Task type</label>
-                                <select id="taskType">
+                                <label for="newTaskType">Task type</label>
+                                <select id="newTaskType">
                                 </select>
                             </div>
                             <div class="input-group vertical">
-                                <label for="dueDate">Due date</label>
-                                <input type="date" id="dueDate" th:value="${task.dueDate}"/>
+                                <label for="newPlant">Assigned plant</label>
+                                <select id="newPlant">
+                                </select>
+                            </div>
+                            <div class="input-group vertical">
+                                <label for="newDueDate">Due date</label>
+                                <input type="date" id="newDueDate" th:value="${task.dueDate}"/>
                             </div>
                             <div class="input-group fluid">
                                 <input type="checkbox" id="emailReminder" tabindex="0">
                                 <label for="emailReminder" class="switch">Allow email reminders</label>
                             </div>
                         </div>
-                        <p><i class="fa fa-plus" aria-hidden="true"></i><input type="submit" id="addTaskForPlantButton" value="Add task for plant"></p>
+                        <p><i class="fa fa-pencil" aria-hidden="true"></i></i><input type="submit" id="updatePlantBtn" value="Update plant"></p>
                     </fieldset>
                 </div>
             </div>

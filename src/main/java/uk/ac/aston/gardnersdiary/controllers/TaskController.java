@@ -69,6 +69,23 @@ public class TaskController extends Controller {
         return renderView(request, attributes, "task");
     };
 
+    public Route postTaskUpdate = (Request request, Response response) -> {
+        TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
+        int taskId = Integer.valueOf(request.queryParams("taskId"));
+        String newTaskName = request.queryParams("newTaskName");
+        int newTaskType = Integer.valueOf(request.queryParams("newTaskType"));
+        int newPlantId = Integer.valueOf(request.queryParams("newPlant"));
+        LocalDate newDueDate = LocalDate.parse(request.queryParams("newDueDate"));
+        boolean emailReminder = Boolean.valueOf(request.queryParams("emailReminder"));
+        return taskRetrieval.updateTask(taskId, newTaskName, newTaskType, newPlantId, emailReminder, newDueDate);
+    };
+
+    public Route deleteTask = (Request request, Response response) -> {
+        TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
+        int taskId = Integer.valueOf(request.queryParams(":taskId"));
+        return taskRetrieval.deleteTask(taskId);
+    };
+
     private String findTaskTypeNameByTaskId(int taskId) {
         TaskJDBCModel taskJDBCModel = TaskJDBCModel.findFirst("id = " + taskId);
         TaskTypeJDBCModel taskTypeJDBCModel = taskJDBCModel.parent(TaskTypeJDBCModel.class);

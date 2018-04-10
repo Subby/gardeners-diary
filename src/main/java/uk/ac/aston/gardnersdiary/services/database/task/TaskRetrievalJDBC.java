@@ -7,6 +7,9 @@ import uk.ac.aston.gardnersdiary.models.Task;
 import uk.ac.aston.gardnersdiary.services.database.plant.PlantJDBCModel;
 import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeJDBCModel;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @BelongsToParents({
         @BelongsTo(foreignKeyName="task_type_id",parent=TaskTypeJDBCModel.class),
         @BelongsTo(foreignKeyName="plant_id",parent=PlantJDBCModel.class)
@@ -38,6 +41,29 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
     public Task getTaskById(int taskId) {
         TaskJDBCModel taskJDBCModel = TaskJDBCModel.findFirst("id = " + taskId);
         return mapToTaskModel(taskJDBCModel);
+    }
+
+    @Override
+    public String updateTask(int taskId, String newName, int newTaskTypeId, int newPlantId,boolean emailReminder, LocalDate newDueDate) {
+        TaskJDBCModel taskTypeJDBCModel = TaskJDBCModel.findFirst("id = ?", taskId);
+        taskTypeJDBCModel.setName(newName);
+        taskTypeJDBCModel.setTaskTypeId(newTaskTypeId);
+        taskTypeJDBCModel.setPlantId(newPlantId);
+        taskTypeJDBCModel.setIsEmailReminder(emailReminder);
+        taskTypeJDBCModel.setDueDate(newDueDate);
+        if(taskTypeJDBCModel.save()) {
+            return generateSuccessJSONOutput();
+        }
+        return generateFailedJSONOutput();
+    }
+
+    @Override
+    public String deleteTask(int taskId) {
+        TaskJDBCModel taskTypeJDBCModel = TaskJDBCModel.findFirst("id = ?", taskId);
+        if(taskTypeJDBCModel.delete()) {
+            return generateSuccessJSONOutput();
+        }
+        return generateFailedJSONOutput();
     }
 
     private Task mapToTaskModel(TaskJDBCModel taskJDBCModel) {
