@@ -101,6 +101,7 @@ function sendAddTaskRequest() {
         if(data.status === "success") {
             showAddTaskErrorContainer(false);
             showToast("Success", "The task was added to the system.", "success");
+            showAddTaskModal(false);
             tasksTable.ajax.reload();
         } else {
             showToast("Error", "The plant was not added.", "error");
