@@ -45,4 +45,18 @@ public interface TaskRetrieval {
      * @return the status of the operation, used in the UI
      */
     String deleteTask(int taskId);
+
+    /**
+     * Marks a {@Task task} as complete in the database.
+     * @param taskId the task id to mark complete
+     * @return the status of the operation, used in the UI
+     */
+    String completeTask(int taskId);
+
+    /**
+     * Marks a {@Task task} as incomplete in the database.
+     * @param TaskId
+     * @return the status of the operation, used in the UI
+     */
+    String incompleteTask(int TaskId);
 }

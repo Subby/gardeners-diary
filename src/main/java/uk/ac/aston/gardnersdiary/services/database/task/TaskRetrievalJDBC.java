@@ -66,6 +66,26 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
         return generateFailedJSONOutput();
     }
 
+    @Override
+    public String completeTask(int taskId) {
+        TaskJDBCModel taskTypeJDBCModel = TaskJDBCModel.findFirst("id = ?", taskId);
+        taskTypeJDBCModel.setIsCompleted(true);
+        if(taskTypeJDBCModel.save()) {
+            return generateSuccessJSONOutput();
+        }
+        return generateFailedJSONOutput();
+    }
+
+    @Override
+    public String incompleteTask(int taskId) {
+        TaskJDBCModel taskTypeJDBCModel = TaskJDBCModel.findFirst("id = ?", taskId);
+        taskTypeJDBCModel.setIsCompleted(false);
+        if(taskTypeJDBCModel.save()) {
+            return generateSuccessJSONOutput();
+        }
+        return generateFailedJSONOutput();
+    }
+
     private Task mapToTaskModel(TaskJDBCModel taskJDBCModel) {
         Task task = new Task();
         task.setId((Integer) (taskJDBCModel.getId()));

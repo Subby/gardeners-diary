@@ -86,6 +86,18 @@ public class TaskController extends Controller {
         return taskRetrieval.deleteTask(taskId);
     };
 
+    public Route completeTask = (Request request, Response response) -> {
+        TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
+        int taskId = Integer.valueOf(request.queryParams(":taskId"));
+        return taskRetrieval.completeTask(taskId);
+    };
+
+    public Route incompleteTask = (Request request, Response response) -> {
+        TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
+        int taskId = Integer.valueOf(request.queryParams(":taskId"));
+        return taskRetrieval.incompleteTask(taskId);
+    };
+
     private String findTaskTypeNameByTaskId(int taskId) {
         TaskJDBCModel taskJDBCModel = TaskJDBCModel.findFirst("id = " + taskId);
         TaskTypeJDBCModel taskTypeJDBCModel = taskJDBCModel.parent(TaskTypeJDBCModel.class);

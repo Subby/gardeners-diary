@@ -45,6 +45,24 @@ public class TaskRetrievalJDBCTest {
         fixture.thenCorrectModelIsBuilt(taskId, task);
     }
 
+    @Test
+    public void completeTask() {
+        fixture.givenServiceIsSetup();
+        int taskId = fixture.givenTestDataIsInDatabase();
+        String JSONOutput = fixture.whenCompleteTaskIsCalled(taskId);
+        fixture.thenTaskIsMarkedCorrectlyInDatabase(true);
+        fixture.thenCorrectJSONOutputIsReturned(JSONOutput);
+    }
+
+    @Test
+    public void incompleteTask() {
+        fixture.givenServiceIsSetup();
+        int taskId = fixture.givenTestDataIsInDatabase();
+        String JSONOutput = fixture.whenInCompleteTaskIsCalled(taskId);
+        fixture.thenTaskIsMarkedCorrectlyInDatabase(false);
+        fixture.thenCorrectJSONOutputIsReturned(JSONOutput);
+    }
+
     @After
     public void tearDown() {
         fixture.clearDownTestData();
@@ -202,5 +220,25 @@ public class TaskRetrievalJDBCTest {
             assertEquals(TEST_DUE_DATE, task.getDueDate());
         }
 
+        public String whenCompleteTaskIsCalled(int taskId) {
+            return taskRetrieval.completeTask(taskId);
+        }
+
+        public String whenInCompleteTaskIsCalled(int taskId) {
+            return taskRetrieval.incompleteTask(taskId);
+        }
+
+        public void thenTaskIsMarkedCorrectlyInDatabase(boolean value) {
+            try {
+                ResultSet result = findTaskDataInDb();
+                assertEquals(value, result.getBoolean(COMPLETED_COLUMN));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void thenCorrectJSONOutputIsReturned(String jsonOutput) {
+            assertEquals("{\"status\":\"success\"}", jsonOutput);
+        }
     }
 }
