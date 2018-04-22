@@ -25,6 +25,10 @@
             </div>
         </div>
         <div class="row">
+            <div class="input-group">
+                <input type="checkbox" id="completedFilterCheckbox" tabindex="0">
+                <label for="completedFilterCheckbox">Show completed and uncompleted tasks </label>
+            </div>
             <table id="tasksTable" class="scrollable sortable">
                 <caption>Tasks <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button> <a href="/tasktypes" class="button"><i class="fa fa-list"></i> Manage task types</a></caption>
                 <thead>
@@ -33,6 +37,9 @@
                     <th>Type</th>
                     <th>Created</th>
                     <th>Updated</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -118,6 +125,28 @@
                         </div>
                         <p><i class="fa fa-plus" aria-hidden="true"></i><input type="submit" id="addTaskForPlantButton" value="Add task for plant"></p>
                     </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="complete-task-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="complete-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure you want to mark this task as completed?</h3>
+                    <p class="section">Marking this task as completed will give this task the status of "completed".</p>
+                    <button id="completeTaskConfirmBtn" class="tertiary"><i class="fa fa-check" aria-hidden="true"></i> Complete task</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="incomplete-task-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="incomplete-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure task as incomplete?</h3>
+                    <p class="section">Marking this task as incomplete will give this task the status of "incomplete".</p>
+                    <button id="incompleteTaskConfirmBtn"><i class="fa fa-minus" aria-hidden="true"></i> Mark as incomplete</button>
                 </div>
             </div>
         </div>

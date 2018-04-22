@@ -38,8 +38,8 @@ public class Main {
     private static String TASK_VIEW_PATH = "/task/view/:taskid";
     private static String TASK_UPDATE_PATH = "/task/update";
     private static String TASK_DELETE_PATH = "/task/delete/:taskid";
-    private static String TASK_COMPLETE_PATH = "/task/complete/:taskid";
-    private static String TASK_INCOMPLETE_PATH = "/task/incomplete/:taskid";
+    private static String TASK_COMPLETE_PATH = "/task/complete";
+    private static String TASK_INCOMPLETE_PATH = "/task/incomplete";
 
 
 
@@ -98,9 +98,9 @@ public class Main {
         post(TASK_ADD_PATH, TaskController.getInstance().postAdd);
         get(TASK_VIEW_PATH, TaskController.getInstance().getTaskView);
         get(TASK_UPDATE_PATH, TaskController.getInstance().postTaskUpdate);
-        get(TASK_DELETE_PATH, TaskController.getInstance().deleteTask);
-        get(TASK_COMPLETE_PATH, TaskController.getInstance().completeTask);
-        get(TASK_INCOMPLETE_PATH, TaskController.getInstance().incompleteTask);
+        delete(TASK_DELETE_PATH, TaskController.getInstance().deleteTask);
+        post(TASK_COMPLETE_PATH, TaskController.getInstance().completeTask);
+        post(TASK_INCOMPLETE_PATH, TaskController.getInstance().incompleteTask);
     }
 
     private static void setupDatabaseConnectionFilterRoutes() {

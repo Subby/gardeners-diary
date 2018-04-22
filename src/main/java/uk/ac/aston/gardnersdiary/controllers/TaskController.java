@@ -82,19 +82,22 @@ public class TaskController extends Controller {
 
     public Route deleteTask = (Request request, Response response) -> {
         TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
-        int taskId = Integer.valueOf(request.queryParams(":taskId"));
+        int taskId = Integer.valueOf(request.params(":taskId"));
+        response.type("application/json");
         return taskRetrieval.deleteTask(taskId);
     };
 
     public Route completeTask = (Request request, Response response) -> {
         TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
-        int taskId = Integer.valueOf(request.queryParams(":taskId"));
+        int taskId = Integer.valueOf(request.queryParams("taskId"));
+        response.type("application/json");
         return taskRetrieval.completeTask(taskId);
     };
 
     public Route incompleteTask = (Request request, Response response) -> {
         TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
-        int taskId = Integer.valueOf(request.queryParams(":taskId"));
+        int taskId = Integer.valueOf(request.queryParams("taskId"));
+        response.type("application/json");
         return taskRetrieval.incompleteTask(taskId);
     };
 
