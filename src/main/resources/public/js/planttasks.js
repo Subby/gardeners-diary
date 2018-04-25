@@ -179,7 +179,7 @@ function completeTask(taskId, taskName) {
 
 function uncompleteTask(taskId, taskName) {
     currentTaskIdToMarkIncomplete = taskId;
-    currentTaskNameToMarkComplete = taskName;
+    currentTaskNameToMarkIncomplete = taskName;
     showIncompleteTaskModal(true);
 }
 
