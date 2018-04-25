@@ -92,6 +92,7 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
         task.setName(taskJDBCModel.getName());
         task.setTaskTypeId(taskJDBCModel.getTaskTypeId());
         task.setPlantId(taskJDBCModel.getPlantId());
+        task.setCompleted(taskJDBCModel.isCompleted());
         task.setEmailReminder(taskJDBCModel.isEmailReminder());
         task.setDueDate(taskJDBCModel.getDueDate());
         task.setCreatedAt(taskJDBCModel.getCreatedAt());
