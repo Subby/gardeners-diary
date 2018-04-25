@@ -44,12 +44,10 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
     }
 
     @Override
-    public String updateTask(int taskId, String newName, int newTaskTypeId, int newPlantId,boolean emailReminder, LocalDate newDueDate) {
+    public String updateTask(int taskId, String newName, int newTaskTypeId, boolean emailReminder, LocalDate newDueDate) {
         TaskJDBCModel taskTypeJDBCModel = TaskJDBCModel.findFirst("id = ?", taskId);
         taskTypeJDBCModel.setName(newName);
         taskTypeJDBCModel.setTaskTypeId(newTaskTypeId);
-        taskTypeJDBCModel.setPlantId(newPlantId);
-        taskTypeJDBCModel.setIsEmailReminder(emailReminder);
         taskTypeJDBCModel.setDueDate(newDueDate);
         if(taskTypeJDBCModel.save()) {
             return generateSuccessJSONOutput();

@@ -97,7 +97,7 @@ public class Main {
     private static void setupTaskRoutes() {
         post(TASK_ADD_PATH, TaskController.getInstance().postAdd);
         get(TASK_VIEW_PATH, TaskController.getInstance().getTaskView);
-        get(TASK_UPDATE_PATH, TaskController.getInstance().postTaskUpdate);
+        post(TASK_UPDATE_PATH, TaskController.getInstance().postTaskUpdate);
         delete(TASK_DELETE_PATH, TaskController.getInstance().deleteTask);
         post(TASK_COMPLETE_PATH, TaskController.getInstance().completeTask);
         post(TASK_INCOMPLETE_PATH, TaskController.getInstance().incompleteTask);

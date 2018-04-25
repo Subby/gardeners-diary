@@ -4,6 +4,9 @@ var currentTaskIdToMarkIncomplete;
 var currentTaskNameToMarkIncomplete;
 
 var completedValue;
+var taskNameValue;
+var dueDateValue;
+var taskTypeValue;
 var completeButton;
 var editButton;
 var deleteButton;
@@ -19,9 +22,9 @@ function showDeleteModal(value) {
 
 function showErrorContainer(value) {
     if(value) {
-        $("#errorContainer").show();
+        $("#addTaskErrorContainer").show();
     } else {
-        $("#errorContainer").hide();
+        $("#addTaskErrorContainer").hide();
     }
 }
 
@@ -38,7 +41,7 @@ function registerHandlers() {
         showErrorContainer(false);
         showModal(true);
     });
-    $("#updatePlantBtn").click(function() {
+    $("#updateTaskBtn").click(function() {
         sendUpdateTaskRequest();
     });
     $("#deleteTaskBtn").click(function() {
@@ -96,7 +99,26 @@ function sendUncompleteTaskRequest() {
 
 
 function sendUpdateTaskRequest() {
-
+    var newTaskName = $("#newTaskName").val();
+    var newTaskType = $("#newTaskType").val();
+    var newDueDate = $("#newDueDate").val();
+    if(!newTaskName || !newTaskType || !newDueDate) {
+        showErrorContainer(true);
+        return;
+    }
+    $.post("/task/update", {
+        newTaskName: newTaskName,
+        newTaskType: newTaskType,
+        newDueDate : newDueDate,
+        taskId: currentTaskId
+    } ,function(data){
+        if(data.status === "success") {
+            $("#errorContainer").hide();
+            showModal(false);
+            updateValues(newTaskName, newTaskType, newDueDate);
+            showToast("Success", "The task " + newTaskName + " was updated", "success");
+        }
+    });
 }
 
 function sendDeleteTaskRequest() {
@@ -107,6 +129,7 @@ function sendDeleteTaskRequest() {
             if(result.status === "success") {
                 var redirectUrl = "/plant/view/"+ assignedPlantId;
                 showToast("Success", "The task was deleted successfully. Redirecting back to plant, click <a href='" + redirectUrl +"' >here</a> to return to the page manually.", "success");
+                //Disable the buttons on the page so no errors are encountered
                 editButton.prop("disabled", true);
                 deleteButton.prop("disabled", true);
                 completeButtonIcon.prop("disabled", true);
@@ -123,6 +146,9 @@ function sendDeleteTaskRequest() {
 
 function setupTextValues() {
     completedValue = $("#completedValue");
+    taskNameValue = $(".taskNameValue");
+    dueDateValue = $("#dueDateValue");
+    taskTypeValue = $("#taskTypeValue");
     completeButton = $("#completeTaskBtn");
     editButton = $("#editTaskBtn");
     deleteButton = $("#deleteTaskBtn");
@@ -141,6 +167,12 @@ function changeValuesForIncompletedTask() {
     completeButton.html(" <i class=\"fa fa-check\" aria-hidden=\"true\"></i> Mark as complete");
     completeButton.attr("class", "tertiary");
     completeButtonIcon.attr("class", "fa fa-check");
+}
+
+function updateValues(newTaskName, newTaskType, newDueDate) {
+    taskNameValue.text(newTaskName);
+    taskTypeValue.text(newTaskType);
+    dueDateValue.text(newDueDate);
 }
 
 function completeTask() {

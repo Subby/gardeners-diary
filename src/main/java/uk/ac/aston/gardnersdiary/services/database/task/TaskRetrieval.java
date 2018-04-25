@@ -33,11 +33,10 @@ public interface TaskRetrieval {
      * @param taskId the id to update by
      * @param newName the new task name
      * @param newTaskTypeId the new task type id
-     * @param newPlantId the new plant id
      * @param newDueDate the new date
      * @return the status of the operation, used in the UI
      */
-    String updateTask(int taskId, String newName, int newTaskTypeId, int newPlantId, boolean emailReminder, LocalDate newDueDate);
+    String updateTask(int taskId, String newName, int newTaskTypeId, boolean emailReminder, LocalDate newDueDate);
 
     /**
      * Deletes a {@Task task} from the database.

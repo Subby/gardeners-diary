@@ -10,23 +10,23 @@
     </div>
     <div class="structure" th:if="${task} != null">
         <div class="row">
-            <h3>Viewing task [[${task.name}]]</h3>
+            <h3>Viewing task <span class="taskNameValue">[[${task.name}]]</span></h3>
         </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="structure" th:switch="${task.completed}">
-                    <h3>[[${task.name}]]</h3>
+                    <h3><span class="taskNameValue">[[${task.name}]]</span></h3>
                     <button th:case="${false}" class="tertiary" id="completeTaskBtn"><i class="fa fa-check" aria-hidden="true"></i> Mark as complete</button>
                     <button th:case="${true}" id="completeTaskBtn"><i class="fa fa-minus" aria-hidden="true"></i> Mark as incomplete</button>
                     <button id="editTaskBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit task</button>
                     <button id="deleteTaskBtn"><i class="fa fa-trash" aria-hidden="true"></i> Delete task</button>
                 </div>
-                <p><small><strong>Task type</strong>: [[${taskTypeName}]]</small></p>
+                <p><small><strong>Task type</strong>: <span id="taskTypeValue">[[${taskTypeName}]]</span></small></p>
                 <p><small><strong>Name of plant assigned to</strong>: <a th:href="${task.plantId}">[[${plantName}]]</a></small></p>
                 <p><small><strong>Completed</strong>: [[${task.updatedAt}]]</small></p>
                 <p><small><strong>Email reminders enabled</strong>: [[${task.emailReminder}]]</small></p>
                 <p><small><strong>Completed</strong>:<span id="completedValue">[[${task.completed}]]</span> </small></p>
-                <p><small><strong>Due date</strong>: [[${task.dueDate}]]</small></p>
+                <p><small><strong>Due date</strong>: <span id="dueDateValue">[[${task.dueDate}]]</span> </small></p>
                 <p><small><strong>Created at</strong>: [[${task.createdAt}]]</small></p>
                 <p><small><strong>Updated at</strong>: [[${task.updatedAt}]]</small></p>
 
@@ -38,9 +38,9 @@
             <div class="modal">
                 <div class="card">
                     <label for="show-task-modal-toggle" class="close"></label>
-                    <h3 class="section">Add task</h3>
+                    <h3 class="section">Edit task</h3>
                     <fieldset>
-                        <legend>Edit task [[${task.name}]]</legend>
+                        <legend>Edit task <span class="taskNameValue">[[${task.name}]]</span></legend>
                         <div id="addTaskErrorContainer">
                             <h3>Error</h3>
                             <ul id="addTaskErrors">
@@ -56,11 +56,7 @@
                             <div class="input-group vertical">
                                 <label for="newTaskType">Task type</label>
                                 <select id="newTaskType">
-                                </select>
-                            </div>
-                            <div class="input-group vertical">
-                                <label for="newPlant">Assigned plant</label>
-                                <select id="newPlant">
+                                    <option th:each="taskType : ${taskTypes}" th:value="${taskType.id}" th:text="${taskType.name}"></option>
                                 </select>
                             </div>
                             <div class="input-group vertical">
@@ -72,7 +68,7 @@
                                 <label for="emailReminder" class="switch">Allow email reminders</label>
                             </div>
                         </div>
-                        <p><i class="fa fa-pencil" aria-hidden="true"></i></i><input type="submit" id="updatePlantBtn" value="Update plant"></p>
+                        <p><i class="fa fa-pencil" aria-hidden="true"></i><input type="submit" id="updateTaskBtn" value="Update task"></p>
                     </fieldset>
                 </div>
             </div>

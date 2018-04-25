@@ -4,6 +4,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import uk.ac.aston.gardnersdiary.models.Task;
+import uk.ac.aston.gardnersdiary.models.TaskType;
 import uk.ac.aston.gardnersdiary.services.database.plant.PlantJDBCModel;
 import uk.ac.aston.gardnersdiary.services.database.task.TaskJDBCModel;
 import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrieval;
@@ -11,7 +12,9 @@ import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrievalJDBC;
 import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeJDBCModel;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,12 +59,14 @@ public class TaskController extends Controller {
         Task foundTask = taskRetrieval.getTaskById(taskId);
         String taskTypeName = findTaskTypeNameByTaskId(taskId);
         String plantName = findPlantNameByPlantId(taskId);
+        List<TaskType> taskTypes = findAllTaskTypes();
         Map<String, Object> attributes = new HashMap();
         if(foundTask != null) {
             attributes.put("title", "Manage task - " + foundTask.getName());
             attributes.put("task", foundTask);
             attributes.put("taskTypeName", taskTypeName);
             attributes.put("plantName", plantName);
+            attributes.put("taskTypes", taskTypes);
         } else {
             attributes.put("title", "Manage task error");
             attributes.put("error", "task not found.");
@@ -74,10 +79,10 @@ public class TaskController extends Controller {
         int taskId = Integer.valueOf(request.queryParams("taskId"));
         String newTaskName = request.queryParams("newTaskName");
         int newTaskType = Integer.valueOf(request.queryParams("newTaskType"));
-        int newPlantId = Integer.valueOf(request.queryParams("newPlant"));
         LocalDate newDueDate = LocalDate.parse(request.queryParams("newDueDate"));
         boolean emailReminder = Boolean.valueOf(request.queryParams("emailReminder"));
-        return taskRetrieval.updateTask(taskId, newTaskName, newTaskType, newPlantId, emailReminder, newDueDate);
+        response.type("application/json");
+        return taskRetrieval.updateTask(taskId, newTaskName, newTaskType, emailReminder, newDueDate);
     };
 
     public Route deleteTask = (Request request, Response response) -> {
@@ -111,6 +116,18 @@ public class TaskController extends Controller {
         TaskJDBCModel taskJDBCModel = TaskJDBCModel.findFirst("id = " + plantId);
         PlantJDBCModel plantJDBCModel = taskJDBCModel.parent(PlantJDBCModel.class);
         return plantJDBCModel.getName();
+    }
+
+    private List<TaskType> findAllTaskTypes() {
+        List<TaskTypeJDBCModel> taskTypes = TaskTypeJDBCModel.findAll();
+        List<TaskType> taskTypeModels = new ArrayList<TaskType>();
+        for(TaskTypeJDBCModel taskType : taskTypes) {
+            TaskType taskTypeModel = new TaskType();
+            taskTypeModel.setId((Integer) taskType.getId());
+            taskTypeModel.setName(taskType.getName());
+            taskTypeModels.add(taskTypeModel);
+        }
+        return taskTypeModels;
     }
 
     private Task buildTaskModel(String name, int taskType, int plantId, boolean emailReminder, LocalDate dueDate) {
