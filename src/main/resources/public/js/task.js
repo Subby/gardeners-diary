@@ -5,6 +5,8 @@ var currentTaskNameToMarkIncomplete;
 
 var completedValue;
 var completeButton;
+var editButton;
+var deleteButton;
 var completeButtonIcon;
 
 function showModal(value) {
@@ -102,9 +104,12 @@ function sendDeleteTaskRequest() {
         url: '/task/delete/' + currentTaskId,
         type: 'DELETE',
         success: function(result) {
-            if(result === "success") {
+            if(result.status === "success") {
                 var redirectUrl = "/plant/view/"+ assignedPlantId;
-                showToast("Success", "The task was deleted successfully. Redirecting back to plant, click <a href='" + redirectUrl +"' >here</a> to return to the page.", "success");
+                showToast("Success", "The task was deleted successfully. Redirecting back to plant, click <a href='" + redirectUrl +"' >here</a> to return to the page manually.", "success");
+                editButton.prop("disabled", true);
+                deleteButton.prop("disabled", true);
+                completeButtonIcon.prop("disabled", true);
                 window.setTimeout(function() {
                     window.location.href = redirectUrl;
                 }, 5000);
@@ -119,6 +124,8 @@ function sendDeleteTaskRequest() {
 function setupTextValues() {
     completedValue = $("#completedValue");
     completeButton = $("#completeTaskBtn");
+    editButton = $("#editTaskBtn");
+    deleteButton = $("#deleteTaskBtn");
     completeButtonIcon = $("#completeButtonIcon");
 }
 
