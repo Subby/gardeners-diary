@@ -4,10 +4,11 @@ import org.javalite.activejdbc.annotations.BelongsTo;
 import org.javalite.activejdbc.annotations.BelongsToParents;
 import org.json.JSONStringer;
 import uk.ac.aston.gardnersdiary.models.Task;
+import uk.ac.aston.gardnersdiary.services.database.email.TaskEmailService;
+import uk.ac.aston.gardnersdiary.services.database.email.MailGunTaskEmailService;
 import uk.ac.aston.gardnersdiary.services.database.plant.PlantJDBCModel;
 import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeJDBCModel;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @BelongsToParents({
@@ -23,6 +24,13 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
     public String addTask(Task taskToAdd) {
         TaskJDBCModel taskJDBCModel = mapFromTaskModel(taskToAdd);
         if(taskJDBCModel.save()) {
+            if(taskToAdd.isEmailReminder()) {
+                //If email reminders are set, send email reminders
+                PlantJDBCModel plantJDBCModel = taskJDBCModel.parent(PlantJDBCModel.class);
+                TaskTypeJDBCModel taskTypeJDBCModel = taskJDBCModel.parent(TaskTypeJDBCModel.class);
+                TaskEmailService taskEmailService = new MailGunTaskEmailService();
+                taskEmailService.sendEmail(taskToAdd, plantJDBCModel.getName(), taskTypeJDBCModel.getName());
+            }
             return generateSuccessJSONOutput();
         }
         return generateFailedJSONOutput();

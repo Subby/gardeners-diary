@@ -73,6 +73,9 @@ function sendDeletePlantRequest() {
         success: function(result) {
             if(result === "success") {
                 showToast("Success", "The plant was deleted successfully. Redirecting to manage garden plant, click <a href='/managegarden'>here</a> to return to the page.", "success");
+                window.setTimeout(function() {
+                    window.location.href = "/managegarden";
+                }, 5000);
             }
         },
         error: function(result, statusText, errorText) {

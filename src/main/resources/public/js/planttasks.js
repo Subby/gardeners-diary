@@ -135,6 +135,7 @@ function sendAddTaskRequest() {
 
     if(!taskNameVal || !taskTypeVal || !taskTypeVal || !plantIdValTask || !emailReminderVal || !dueDateVal) {
         showAddTaskErrorContainer(true);
+        return;
     }
 
     $.post("/task/add", {
