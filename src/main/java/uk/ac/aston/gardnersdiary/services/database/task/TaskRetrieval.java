@@ -4,6 +4,7 @@ import uk.ac.aston.gardnersdiary.models.Task;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface TaskRetrieval {
 
@@ -58,4 +59,6 @@ public interface TaskRetrieval {
      * @return the status of the operation, used in the UI
      */
     String incompleteTask(int TaskId);
+
+    List<Task> getFrontPagePlants();
 }

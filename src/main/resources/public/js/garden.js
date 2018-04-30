@@ -34,10 +34,10 @@ function removeCurrentRect() {
 
 imageObj.onload = function() {
   var gardenImage = new Konva.Image({
-	x: 50,
-	y: 50,
-	height: 250,
-	width: 500,
+	x: 0,
+	y: 0,
+	height: 867,
+	width: 1600,
 	image: imageObj,
     id: 'gardenImage'
   });
@@ -177,6 +177,7 @@ imageObj.onload = function() {
 };
 imageObj.src = imageFile;
 $("#addPlantBtn").click(function() {
+    showPlantInfoInnerContainer(false);
     var nameVal = $("#plantName").val();
     var typeVal = $("#plantType").val();
     if(!nameVal || !typeVal) {

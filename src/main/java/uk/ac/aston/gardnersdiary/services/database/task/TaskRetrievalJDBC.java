@@ -1,8 +1,10 @@
 package uk.ac.aston.gardnersdiary.services.database.task;
 
+import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.annotations.BelongsTo;
 import org.javalite.activejdbc.annotations.BelongsToParents;
 import org.json.JSONStringer;
+import uk.ac.aston.gardnersdiary.models.Plant;
 import uk.ac.aston.gardnersdiary.models.Task;
 import uk.ac.aston.gardnersdiary.services.database.email.TaskEmailService;
 import uk.ac.aston.gardnersdiary.services.database.email.MailGunTaskEmailService;
@@ -10,6 +12,8 @@ import uk.ac.aston.gardnersdiary.services.database.plant.PlantJDBCModel;
 import uk.ac.aston.gardnersdiary.services.database.tasktype.TaskTypeJDBCModel;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @BelongsToParents({
         @BelongsTo(foreignKeyName="task_type_id",parent=TaskTypeJDBCModel.class),
@@ -90,6 +94,17 @@ public class TaskRetrievalJDBC implements TaskRetrieval {
             return generateSuccessJSONOutput();
         }
         return generateFailedJSONOutput();
+    }
+
+    @Override
+    public List<Task> getFrontPagePlants() {
+        List<Task> taskModelList = new ArrayList<Task>();
+        LazyList<TaskJDBCModel> plantJDBCList = TaskJDBCModel.findAll().limit(3).orderBy("created_at desc");
+        for(TaskJDBCModel taskJDBCModel : plantJDBCList) {
+            Task task = mapToTaskModel(taskJDBCModel);
+            taskModelList.add(task);
+        }
+        return taskModelList;
     }
 
     private Task mapToTaskModel(TaskJDBCModel taskJDBCModel) {

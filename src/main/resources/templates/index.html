@@ -23,9 +23,11 @@
             </div>
             <div class="col-sm-3">
                 <h4><i class="fa fa-tasks" aria-hidden="true"> </i> Tasks<small>Your upcoming tasks</small></h4>
+                <p th:if="${recentPlants.empty}">
+                    Currently no tasks in the system.
+                </p>
                 <ul>
-                    <li>Task 1</li>
-                    <li>Task 2</li>
+                    <li th:each="recentTask : ${recentTasks}"><a href="/task/view/${recentTask.id}"><span th:text="${recentTask.name}"></span></a></li>
                 </ul>
             </div>
             <div class="col-sm-3">
