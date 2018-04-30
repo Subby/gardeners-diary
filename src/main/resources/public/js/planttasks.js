@@ -130,10 +130,10 @@ function sendAddTaskRequest() {
     var taskNameVal = $("#taskName").val();
     var taskTypeVal = $("#taskType").val();
     var plantIdValTask = $("#addTaskPlantId").val();
-    var emailReminderVal = $("#emailReminder").val();
+    var emailReminderVal = $("#emailReminder").prop('checked');
     var dueDateVal = $("#dueDate").val();
 
-    if(!taskNameVal || !taskTypeVal || !taskTypeVal || !plantIdValTask || !emailReminderVal || !dueDateVal) {
+    if(!taskNameVal || !taskTypeVal || !taskTypeVal || !plantIdValTask || !dueDateVal) {
         showAddTaskErrorContainer(true);
         return;
     }
@@ -142,7 +142,7 @@ function sendAddTaskRequest() {
         name: taskNameVal,
         taskTypeId: taskTypeVal,
         plantId: plantIdValTask,
-        emailReminder: convertEmailReminderSwitchToBoolean(emailReminderVal),
+        emailReminder: emailReminderVal,
         dueDate: dueDateVal
     } ,function(data){
         if(data.status === "success") {

@@ -1,7 +1,11 @@
 package uk.ac.aston.gardnersdiary.services.database.plant;
 
+import org.javalite.activejdbc.LazyList;
 import org.json.JSONStringer;
 import uk.ac.aston.gardnersdiary.models.Plant;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adapted from: Adapted from: http://javalite.io/documentation
@@ -33,7 +37,7 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
 
     @Override
     public String getAllPlantData() {
-        return PlantJDBCModel.findAll().toJson(true);
+        return PlantJDBCModel.where("garden_id = (select max(id) from garden)").toJson(true);
     }
 
     @Override
@@ -59,6 +63,17 @@ public class PlantRetrievalJDBC implements  PlantRetrieval {
             return SUCESS_STATUS;
         }
         return generateFailedJSONOutput();
+    }
+
+    @Override
+    public List<Plant> getFrontPagePlants() {
+        List<Plant> plantModelList = new ArrayList<Plant>();
+        LazyList<PlantJDBCModel> plantJDBCList = PlantJDBCModel.find("garden_id = (select max(id) from garden)").limit(3).orderBy("created_at desc");
+        for(PlantJDBCModel plantJDBCModel : plantJDBCList) {
+            Plant plant = mapToModel(plantJDBCModel);
+            plantModelList.add(plant);
+        }
+        return plantModelList;
     }
 
     private String generateSuccessJsonOutput(String plantName, long id) {

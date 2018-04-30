@@ -2,6 +2,8 @@ package uk.ac.aston.gardnersdiary.services.database.plant;
 
 import uk.ac.aston.gardnersdiary.models.Plant;
 
+import java.util.List;
+
 public interface PlantRetrieval {
 
     /**
@@ -40,4 +42,9 @@ public interface PlantRetrieval {
      * @return the status of the operation, used in the UI code
      */
     String deletePlant(int id);
+
+    /*
+    * Gets plants for the front page.
+     */
+    List<Plant> getFrontPagePlants();
 }

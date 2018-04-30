@@ -14,9 +14,11 @@
         <div class="row">
             <div class="col-sm-3">
                 <h4><i class="fa fa-leaf" aria-hidden="true"> </i> Recently Planted<small>Your recently planted plants</small></h4>
+                <p th:if="${recentPlants.empty}">
+                    Currently no plants in the system.
+                </p>
                 <ul>
-                    <li>Plant 1</li>
-                    <li>Plant 2</li>
+                    <li th:each="recentPlant : ${recentPlants}"><a href="/plant/view/${recentPlant.id}"><span th:text="${recentPlant.name}"></span></a></li>
                 </ul>
             </div>
             <div class="col-sm-3">
