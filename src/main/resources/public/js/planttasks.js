@@ -31,6 +31,7 @@ function registerHandlers() {
 
 function showAddTaskModal(value) {
     $("#show-task-modal-toggle").prop('checked', value);
+    $("#taskName").val("");
 }
 
 function showCompleteTaskModal(value) {
@@ -133,7 +134,7 @@ function sendAddTaskRequest() {
     var emailReminderVal = $("#emailReminder").prop('checked');
     var dueDateVal = $("#dueDate").val();
 
-    if(!taskNameVal || !taskTypeVal || !taskTypeVal || !plantIdValTask || !dueDateVal) {
+    if(!taskNameVal || !taskTypeVal || !taskTypeVal || !plantIdValTask || !dueDateVal|| !validateDate(dueDateVal)) {
         showAddTaskErrorContainer(true);
         return;
     }
@@ -223,5 +224,16 @@ $.fn.dataTableExt.afnFiltering.push(function(oSettings, aData, iDataIndex) {
     }
     return false;
 });
+
+function validateDate(dateVal) {
+    var dateValFormatted = new Date(dateVal);
+    var dateNow = new Date().toISOString().split('T')[0];
+    /*var dateNowYear = dateNow.getFullYear();
+    var dateNowMonth = dateNow.getMonth() + 1;
+    var dateNowDay = dateNow.getDate();
+    var dateNowText = dateNowYear + "-" + dateNowMonth + "-" + dateNowDay;*/
+    var dateNowFormatted = new Date(dateNow);
+    return dateValFormatted >= dateNowFormatted;
+}
 
 registerHandlers();

@@ -17,6 +17,8 @@ var imageObj = new Image();
 function showModal(value) {
 	$("#modal-toggle").prop('checked', value);
     $("#errorContainer").hide();
+    $("#plantName").val("");
+    $("#plantType").val("");
 }
 
 function generateBaseLayer() {
@@ -36,8 +38,8 @@ imageObj.onload = function() {
   var gardenImage = new Konva.Image({
 	x: 0,
 	y: 0,
-	height: 867,
-	width: 1600,
+	height: "867",
+	width: "1600",
 	image: imageObj,
     id: 'gardenImage'
   });
