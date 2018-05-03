@@ -11,6 +11,13 @@ import java.util.Map;
  */
 public abstract class Controller {
 
+    /**
+     * Method to handle the displaying of a view.
+     * @param request the incoming request
+     * @param attributes the attributes to pass along with the template
+     * @param templateName the name of the template
+     * @return the rendered view
+     */
     protected String renderView(Request request, Map<String, Object> attributes, String templateName) {
         ModelAndView modelAndView = new ModelAndView(attributes, templateName);
         return new ThymeleafTemplateEngine().render(modelAndView);

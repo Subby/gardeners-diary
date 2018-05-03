@@ -9,21 +9,31 @@
             <p><a href="/importgarden">Would you like to import one?</a></p>
         </div>
         <div class="row" th:if="${garden} != null">
-            <img th:src="${garden.image}">
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var imageFile = /*[[${garden.image}]]*/ null;
+                var gardenJSON = /*[[${garden.regionJson}]]*/ null;
+                /*]]>*/
+            </script>
+            <div id="canvas"></div>
         </div>
         <div class="row">
             <div class="col-sm-3">
                 <h4><i class="fa fa-leaf" aria-hidden="true"> </i> Recently Planted<small>Your recently planted plants</small></h4>
+                <p th:if="${recentPlants.empty}">
+                    Currently no plants in the system.
+                </p>
                 <ul>
-                    <li>Plant 1</li>
-                    <li>Plant 2</li>
+                    <li th:each="recentPlant : ${recentPlants}"><a href="/plant/view/${recentPlant.id}"><span th:text="${recentPlant.name}"></span></a></li>
                 </ul>
             </div>
             <div class="col-sm-3">
                 <h4><i class="fa fa-tasks" aria-hidden="true"> </i> Tasks<small>Your upcoming tasks</small></h4>
+                <p th:if="${recentPlants.empty}">
+                    Currently no tasks in the system.
+                </p>
                 <ul>
-                    <li>Task 1</li>
-                    <li>Task 2</li>
+                    <li th:each="recentTask : ${recentTasks}"><a href="/task/view/${recentTask.id}"><span th:text="${recentTask.name}"></span></a></li>
                 </ul>
             </div>
             <div class="col-sm-3">
@@ -42,11 +52,13 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript" src="js/konva.min.js"></script>
     <script
-            src="/js/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
+            src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/js/toast.js"></script>
     <script type="text/javascript" src="/js/plantinfo.js"></script>
+    <script type="text/javascript" src="/js/indexgarden.js"></script>
+
 </body>
 </html>

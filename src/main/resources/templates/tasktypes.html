@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="pl" th:replace="fragments/head :: head">
+<body>
+<div class="container">
+    <header th:replace="fragments/header :: header">Header tag is loaded here</header>
+    <div class="row">
+        <h2>Manage Custom Task Types</h2>
+    </div>
+    <div class="row">
+        <table id="taskTypesTable" class="display scrollable">
+            <caption>Task types <button id="openTaskTypeModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task type</button></caption>
+            <thead>
+            <tr>
+                <th>Task type name</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="row">
+        <div id="addTaskTypeModal">
+            <label for="addTaskTypeModal-toggle"></label>
+            <input id="addTaskTypeModal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="addTaskTypeModal" class="close"></label>
+                    <h3 class="section">Add new task type</h3>
+                    <fieldset>
+                        <legend>New task type</legend>
+                        <div id="errorContainer">
+                            <h3>Error</h3>
+                            <ul id="errors">
+                                <li>Please make sure that the name field is filled in.</li>
+                            </ul>
+                        </div>
+                        <div class="input-group fluid">
+                            <label for="taskTypeName">Task name</label>
+                            <input type="text" value="" id="taskTypeName" placeholder="Task name">
+                        </div>
+                        <p><i class="fa fa-plus" aria-hidden="true"></i></i><input type="submit" id="addTaskTypeBtn" value="Add task type"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <input id="delete-modal-toggle" type="checkbox"/>
+        <div class="modal" role="dialog">
+            <div class="card">
+                <label for="delete-modal-toggle" class="close"></label>
+                <h3 class="section">Are you sure you want to delete the task type <span id="taskTypeToDeleteName"></span></h3>
+                <p class="section">Deleting this task type will <strong>permanently</strong> delete this task type from the system and any associated tasks.</p>
+                <button id="deleteTaskTypeConfirmBtn" class="secondary"><i class="fa fa-trash" aria-hidden="true"></i> Delete task type</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="editTaskTypeModal">
+            <label for="editTaskTypeModal-toggle"></label>
+            <input id="editTaskTypeModal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="editTaskTypeModal" class="close"></label>
+                    <h3 class="section">Edit task type</h3>
+                    <fieldset>
+                        <legend>Edit task type</legend>
+                        <div id="errorContainerEditTaskType">
+                            <h3>Error</h3>
+                            <ul id="errorsEditTaskType">
+                                <li>Please make sure that the name field is filled in.</li>
+                            </ul>
+                        </div>
+                        <div class="input-group fluid">
+                            <label for="taskTypeName">Task name</label>
+                            <input type="text" value="" id="editTaskTypeName" placeholder="Task name">
+                        </div>
+                        <p><i class="fa fa-pencil" aria-hidden="true"></i><input type="submit" id="updateTaskConfirmBtn" value="Edit task type"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/sorttable.js"></script>
+    <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
+    <script type="text/javascript" src="/js/toast.js"></script>
+    <script type="text/javascript" src="/js/tasktype.js"></script>
+</div>
+</body>
+</html>

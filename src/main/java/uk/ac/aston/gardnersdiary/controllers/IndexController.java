@@ -4,11 +4,17 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import uk.ac.aston.gardnersdiary.models.Garden;
+import uk.ac.aston.gardnersdiary.models.Plant;
+import uk.ac.aston.gardnersdiary.models.Task;
 import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrieval;
 import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrievalJDBC;
+import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrievalJDBC;
+import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrievalJDBC;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,8 +38,14 @@ public class IndexController extends Controller {
         Map<String, Object> attributes = new HashMap();
         GardenRetrieval gardenRetrieval = new GardenRetrievalJDBC();
         Garden garden = gardenRetrieval.getGarden();
+        PlantRetrievalJDBC plantRetrievalJDBC = new PlantRetrievalJDBC();
+        List<Plant> recentlyPlantedPlants = plantRetrievalJDBC.getFrontPagePlants();
+        TaskRetrieval taskRetrievalJDBC = new TaskRetrievalJDBC();
+        List<Task> recentlyCreatedTasks = taskRetrievalJDBC.getFrontPagePlants();
         attributes.put("title", "Home");
         attributes.put("garden", garden);
+        attributes.put("recentPlants", recentlyPlantedPlants);
+        attributes.put("recentTasks", recentlyCreatedTasks);
         return renderView(request, attributes, "index");
     };
 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="pl" th:replace="fragments/head :: head">
+<body>
+<div class="container">
+    <header th:replace="fragments/header :: header">Header tag is loaded here</header>
+    <div class="structure" th:if="${error} != null">
+        <h3>Error</h3>
+        <p th:text="${error}"></p>
+    </div>
+    <div class="structure" th:if="${task} != null">
+        <div class="row">
+            <h3>Viewing task <span class="taskNameValue">[[${task.name}]]</span></h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="structure" th:switch="${task.completed}">
+                    <h3><span class="taskNameValue">[[${task.name}]]</span></h3>
+                    <button th:case="${false}" class="tertiary" id="completeTaskBtn"><i class="fa fa-check" aria-hidden="true"></i> Mark as complete</button>
+                    <button th:case="${true}" id="completeTaskBtn"><i class="fa fa-minus" aria-hidden="true"></i> Mark as incomplete</button>
+                    <button id="editTaskBtn"><i class="fa fa-pencil" aria-hidden="true"></i> Edit task</button>
+                    <button id="deleteTaskBtn"><i class="fa fa-trash" aria-hidden="true"></i> Delete task</button>
+                </div>
+                <p><small><strong>Task type</strong>: <span id="taskTypeValue">[[${taskTypeName}]]</span></small></p>
+                <p><small><strong>Name of plant assigned to</strong>: <a th:href="${task.plantId}">[[${plantName}]]</a></small></p>
+                <p><small><strong>Completed</strong>: [[${task.updatedAt}]]</small></p>
+                <p><small><strong>Email reminders enabled</strong>: [[${task.emailReminder}]]</small></p>
+                <p><small><strong>Completed</strong>:<span id="completedValue">[[${task.completed}]]</span> </small></p>
+                <p><small><strong>Due date</strong>: <span id="dueDateValue">[[${task.dueDate}]]</span> </small></p>
+                <p><small><strong>Created at</strong>: [[${task.createdAt}]]</small></p>
+                <p><small><strong>Updated at</strong>: [[${task.updatedAt}]]</small></p>
+
+            </div>
+        </div>
+        <div class="row">
+            <label for="show-task-modal-toggle"></label>
+            <input id="show-task-modal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="show-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Edit task</h3>
+                    <fieldset>
+                        <legend>Edit task <span class="taskNameValue">[[${task.name}]]</span></legend>
+                        <div id="addTaskErrorContainer">
+                            <h3>Error</h3>
+                            <ul id="addTaskErrors">
+                                <li>Please make sure that all the fields are filled in.</li>
+                            </ul>
+                        </div>
+                        <input type="hidden" id="taskId" th:value="${task.id}"/>
+                        <div class="row label-aligned">
+                            <div class="input-group fluid">
+                                <label for="newTaskName">Task name</label>
+                                <input type="text" id="newTaskName" placeholder="Task name" th:value="${task.name}">
+                            </div>
+                            <div class="input-group fluid">
+                                <label for="newTaskType">Task type</label>
+                                <select id="newTaskType">
+                                    <option th:each="taskType : ${taskTypes}" th:value="${taskType.id}" th:text="${taskType.name}"></option>
+                                </select>
+                            </div>
+                            <div class="input-group fluid">
+                                <label for="newDueDate">Due date</label>
+                                <input type="date" id="newDueDate" th:value="${task.dueDate}"/>
+                            </div>
+                        </div>
+                        <p><i class="fa fa-pencil" aria-hidden="true"></i><input type="submit" id="updateTaskBtn" value="Update task"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="delete-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="delete-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure you want to delete the task [[${task.name}]]?</h3>
+                    <p class="section">Deleting this task will <strong>permanently</strong> delete this task from the system</p>
+                    <button id="deleteTaskConfirmBtn" class="secondary"><i class="fa fa-trash" aria-hidden="true"></i> Delete task</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="complete-task-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="complete-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure you want to mark this task as completed?</h3>
+                    <p class="section">Marking this task as completed will give this task the status of "completed".</p>
+                    <button id="completeTaskConfirmBtn" class="tertiary"><i class="fa fa-check" aria-hidden="true"></i> Complete task</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="incomplete-task-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="incomplete-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure task as incomplete?</h3>
+                    <p class="section">Marking this task as incomplete will give this task the status of "incomplete".</p>
+                    <button id="incompleteTaskConfirmBtn"><i class="fa fa-minus" aria-hidden="true"></i> Mark as incomplete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        src="/js/jquery-3.2.1.min.js"></script>
+<script th:inline="javascript">
+    var currentTaskTypeId = /*[[${task.taskTypeId}]]*/ null;
+    var currentTaskId = /*[[${task.id}]]*/ null;
+    var assignedPlantId = /*[[${task.plantId}]]*/ null;
+</script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/js/jquery.toast.min.js"></script>
+<script type="text/javascript" src="/js/toast.js"></script>
+<script type="text/javascript" src="/js/task.js"></script>
+</body>
+</html>

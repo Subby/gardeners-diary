@@ -1,5 +1,8 @@
 package uk.ac.aston.gardnersdiary.models;
 
+/**
+ * Used to represent Plant information.
+ */
 public class Plant extends Model{
     private String name;
     private String imageName;

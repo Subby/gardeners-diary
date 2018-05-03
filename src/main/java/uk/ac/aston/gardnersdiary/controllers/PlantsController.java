@@ -8,6 +8,8 @@ import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrieval;
 import uk.ac.aston.gardnersdiary.services.database.garden.GardenRetrievalJDBC;
 import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrieval;
 import uk.ac.aston.gardnersdiary.services.database.plant.PlantRetrievalJDBC;
+import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrieval;
+import uk.ac.aston.gardnersdiary.services.database.task.TaskRetrievalJDBC;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +85,14 @@ public class PlantsController extends Controller {
         int id = Integer.valueOf((request.params(":plantid")));
         gardenRetrieval.deletePlantInJson(id);
         return plantRetrieval.deletePlant(id);
+    };
+
+    public Route getTasks = (Request request, Response response) -> {
+        TaskRetrieval taskRetrieval = new TaskRetrievalJDBC();
+        int id = Integer.valueOf((request.params(":plantid")));
+        taskRetrieval.getTasksForGivenPlant(id);
+        response.type("application/json");
+        return taskRetrieval.getTasksForGivenPlant(id);
     };
 
     private Plant generatePlantModel(String name, String type, int gardenId) {

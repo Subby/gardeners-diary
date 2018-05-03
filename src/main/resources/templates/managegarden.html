@@ -5,6 +5,12 @@
 <header th:replace="fragments/header :: header">Header tag is loaded here</header>
 <div class="container">
     <div class="structure" th:if="${garden} != null">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var imageFile = /*[[${garden.image}]]*/ null;
+            var gardenJSON = /*[[${garden.regionJson}]]*/ null;
+            /*]]>*/
+        </script>
         <div class="row">
             <h3 th:text="${garden.name}"></h3>
         </div>
@@ -13,6 +19,7 @@
         </div>
     </div>
     <div class="row" th:if="${garden} == null">
+
         <div class="row cols-sm-12 cols-md-10">
             <div class="col-md-offset-1">
                 <p>
@@ -89,17 +96,9 @@
         </div>
     </div>
 </div>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-        var imageFile = /*[[${garden.image}]]*/ null;
-        var gardenJSON = /*[[${garden.regionJson}]]*/ null;
-    /*]]>*/
-</script>
+
 <script type="text/javascript" src="js/konva.min.js"></script>
-<script
-        src="/js/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/js/toast.js"></script>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

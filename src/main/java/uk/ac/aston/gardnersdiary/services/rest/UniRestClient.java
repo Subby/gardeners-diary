@@ -25,4 +25,18 @@ public class UniRestClient implements RestClient {
         return null;
     }
 
+    @Override
+    public Object postWithAPIKey(String url, String APIKey, Map<String, Object> fields) {
+        try {
+            return Unirest.post(url)
+                    .basicAuth("api", APIKey)
+                    .queryString(fields)
+                    .asJson();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

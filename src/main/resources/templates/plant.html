@@ -25,20 +25,24 @@
             </div>
         </div>
         <div class="row">
-            <table class="scrollable sortable">
-                <caption>Tasks associated with this plant <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button></caption>
+            <div class="input-group">
+                <input type="checkbox" id="completedFilterCheckbox" tabindex="0">
+                <label for="completedFilterCheckbox">Show completed and uncompleted tasks </label>
+            </div>
+            <table id="tasksTable" class="scrollable sortable">
+                <caption>Tasks <button id="openTaskModalBtn"><i class="fa fa-plus" aria-hidden="true"></i> Add new task</button> <a href="/tasktypes" class="button"><i class="fa fa-list"></i> Manage task types</a></caption>
                 <thead>
                 <tr>
-                    <th>Task name</th>
-                    <th>Task type</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td data-label="Plant">Tomato Left Corner</td>
-                    <td data-label="PlantType">Tomato</td>
-                </tr>
-                </tbody>
             </table>
         </div>
         <div class="row">
@@ -84,18 +88,81 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <label for="show-task-modal-toggle"></label>
+            <input id="show-task-modal-toggle" type="checkbox"/>
+            <div class="modal">
+                <div class="card">
+                    <label for="show-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Add task</h3>
+                    <fieldset>
+                        <legend>Add task for [[${plant.name}]]</legend>
+                        <div id="addTaskErrorContainer">
+                            <h3>Error</h3>
+                            <ul id="addTaskErrors">
+                                <li>Please make sure that all the fields are filled in.</li>
+                                <li>Please ensure that the due date is not in the past.</li>
+                            </ul>
+                        </div>
+                        <input type="hidden" id="addTaskPlantId" th:value="${plant.id}"/>
+                        <div class="row label-aligned">
+                            <div class="input-group fluid">
+                                <label for="taskName">Task name</label>
+                                <input type="text" id="taskName" placeholder="Task name">
+                            </div>
+                            <div class="input-group fluid">
+                                <label for="taskType">Task type</label>
+                                <select id="taskType">
+                                </select>
+                            </div>
+                            <div class="input-group fluid">
+                                <label for="dueDate">Due date</label>
+                                <input type="date" id="dueDate"/>
+                            </div>
+                            <div class="input-group fluid">
+                                <input type="checkbox" id="emailReminder" tabindex="0">
+                                <label for="emailReminder">Allow email reminders</label>
+                            </div>
+                        </div>
+                        <p><i class="fa fa-plus" aria-hidden="true"></i><input type="submit" id="addTaskForPlantButton" value="Add task for plant"></p>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="complete-task-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="complete-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure you want to mark this task as completed?</h3>
+                    <p class="section">Marking this task as completed will give this task the status of "completed".</p>
+                    <button id="completeTaskConfirmBtn" class="tertiary"><i class="fa fa-check" aria-hidden="true"></i> Complete task</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input id="incomplete-task-modal-toggle" type="checkbox"/>
+            <div class="modal" role="dialog">
+                <div class="card">
+                    <label for="incomplete-task-modal-toggle" class="close"></label>
+                    <h3 class="section">Are you sure task as incomplete?</h3>
+                    <p class="section">Marking this task as incomplete will give this task the status of "incomplete".</p>
+                    <button id="incompleteTaskConfirmBtn"><i class="fa fa-minus" aria-hidden="true"></i> Mark as incomplete</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script
-        src="/js/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
+        src="/js/jquery-3.2.1.min.js"></script>
 <script th:inline="javascript">
     var plantType = /*[[${plant.type}]]*/ null;
     var plantId = /*[[${plant.id}]]*/ null;
 </script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/js/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/js/plant.js"></script>
+<script type="text/javascript" src="/js/planttasks.js"></script>
 <script type="text/javascript" src="/js/toast.js"></script>
 <script type="text/javascript" src="/js/plantinfo.js"></script>
 </body>
