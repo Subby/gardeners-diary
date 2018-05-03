@@ -60,5 +60,9 @@ public interface TaskRetrieval {
      */
     String incompleteTask(int TaskId);
 
+    /**
+     * Returns the recently added tasks for the front page
+     * @return the recently added tasks
+     */
     List<Task> getFrontPagePlants();
 }

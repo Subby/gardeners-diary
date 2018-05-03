@@ -39,7 +39,8 @@ public class MailGunTaskEmailService implements TaskEmailService {
         fields.put("to", "Christina <" + TASK_REMINDER_EMAIL + ">");
         fields.put("subject", "Task reminder for task "+ taskName);
         fields.put("html", setupTaskReminderText(taskName, dueDate, taskTypeName, plantName));
-//        fields.put("o:deliverytime", createDeliveryTime(dueDate));
+        //Comment below out if email should be delivered immediately
+        fields.put("o:deliverytime", createDeliveryTime(dueDate));
         return fields;
     }
 

@@ -7,10 +7,10 @@ import java.util.Date;
 public interface TaskEmailService {
 
     /**
-     * Sends an email along
-     * @param task
-     * @param plantName
-     * @param taskTypeName
+     * Sends an email reminder for a task.
+     * @param task the task to send an email for
+     * @param plantName the plant name associated with this task
+     * @param taskTypeName the task type name associated with this task
      */
     void sendEmail(Task task, String taskTypeName, String plantName);
 }

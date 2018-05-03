@@ -43,8 +43,9 @@ public interface PlantRetrieval {
      */
     String deletePlant(int id);
 
-    /*
-    * Gets plants for the front page.
+    /**
+     * Returns the recently planted plants for the front page.
+     * @return the recently planted plants
      */
     List<Plant> getFrontPagePlants();
 }

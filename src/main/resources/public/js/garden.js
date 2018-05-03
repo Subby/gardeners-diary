@@ -33,7 +33,7 @@ function removeCurrentRect() {
   layer.draw();
   currentRect = null;
 }
-
+//Called when when the garden image loads
 imageObj.onload = function() {
   var gardenImage = new Konva.Image({
 	x: 0,
@@ -68,6 +68,7 @@ imageObj.onload = function() {
   //add layer for tooltips
   stage.add(tooltipLayer);
 
+  //Handle plant region mouse over
   stage.get('.regionRect').on("mousemove", function() {
       var mousePos = stage.getPointerPosition();
       tooltip.position({
@@ -79,12 +80,14 @@ imageObj.onload = function() {
       tooltipLayer.batchDraw();
       stage.draw();
   });
+  //Handle plant region click
   stage.get('.regionRect').on("mousedown", function() {
       drag = false;
       rectClick = true;
       window.location.replace("/plant/view/");
 
   });
+  //Handle plant region mouse out
   stage.get('.regionRect').on("mouseout", function() {
       tooltip.hide();
       tooltipLayer.draw();
@@ -114,6 +117,7 @@ imageObj.onload = function() {
       stage.draw();
   });
 
+  //Handle mouse down on layer
     layer.on('mousedown', function() {
         if(!rectClick) {
             c1Position = stage.getPointerPosition();
@@ -124,6 +128,7 @@ imageObj.onload = function() {
         }
     });
 
+    //Handle mouse up on layer
     layer.on('mouseup', function() {
         if(!rectClick) {
             drag = false;
@@ -131,6 +136,7 @@ imageObj.onload = function() {
         }
     });
 
+    //Handle mouse drag upon clicked
     layer.on('mousemove', function() {
         if(drag) {
             c2Position = stage.getPointerPosition();
@@ -186,6 +192,7 @@ $("#addPlantBtn").click(function() {
         $("#errorContainer").show();
         return;
     }
+    //Send request to add plant
     $.post("/plant/add", {
         name: nameVal,
         type: $("#plantType").val(),
