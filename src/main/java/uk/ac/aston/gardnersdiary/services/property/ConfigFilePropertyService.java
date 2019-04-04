@@ -1,7 +1,5 @@
 package uk.ac.aston.gardnersdiary.services.property;
 
-import javafx.beans.property.Property;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
